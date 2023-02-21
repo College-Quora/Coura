@@ -6,11 +6,19 @@ class App extends Component {
   state = {};
 
   componentDidMount() {
-    this.hello()
+    this.all()
   }
 
   hello = () => {
-      fetch('/api/hello')
+      fetch('demo/hello')
+          .then(response => response.text())
+          .then(message => {
+              this.setState({message: message});
+          });
+  };
+
+  all = () => {
+      fetch('demo/all')
           .then(response => response.text())
           .then(message => {
               this.setState({message: message});
@@ -22,6 +30,7 @@ class App extends Component {
     <div className="App">
       <h1> {this.state.message}</h1>
     </div>
+
   );
   }
   
