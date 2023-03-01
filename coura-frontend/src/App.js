@@ -1,6 +1,18 @@
-import {Component} from 'react';
+//import {Component} from 'react';
+
+import React from 'react'
+import Quora from './components/Quora';
 import './App.css';
 
+function App() {
+  return (
+    <div className='App'>
+      <Quora/>
+    </div>
+  )
+}
+
+/*
 class App extends Component {
 
   state = {};
@@ -35,5 +47,5 @@ class App extends Component {
   }
   
 }
-
+*/
 export default App;
