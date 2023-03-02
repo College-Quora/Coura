@@ -1,52 +1,52 @@
-.qHeader {
+/* .qHeader {
     display: flex;
     align-items: center;
     background-color: #fff;
     position: sticky;
     z-index: 1000;
-    top: 0px;
+    top: 0px; */
     /* box-shadow: 0px 5px 8px -9px rgba(0, 0, 0, 0.5); */
-    box-shadow: 2px 3px 6px rgba(187, 187, 187, 0.5);
+    /* box-shadow: 2px 3px 6px rgba(187, 187, 187, 0.5);
     justify-content: center;
     padding: 3px;
   }
-  
-  .qHeader-content {
+   */
+  /* .qHeader-content {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; */
     /* padding: 5px; */
-  }
+  /* } */
   
-  .qHeader__logo > img {
+  /* .qHeader__logo > img {
     height: 30px !important;
     object-fit: contain;
-  }
+  } */
   
-  .qHeader__icons {
+  /* .qHeader__icons {
     display: flex;
-  }
+  } */
   
-  .qHeader__icon {
+  /* .qHeader__icon {
     padding: 5px;
     cursor: pointer;
-  }
+  } */
   
-  .qHeader__icon:hover {
+  /* .qHeader__icon:hover {
     background-color: #eee;
     border-radius: 5px;
-  }
+  } */
   
-  .qHeader__icon > .MuiSvgIcon-root {
+  /* .qHeader__icon > .MuiSvgIcon-root {
     color: gray;
     font-size: xx-large;
     margin-left: 20px;
     margin-right: 20px;
-  }
+  } */
   
-  .qHeader__icon:hover > .MuiSvgIcon-root {
+  /* .qHeader__icon:hover > .MuiSvgIcon-root {
     color: #000;
-  }
+  } */
   
   /* .qHeader__icons {
     display: flex;
@@ -67,7 +67,7 @@
     color: #b92b27;
   } */
   
-  .qHeader__input {
+  /* .qHeader__input {
     display: flex;
     align-items: center;
     border: 1px solid lightgray;
@@ -75,15 +75,15 @@
     border-radius: 5px;
     margin-left: 5px;
   }
-  
-  .qHeader__input > input {
+   */
+  /* .qHeader__input > input {
     background-color: transparent;
     outline: none;
     border: none;
     color: rgb(49, 49, 49);
-  }
+  } */
   
-  .qHeader__input > .MuiSvgIcon-root {
+  /* .qHeader__input > .MuiSvgIcon-root {
     color: gray;
   }
   
@@ -95,8 +95,8 @@
     align-items: center;
     margin-left: 25px;
   }
-  
-  .qHeader__Rem > .MuiSvgIcon-root {
+   */
+  /* .qHeader__Rem > .MuiSvgIcon-root {
     font-size: xx-large;
     color: gray;
     margin-left: 25px;
@@ -112,21 +112,21 @@
     text-transform: inherit;
     border-radius: 5px;
     margin-left: 25px;
-  }
+  } */
   
-  .qHeader__Rem > .MuiButton-root:hover {
+  /* .qHeader__Rem > .MuiButton-root:hover {
     color: #222;
     background: rgb(214, 214, 214);
-  }
+  } */
   
-  .modal__title {
+  /* .modal__title {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
     border-bottom: 1px solid rgba(187, 187, 187, 0.5);
-  }
+  } */
   
-  .modal__title > h5 {
+  /* .modal__title > h5 {
     color: gray;
     font-size: 20px;
     cursor: pointer;
@@ -142,9 +142,9 @@
     display: flex;
     align-items: center;
     margin-top: 30px;
-  }
+  } */
   
-  .modal__info > p {
+  /* .modal__info > p {
     margin-left: 10px;
     font-size: small;
     color: gray;
@@ -159,9 +159,9 @@
     background-color: rgb(230, 230, 230);
     border-radius: 33px;
     cursor: pointer;
-  }
+  } */
   
-  .modal__Field {
+  /* .modal__Field {
     display: flex;
     flex-direction: column;
     margin-top: 30px;
@@ -215,9 +215,9 @@
     border-radius: 33px;
     cursor: pointer;
     width: 50%;
-  }
+  } */
   
-  .modal__buttons > .add:hover {
+  /* .modal__buttons > .add:hover {
     background-color: #eee;
     color: #222;
   }
@@ -225,9 +225,83 @@
   @media only screen and (max-width: 600px) {
     .qHeader__icons {
       display: none;
-    }
+    } */
   
-    .qHeader__input {
+    /* .qHeader__input {
       display: none;
     }
+  } */
+
+  .qHeader {
+    background-color:  #d9d9d9;/* Set the background color to a darker shade */
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+  
+  .qHeader-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+  }
+  
+  .qHeader__logo {
+    height: 55px; /* Set the height of the logo to 48px */
+  }
+  
+  .qHeader__logo img {
+    height: 100%;
+  }
+  
+  .qHeader__icons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .qHeader__icon {
+    margin-right: 20px;
+    font-size: 40px;
+    color: black;
+    transition: color 1s ease;
+  }
+  .qHeader__icon:hover {
+    color: red; 
+  }
+  .qHeader__input {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 999px;
+    margin-left: 20px;
+    width: 50%;
+    border: 2px solid black; 
+  }
+  
+  .qHeader__input input {
+    border: none;
+    outline: none;
+    margin-left: 10px;
+    width: 100%;
+  }
+  
+  .qHeader__Rem {
+    margin-left: 20px;
+  }
+  
+  .MuiButton-containedPrimary {
+    background-color: #0066c0;
+    color: white;
+  }
+  
+  .MuiButton-containedPrimary:hover {
+    background-color: black; /* Change to black on hover */
+  }
+  .MuiButton-root:hover {
+    color: black;
+    border: 3px solid black;
+  }
+  
+  

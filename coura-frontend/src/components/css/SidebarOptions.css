@@ -1,4 +1,4 @@
-.sidebarOptions {
+/* .sidebarOptions {
     display: flex;
     flex-direction: column;
   }
@@ -35,4 +35,80 @@
     color: gray;
     font-weight: 400;
     font-size: 13px;
+  } */
+
+  .sidebarOption p:hover {
+    text-decoration: underline;
   }
+
+  .sidebarOption img {
+    margin: 5px 10px 5px 0;
+  }
+  
+  .sidebarOption p {
+    margin-top: 5px;
+  }
+  
+
+.placementicon{
+  width:40px;
+  height:auto;
+  border: 1px solid black;
+  border-radius: 2px;
+
+}
+
+.feedbackicon
+{
+  width:40px;
+  height:auto;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.reviewicon
+{
+  width: 40px;
+  height:auto;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.infrastructureicon
+{
+  width: 40px;
+  height:auto;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.locationicon
+{
+  width: 40px;
+  height:auto;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.sporticon
+{
+  width:40px;
+  height:auto;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.scholarshipicon{
+  width: 40px;
+  height:auto;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.feeicon{
+  width: 40px;
+  height:auto;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
