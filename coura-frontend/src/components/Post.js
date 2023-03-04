@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from "react";
+
 import { Avatar } from "@mui/material";
 import './css/Post.css';
 import {
@@ -9,19 +10,57 @@ import {
   RepeatOneOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-
+import CloseIcon from '@mui/icons-material/Close';
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 function Post() {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const Close = <CloseIcon />;
   return (
     <div className='post'>
       <div className='post__info'>
         <Avatar />
-        <h4>User Name</h4>
+        <h4>Anonymous</h4>
         <small>Timestamp</small>
       </div>
       <div className='post__body'>
         <div className='post__question'>
           <p>This is a test question</p>
-          <button className='post__btnAnswer'>Answer</button>
+          <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
+          <Modal
+          open={isModalOpen} 
+          closeIcon={Close}  
+          onClose={()=> setIsModalOpen(false)}
+          closeOnEsc
+          center
+          closeOnOverlayClick={false}
+          styles={{
+            overlay: {
+              height: "auto",
+            },
+          }}
+          >
+            <div  className="modal__question">
+              <h1>This is a test question</h1>
+              <p>asked by {""}<span  className="name">Anonymous</span> on <span>Timestamp</span></p>
+            </div>
+
+            <div className="modal__answer">
+              <ReactQuill placeholder="Enter Your answer"/>
+            </div>
+            <div className="modal__buttons">
+            <button  className='cancle' onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </button>
+
+            <button  type='submit' className='add' onClick={() => setIsModalOpen(false)}>
+              Add Your Question
+            </button>
+            </div>
+          </Modal >
         </div>
       </div>
       <div className="post__footer">
@@ -70,7 +109,7 @@ function Post() {
             <div style={{
               margin: "0px 10px",
             }} className='post-info'>
-              <p>Username</p>
+              <p>Anonymous</p>
               <span>Timestamp</span>
             </div>
           </div>
