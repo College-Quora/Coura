@@ -10,8 +10,8 @@ function WidgetContent() {
           alt=""
         />
         <div className="widget__contentTitle">
-          <h5>Mobile App Programmer</h5>
-          <p>The best Mobile App Development Company</p>
+          <h5 style={{fontSize:'20px',color:'white'}}>Mobile App Programmer</h5>
+          <p style={{fontSize:'15px',color:'white',fontStyle:'italic'}}>The best Mobile App Development Company</p>
         </div>
       </div>
     </div>

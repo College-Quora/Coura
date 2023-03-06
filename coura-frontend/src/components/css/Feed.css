@@ -10,10 +10,12 @@
     flex-direction: column;
     flex: 0.6;
     
+    
   }
 
   body {
-    background-color: white;
+ 
+   background-color: white;
   }
 
   

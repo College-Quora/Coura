@@ -1,6 +1,13 @@
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
+  background-image: url('https://i.pinimg.com/originals/f0/8b/82/f08b823ffa1564f1dbe64136b3a14fe3.jpg');
+
+ 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+ 
 }
 
 * {

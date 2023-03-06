@@ -23,12 +23,12 @@ function Post() {
     <div className='post'>
       <div className='post__info'>
         <Avatar />
-        <h4>Anonymous</h4>
+        <h3  style={{marginLeft:'10px'}}>Anonymous</h3>
         <small>Timestamp</small>
       </div>
       <div className='post__body'>
         <div className='post__question'>
-          <p>This is a test question</p>
+          <p style={{fontSize:'23px', color:'#F94A29'}}>This is a test question</p>
           <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
           <Modal
           open={isModalOpen} 
@@ -76,8 +76,8 @@ function Post() {
         </div>
       </div>
       <p style={{
-        color: "rgba(0,0,0,0.5)",
-        fontSize: "12px",
+        color: "black",
+        fontSize: "15px",
         fontWeight: "bold",
         margin: "10px 0",
       }}> 1 Answer</p>
@@ -109,11 +109,11 @@ function Post() {
             <div style={{
               margin: "0px 10px",
             }} className='post-info'>
-              <p>Anonymous</p>
+              <p style={{fontSize:'18px', color:'black'}}>Anonymous</p>
               <span>Timestamp</span>
             </div>
           </div>
-          <div className='post-answer'>This is a test answer</div>
+          <div className='post-answer' style={{color:'#790252',fontSize:'20px',fontWeight:'bold'}}>This is a test answer</div>
         </div>
       </div>
     </div>

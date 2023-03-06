@@ -51,64 +51,65 @@
   
 
 .placementicon{
-  width:40px;
+  width:50px;
   height:auto;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 2px;
+  
 
 }
 
 .feedbackicon
 {
-  width:40px;
+  width:50px;
   height:auto;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 2px;
 }
 
 .reviewicon
 {
-  width: 40px;
+  width: 50px;
   height:auto;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 2px;
 }
 
 .infrastructureicon
 {
-  width: 40px;
+  width: 50px;
   height:auto;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 2px;
 }
 
 .locationicon
 {
-  width: 40px;
+  width: 50px;
   height:auto;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 2px;
 }
 
 .sporticon
 {
-  width:40px;
+  width:50px;
   height:auto;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 2px;
 }
 
 .scholarshipicon{
-  width: 40px;
+  width: 50px;
   height:auto;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 2px;
 }
 
 .feeicon{
-  width: 40px;
+  width: 50px;
   height:auto;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 2px;
 }
 

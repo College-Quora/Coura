@@ -50,12 +50,12 @@ function QuoraHeader() {
         </div>
         <div className="qHeader__input">
           <Search />
-          <input type="text" placeholder="Search questions" />
+          <input type="text" placeholder="Search questions" style={{background:'rgb(243, 218, 235)',color:'blueviolet',fontWeight:'bold'}}/>
         </div>
         <div className="qHeader__Rem">
         <Avatar />
         </div>
-        <Button onClick ={()=> setIsModalOpen(true)}>Add Question</Button>
+        <Button onClick ={()=> setIsModalOpen(true)} style={{color:'blueviolet', fontSize:'15px',fontWeight:'bold'}}>Add Question</Button>
         <Modal open={isModalOpen} closeIcon={Close}  onClose={()=> setIsModalOpen(false)}
         closeOnEsc
         center

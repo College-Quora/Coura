@@ -1,7 +1,8 @@
 
   .qHeader {
-    background-color: #d3d3d3;/* Set the background color to a darker shade */
-    height: 60px;
+    /* Set the background color to a darker shade */
+    background-color: transparent;
+    height: 69px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,7 +16,8 @@
   }
   
   .qHeader__logo {
-    height: 55px; /* Set the height of the logo to 48px */
+    height: 90px; /* Set the height of the logo to 48px */
+   
   
   }
   
@@ -30,22 +32,23 @@
   
   .qHeader__icon {
     margin-right: 20px;
-    font-size: 40px;
-    color: rgb(29, 1, 66);
+    font-size: 30px;
+    color: #FB2576;
     transition: color 1s ease;
   }
   .qHeader__icon:hover {
-    color: rgb(241, 235, 235); 
+    color: green; 
   }
   .qHeader__input {
     display: flex;
     align-items: center;
-    background-color: white;
+   
+    background-color: rgb(243, 218, 235);
     padding: 5px 10px;
     border-radius: 999px;
     margin-left: 20px;
     width: 50%;
-    border: 2px solid black; 
+    border: 3px solid black; 
   }
   
   .qHeader__input input {
@@ -53,6 +56,7 @@
     outline: none;
     margin-left: 10px;
     width: 100%;
+    
   }
   
   .qHeader__Rem {
@@ -61,7 +65,7 @@
   
   .MuiButton-containedPrimary {
     background-color: #c0daf1;
-    color: white;
+   
   }
   
   .MuiButton-containedPrimary:hover {
@@ -109,7 +113,7 @@
     color: rgb(98, 98, 98);
     padding: 5px;
     margin-left: 10px;
-    background-color: rgb(230, 230, 230);
+    background-color: rgb(183, 231, 238);
     border-radius: 33px;
     cursor: pointer;
   }
