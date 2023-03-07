@@ -8,6 +8,7 @@ router.post('/', async(req, res) =>{
         await answerDB.create({
             answer: req.body.answer,
             questionId: req.body.questionId,
+            createdAt: Date.now()
         }).then(() =>{
             res.status(201).send({
                 status: true,

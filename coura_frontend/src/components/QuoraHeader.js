@@ -15,6 +15,7 @@ import { Avatar, Button, Input} from "@mui/material";
 import "./css/QuoraHeader.css";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
+import axios from 'axios'
 
 function QuoraHeader() {
 
@@ -22,6 +23,32 @@ function QuoraHeader() {
   const [inputUrl, setInputUrl] = useState("");
   const [question, setQuestion] = useState("");
   const Close = <CloseIcon />;
+
+  const handleSubmit = async () => {
+    if(question != "" ){
+
+      const config = {
+        headers:{
+          "Content-Type": "application/json",
+        }
+      }
+
+      const body = {
+        questionName: question,
+        questionUrl: inputUrl
+      }
+      await axios.post('/api/questions', body, config).then((res) =>{
+        console.log(res.data);
+        alert(res.data.message);
+        setIsModalOpen(false);
+        window.location.href = "/";
+      }).catch((err) =>{
+        console.log(err);
+        alert('Error in adding question!')
+      })
+    }
+  }
+
   return (
     <div className="qHeader">
       <div className="qHeader-content">
@@ -118,16 +145,16 @@ function QuoraHeader() {
               </div>
             </div>
           <div className='modal__buttons'>
-            <button  className='cancle' onClick={() => setIsModalOpen(false)}>
+            <button  className='cancel' onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
 
-            <button  type='submit' className='add' onClick={() => setIsModalOpen(false)}>
+            <button onClick={handleSubmit} type='submit' className='add'>
               Add Your Question
             </button>
           </div>
         </Modal>
-       </div>
+      </div>
     </div>
   )
 }

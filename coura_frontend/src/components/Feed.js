@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import QuoraBox from './QuoraBox';
 import './css/Feed.css';
 import Post from './Post';
+import axios from 'axios';
 
 
 function Feed() {
+
+  const [posts, setPosts] = useState([])
+  useEffect(() =>{
+    axios.get('/api/questions').then((res) =>{
+      console.log(res.data);
+      setPosts(res.data.reverse());
+    }).catch((err) =>{
+      console.log(err);
+    })
+  }, []);
+
   return (
     <div className='feed'>
       
           <QuoraBox />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
+          {
+            posts.map((post,index) => (<Post key = {index} post = {post} />))
+          }
         </div>
-     
+
   );
 }
 
