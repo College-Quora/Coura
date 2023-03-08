@@ -25,7 +25,7 @@ function QuoraHeader() {
   const Close = <CloseIcon />;
 
   const handleSubmit = async () => {
-    if(question != "" ){
+    if(question !== "" ){
 
       const config = {
         headers:{

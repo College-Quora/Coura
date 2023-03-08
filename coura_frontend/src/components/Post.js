@@ -38,7 +38,7 @@ function Post({post}) {
   }
 
   const handleSubmit = async() =>{
-    if(post?._id && answer != "" ){
+    if(post?._id && answer !== "" ){
 
       const config = {
         headers:{
