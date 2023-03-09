@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 import HomeIcon from '@mui/icons-material/Home';
-
-import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+//import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import {
-  AssignmentTurnedInOutlined,
+  //AssignmentTurnedInOutlined,
   NotificationsOutlined,
   PeopleAltOutlined,
   Search,
@@ -63,10 +64,10 @@ function QuoraHeader() {
             <HomeIcon />
           </div>
           <div className="qHeader__icon">
-            <FeaturedPlayListOutlinedIcon />
+            <ListAltIcon />
           </div>
           <div className="qHeader__icon">
-            <AssignmentTurnedInOutlined />
+            <HistoryEduIcon/>
           </div>
           <div className="qHeader__icon">
             <PeopleAltOutlined />
