@@ -32,11 +32,11 @@
   .qHeader__icon {
     margin-right: 20px;
     font-size: 30px;
-    color: #FB2576;
+    color: #EB455F;
     transition: color 1s ease;
   }
   .qHeader__icon:hover {
-    color: green; 
+    color: #2B3467; 
   }
   .qHeader__input {
     display: flex;
@@ -60,19 +60,11 @@
   
   .qHeader__Rem {
     margin-left: 20px;
+    padding-right: 10px;
   }
   
   .MuiButton-containedPrimary {
     background-color: #c0daf1;
-   
-  }
-  
-  .MuiButton-containedPrimary:hover {
-    background-color: black; /* Change to black on hover */
-  }
-  .MuiButton-root:hover {
-    color: black;
-    border: 3px solid black;
   }
 
   .modal__title {

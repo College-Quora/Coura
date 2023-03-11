@@ -2,15 +2,48 @@
 
 import React from 'react'
 import Quora from './components/Quora';
+//import Feed from './components/Feed'
+//import Blog from './components/Blog'
+//import QuoraHeaderFeed from './components/QuoraHeaderFeed';
+//import QuoraHeaderBlog from './components/QuoraHeaderBlog';
+
 import './App.css';
 
 function App() {
-  return (
-    <div className='App'>
-      <Quora/>
-    </div>
-  )
+  const queryParams = new URLSearchParams(window.location.search);
+  const component = queryParams.get("component");
+
+  switch (component) {
+    case "blog":
+      return (
+        <Quora/>
+      )
+    default:
+      return (
+        <Quora/>
+      )
+  }
 }
+
+/*
+const queryParams = new URLSearchParams(window.location.search);
+  const component = queryParams.get("component");
+
+  switch (component) {
+    case "blog":
+      return (
+        <Quora>
+          <Blog />
+        </Quora>
+      )
+    default:
+      return (
+        <Quora >
+          <Feed />
+        </Quora>
+      )
+  }
+*/
 
 /*
 class App extends Component {

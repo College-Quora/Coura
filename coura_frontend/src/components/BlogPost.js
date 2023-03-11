@@ -29,15 +29,15 @@ function LastSeen({ date }) {
 function Post({post}) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [answer, setAnswer] = useState("");
+  const [comment, setComment] = useState("");
   const Close = <CloseIcon />;
 
   const handleQuill = (value) => {
-    setAnswer(value);
+    setComment(value);
   }
 
   const handleSubmit = async() =>{
-    if(post?._id && answer !== "" ){
+    if(post?._id && comment !== "" ){
 
       const config = {
         headers:{
@@ -46,17 +46,17 @@ function Post({post}) {
       }
 
       const body = {
-        answer: answer,
-        questionId: post?._id
+        comment: comment,
+        blogId: post?._id
       }
-      await axios.post('/api/answers', body, config).then((res) =>{
+      await axios.post('/api/comments', body, config).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
         setIsModalOpen(false);
         window.location.href = "/";
       }).catch((err) =>{
         console.log(err);
-        alert('Error in adding answer!')
+        alert('Error in adding comment!')
       })
     }
   }
@@ -70,8 +70,8 @@ function Post({post}) {
       </div>
       <div className='post__body'>
         <div className='post__question'>
-          <p style={{fontSize:'23px', color:'#F94A29'}}>{post?.questionName}</p>
-          <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
+          <p style={{fontSize:'23px', color:'#F94A29'}}>{post?.blogName}</p>
+          <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Comment</button>
           <Modal
           open={isModalOpen} 
           closeIcon={Close}  
@@ -86,12 +86,12 @@ function Post({post}) {
           }}
           >
             <div  className="modal__question">
-              <h1>{post?.questionName}</h1>
+              <h1>{post?.blogName}</h1>
               <p>asked by {""}<span  className="name">Anonymous</span> on <span>{new Date(post?.createdAt).toLocaleString()}</span></p>
             </div>
 
             <div className="modal__answer">
-              <ReactQuill value = {answer} onChange={handleQuill} placeholder="Enter Your answer"/>
+              <ReactQuill value = {comment} onChange={handleQuill} placeholder="Enter Your comment"/>
             </div>
             <div className="modal__buttons">
             <button  className='cancle' onClick={() => setIsModalOpen(false)}>
@@ -99,13 +99,13 @@ function Post({post}) {
             </button>
 
             <button  type='submit' className='add' onClick={handleSubmit}>
-              Add Your Answer
+              Add Your Comment
             </button>
             </div>
           </Modal >
         </div>
         {
-          post?.questionUrl && <img src = {post?.questionUrl} alt = 'url'/>
+          post?.blogUrl && <img src = {post?.blogUrl} alt = 'url'/>
         }
       </div>
       <div className="post__footer">
@@ -123,7 +123,7 @@ function Post({post}) {
         fontSize: "15px",
         fontWeight: "bold",
         margin: "10px 0",
-      }}> {post?.allAnswers.length} Answer(s)</p>
+      }}> {post?.allComments.length} Comment(s)</p>
 
       <div style={{
         margin: "5px 0px 0px 0px",
@@ -133,7 +133,7 @@ function Post({post}) {
 
         
           {
-            post?.allAnswers?.map((ans) =>(<>
+            post?.allComments?.map((ans) =>(<>
               <div style={{
                 display: "flex",
                 flexDirection: "column",
@@ -159,7 +159,7 @@ function Post({post}) {
                   <span><LastSeen date={ans?.createdAt}/></span>
                 </div>
               </div>
-              <div className='post-answer' style={{color:'#790252',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.answer)}</div>
+              <div className='post-answer' style={{color:'#790252',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.comment)}</div>
               </div>
             </>))
           }

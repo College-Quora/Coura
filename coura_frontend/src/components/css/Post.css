@@ -103,27 +103,26 @@
   .post__footerAction {
     background-color: rgb(243, 208, 243);
     border-color: 2px solid black;
-
+    margin-right: 8px;
     padding: 5px;
     align-items: center;
     display: flex;
     justify-content: space-around;
-    
-    border-radius: 33px;
-   
+    border-radius: 50px;
   }
+
   .post__footerAction > .MuiSvgIcon-root {
     color:#FB2576;
-    margin-right: 47px;
+    margin-right: 10px;
     cursor: pointer;
     font-size: 32px;
-    margin-left: 30px;
+    margin-left: 10px;
     
   }
   
   .post__footerAction > .MuiSvgIcon-root:hover {
     color:black;
-    margin-right: 40px;
+    margin-right: 10px;
     
   }
   

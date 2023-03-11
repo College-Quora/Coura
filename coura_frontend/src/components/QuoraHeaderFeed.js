@@ -2,10 +2,9 @@ import React, { useState } from "react";
 
 import HomeIcon from '@mui/icons-material/Home';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
-//import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import {
-  //AssignmentTurnedInOutlined,
   NotificationsOutlined,
   PeopleAltOutlined,
   Search,
@@ -18,7 +17,7 @@ import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import axios from 'axios'
 
-function QuoraHeader() {
+function QuoraHeaderFeed() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
@@ -49,6 +48,11 @@ function QuoraHeader() {
       })
     }
   }
+
+  const handleClick = () => {
+    window.location.href = `/?component=blog`;
+    window.location.reload();
+  };
 
   return (
     <div className="qHeader">
@@ -83,7 +87,14 @@ function QuoraHeader() {
         <div className="qHeader__Rem">
         <Avatar />
         </div>
-        <Button onClick ={()=> setIsModalOpen(true)} style={{color:'blueviolet', fontSize:'15px',fontWeight:'bold'}}>Add Question</Button>
+
+        <div className="qHeader__icon">
+          <Button onClick= {handleClick}>
+            <PostAddIcon style= {{height: '30px', width: '30px'}}/>
+          </Button>  
+          </div>
+
+        <Button onClick ={()=> setIsModalOpen(true)} style={{color:'darkblue', fontSize:'15px',fontWeight:'bold'}}>Add Question</Button>
         <Modal open={isModalOpen} closeIcon={Close}  onClose={()=> setIsModalOpen(false)}
         closeOnEsc
         center
@@ -98,7 +109,7 @@ function QuoraHeader() {
 
           <div className="modal__title">
           <h5>Add Question</h5>
-              <h5>Share Link</h5>
+          <h5>Share Link</h5>
           </div>
           <div className="modal__info">
           <Avatar  className="avatar" />
@@ -160,4 +171,4 @@ function QuoraHeader() {
   )
 }
 
-export default QuoraHeader
+export default QuoraHeaderFeed

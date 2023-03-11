@@ -19,7 +19,6 @@ function Feed() {
 
   return (
     <div className='feed'>
-      
           <QuoraBox />
           {
             posts.map((post,index) => (<Post key = {index} post = {post} />))
