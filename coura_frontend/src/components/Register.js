@@ -9,7 +9,7 @@ function Register({onPageSwitch}) {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        if(email != "" && pass != "" && name != "" && collegeName != ""){
+        if(email !== "" && pass !== "" && name !== "" && collegeName !== ""){
 
             const config = {
                 headers:{

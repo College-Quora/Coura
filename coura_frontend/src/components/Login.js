@@ -7,7 +7,7 @@ function Login({onPageSwitch}){
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        if(email != "" && pass != ""){
+        if(email !== "" && pass !== ""){
 
             const config = {
                 headers:{
