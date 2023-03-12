@@ -1,49 +1,38 @@
-//import {Component} from 'react';
-
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Quora from './components/Quora';
-//import Feed from './components/Feed'
-//import Blog from './components/Blog'
-//import QuoraHeaderFeed from './components/QuoraHeaderFeed';
-//import QuoraHeaderBlog from './components/QuoraHeaderBlog';
-
+import Login from './components/Login';
+import Register from './components/Register';
 import './App.css';
 
-function App() {
-  const queryParams = new URLSearchParams(window.location.search);
-  const component = queryParams.get("component");
 
-  switch (component) {
-    case "blog":
-      return (
-        <Quora/>
-      )
-    default:
-      return (
-        <Quora/>
-      )
+function App() {
+
+  const [currentPage, setCurrentPage] = useState('home');
+
+  const togglePage = (pageName) => {
+    setCurrentPage(pageName);
   }
+
+  
+    return (
+      <div className='App'>
+
+        {(() => {
+        switch (currentPage) {
+          case 'login':
+            return <Login onPageSwitch={togglePage} />;
+          case 'register':
+            return <Register onPageSwitch={togglePage} />;
+          default:
+            return <Quora onPageSwitch={togglePage}/>
+        }
+      })()}
+      
+    </div>
+    )
 }
 
-/*
-const queryParams = new URLSearchParams(window.location.search);
-  const component = queryParams.get("component");
 
-  switch (component) {
-    case "blog":
-      return (
-        <Quora>
-          <Blog />
-        </Quora>
-      )
-    default:
-      return (
-        <Quora >
-          <Feed />
-        </Quora>
-      )
-  }
-*/
 
 /*
 class App extends Component {

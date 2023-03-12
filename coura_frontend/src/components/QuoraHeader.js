@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import HomeIcon from '@mui/icons-material/Home';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import PostAddIcon from '@mui/icons-material/PostAdd';
@@ -16,12 +15,15 @@ import "./css/QuoraHeader.css";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import axios from 'axios'
+import DropDownProfile from './DropDownProfile';
 
-function QuoraHeaderFeed() {
+function QuoraHeader({onPageSwitch, onListSwitch}) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const [question, setQuestion] = useState("");
+  const [openProfile, setOpenProfile] = useState(false);
+  const loggedIn = window.localStorage.getItem("loggedIn");
   const Close = <CloseIcon />;
 
   const handleSubmit = async () => {
@@ -35,7 +37,8 @@ function QuoraHeaderFeed() {
 
       const body = {
         questionName: question,
-        questionUrl: inputUrl
+        questionUrl: inputUrl,
+        userId: window.localStorage.getItem("userId")
       }
       await axios.post('/api/questions', body, config).then((res) =>{
         console.log(res.data);
@@ -49,11 +52,6 @@ function QuoraHeaderFeed() {
     }
   }
 
-  const handleClick = () => {
-    window.location.href = `/?component=blog`;
-    window.location.reload();
-  };
-
   return (
     <div className="qHeader">
       <div className="qHeader-content">
@@ -64,10 +62,10 @@ function QuoraHeaderFeed() {
           />
         </div>
         <div className="qHeader__icons">
-          <div className="qHeader__icon">
+          <div className="qHeader__icon" onClick= {() => onListSwitch('feed')}>
             <HomeIcon />
           </div>
-          <div className="qHeader__icon">
+          <div className="qHeader__icon"  onClick= {() => onListSwitch('blog')}>
             <ListAltIcon />
           </div>
           <div className="qHeader__icon">
@@ -85,14 +83,12 @@ function QuoraHeaderFeed() {
           <input type="text" placeholder="Search questions" style={{background:'rgb(243, 218, 235)',color:'blueviolet',fontWeight:'bold'}}/>
         </div>
         <div className="qHeader__Rem">
-        <Avatar />
+        { loggedIn ? <div onClick = {()=>setOpenProfile((prev) => (!prev))}>
+            <Avatar/>
+            {openProfile && <DropDownProfile/>}
+        </div> : <Button onClick={() =>onPageSwitch('login')}> Login </Button>}
         </div>
 
-        <div className="qHeader__icon">
-          <Button onClick= {handleClick}>
-            <PostAddIcon style= {{height: '30px', width: '30px'}}/>
-          </Button>  
-          </div>
 
         <Button onClick ={()=> setIsModalOpen(true)} style={{color:'darkblue', fontSize:'15px',fontWeight:'bold'}}>Add Question</Button>
         <Modal open={isModalOpen} closeIcon={Close}  onClose={()=> setIsModalOpen(false)}
@@ -171,4 +167,4 @@ function QuoraHeaderFeed() {
   )
 }
 
-export default QuoraHeaderFeed
+export default QuoraHeader

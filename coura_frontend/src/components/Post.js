@@ -47,7 +47,8 @@ function Post({post}) {
 
       const body = {
         answer: answer,
-        questionId: post?._id
+        questionId: post?._id,
+        userId: window.localStorage.getItem("userId")
       }
       await axios.post('/api/answers', body, config).then((res) =>{
         console.log(res.data);

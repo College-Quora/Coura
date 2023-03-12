@@ -9,7 +9,8 @@ router.post('/', async (req, res) => {
         await questionDB.create({
             questionName: req.body.questionName,
             questionUrl: req.body.questionUrl,
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            userId: req.body.userId
         }).then(() =>{
             res.status(201).send({
                 status: true,
