@@ -22,14 +22,6 @@
     width: 1500px;
   }
   
-  
-  
-    .quoraBox:hover {
-      border: 3px solid rgb(224, 41, 9);
-      transform: scale(1.05);
-    }
-  
-  
   .quoraBox__info {
     display: flex;
     align-items: center;
