@@ -30,11 +30,16 @@ function Post({post}) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
+  const [showComments, setShowComments] = useState(false);
   const Close = <CloseIcon />;
 
   const handleQuill = (value) => {
     setComment(value);
   }
+
+  const toggleComments = () => {
+    setShowComments((prevState) => !prevState);
+  };
 
   const handleSubmit = async() =>{
     if(post?._id && comment !== "" ){
@@ -87,7 +92,7 @@ function Post({post}) {
           >
             <div  className="modal__question">
               <h1>{post?.blogName}</h1>
-              <p>asked by {""}<span  className="name">Anonymous</span> on <span>{new Date(post?.createdAt).toLocaleString()}</span></p>
+              <p> Posted By {""}<span  className="name">Anonymous</span> on <span>{new Date(post?.createdAt).toLocaleString()}</span></p>
             </div>
 
             <div className="modal__answer">
@@ -118,12 +123,69 @@ function Post({post}) {
           <ShareOutlined className="iconHover" />
         </div>
       </div>
-      <p style={{
-        color: "black",
-        fontSize: "15px",
-        fontWeight: "bold",
-        margin: "10px 0",
-      }}> {post?.allComments.length} Comment(s)</p>
+      <p
+        style={{
+          color: "black",
+          fontSize: "15px",
+          fontWeight: "bold",
+          margin: "10px 0",
+          cursor: "pointer",
+        }}
+        onClick={toggleComments}
+      >
+          {post?.allComments.length} Comment(s)
+      </p>
+      {showComments && (
+  <div>
+    {post?.allComments
+      ?.slice(1)
+      .map((comment, index) => (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            padding: '10px 5px',
+            borderTop: '1px solid lightgray',
+          }}
+          className='post-answer-container'
+          key={index}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '10px',
+              fontSize: '12px',
+              fontWeight: 600,
+              color: '#888',
+            }}
+            className='post-answered'
+          >
+            <Avatar />
+
+            <div
+              style={{
+                margin: '0px 10px',
+              }}
+              className='post-info'
+            >
+              <p style={{ fontSize: '18px', color: 'black' }}>Anonymous</p>
+              <span><LastSeen date={comment?.createdAt} /></span>
+            </div>
+          </div>
+          <div
+            className='post-answer'
+            style={{ color: '#790252', fontSize: '20px', fontWeight: 'bold' }}
+          >
+            {ReactHtmlParser(comment?.comment)}
+          </div>
+        </div>
+      ))}
+  </div>
+)}
+
+
 
       <div style={{
         margin: "5px 0px 0px 0px",
@@ -131,38 +193,55 @@ function Post({post}) {
         borderTop: "1px solid lightgray",
       }} className='post__answer'>
 
-        
-          {
-            post?.allComments?.map((ans) =>(<>
-              <div style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                padding: "10px 5px",
-                borderTop: "1px solid lightgray",
-              }} className='post-answer-container'>
-              
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "10px",
-                fontSize: "12px",
-                fontWeight: 600,
-                color: "#888",
-                }} className='post-answered'>
-                <Avatar />
 
-                <div style={{
-                  margin: "0px 10px",
-                  }} className='post-info'>
-                  <p style={{fontSize:'18px', color:'black'}}>Anonymous</p>
-                  <span><LastSeen date={ans?.createdAt}/></span>
-                </div>
-              </div>
-              <div className='post-answer' style={{color:'#790252',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.comment)}</div>
-              </div>
-            </>))
-          }
+    {
+        post?.allComments?.map((ans, index) => (
+          index == 0 ? (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          padding: "10px 5px",
+          borderTop: "1px solid lightgray",
+        }}
+        className="post-answer-container"
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "10px",
+            fontSize: "12px",
+            fontWeight: 600,
+            color: "#888",
+          }}
+          className="post-answered"
+        >
+          <Avatar />
+
+          <div
+            style={{
+              margin: "0px 10px",
+            }}
+            className="post-info"
+          >
+            <p style={{ fontSize: "18px", color: "black" }}>Anonymous</p>
+            <span>
+              <LastSeen date={ans?.createdAt} />
+            </span>
+          </div>
+        </div>
+        <div
+          className="post-answer"
+          style={{ color: "#790252", fontSize: "20px", fontWeight: "bold" }}
+        >
+          {ReactHtmlParser(ans?.comment)}  </div>
+      </div>
+  
+  ) : null
+  ))
+}
 
           
         
