@@ -1,11 +1,19 @@
 
   .qHeader {
-    /* Set the background color to a darker shade */
-    background-color: transparent;
-    height: 69px;
+    
+    /* background-color:#8a0505; */
+    background-image: url('https://i.pinimg.com/originals/4f/39/10/4f39103da156fb7e479abd6355932e88.jpg');
+    height: 63px;
     display: flex;
     justify-content: center;
     align-items: center;
+    position:fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    border: 2px solid black;
+    z-index: 3;
+    
   }
   
   .qHeader-content {
@@ -16,11 +24,12 @@
   }
   
   .qHeader__logo {
-    height: 48px; /* Set the height of the logo to 48px */
+    height: 55px; 
     padding-right: 20px;
   }
   
   .qHeader__logo img {
+    filter: brightness(0) invert(1);
     height: 100%;
   }
   
@@ -31,23 +40,29 @@
   
   .qHeader__icon {
     margin-right: 20px;
-    font-size: 30px;
-    color: #EB455F;
+    font-size: 40px;
+    color: white;
     transition: color 1s ease;
   }
-  .qHeader__icon:hover {
-    color: #2B3467; 
+  .qHeader__icon:hover ,.qHeader__icon.active
+  {
+    color: #1da1f2;
   }
+
+  
+
   .qHeader__input {
     display: flex;
     align-items: center;
    
-    background-color: rgb(243, 218, 235);
+    background-color: white;
     padding: 5px 10px;
     border-radius: 999px;
     margin-left: 20px;
+   
     width: 50%;
     border: 3px solid black; 
+    
   }
   
   .qHeader__input input {
@@ -55,14 +70,25 @@
     outline: none;
     margin-left: 10px;
     width: 100%;
-    
+   
+   
   }
+  
   
   .qHeader__Rem {
     margin-left: 20px;
     padding-right: 10px;
   }
   
+  .loginbtn:hover{
+   color: yellow !important;
+   font-size: 23px!important;
+  }
+
+  .addbtn:hover{
+    color: rgb(8, 241, 8) !important;
+    font-size: 47px!important;
+  }
   .MuiButton-containedPrimary {
     background-color: #c0daf1;
   }
@@ -137,34 +163,6 @@
     align-items: center;
   }
   
-  .modal__buttons > .cancle {
-    margin-top: 10px;
-    border: none;
-    outline: none;
-    color: gray;
-    font-weight: 500;
-    padding: 10px;
-    border-radius: 33px;
-    cursor: pointer;
-  }
-  
-  .modal__buttons > .cancle:hover {
-    color: red;
-  }
-  
-  .modal__buttons > .add {
-    border: none;
-    outline: none;
-    margin-top: 10px;
-    background-color: #222;
-    color: white;
-    font-weight: 700;
-    padding: 10px;
-    border-radius: 33px;
-    cursor: pointer;
-    width: 50%;
-  }
-  
   .modal__buttons > .add:hover {
     background-color: #eee;
     color: #222;
@@ -179,5 +177,85 @@
       display: none;
     }
   }
+
+  .cancelButton{
+    background-color: #1da1f2 !important;
+    color: white !important;
+    border: 1px solid black !important;
+    border-radius: 8px!important;
+    padding: 15px!important;
+    font-size: 1.0rem!important;
+    font-weight: bold!important;
+    cursor: pointer!important;
+    transition: background-color 0.2s ease-in-out!important;
+    margin-bottom: -2px!important;
+    margin-top: 3px!important;
+    width: auto;
+    margin-right: 15px !important;
+  }
+
+  .addButton{
+    background-color: #1da1f2 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px!important;
+    border: 1px solid black !important;
+    padding: 10px!important;
+    font-size: 1.0rem!important;
+    font-weight: bold!important;
+    cursor: pointer!important;
+    transition: background-color 0.2s ease-in-out!important;
+    margin-left: 320px!important;
+    margin-top: 3px!important;
+  }
   
-  
+  .addButton:hover {
+    color: #fff!important;
+    background-color: green!important;
+    
+    
+  }
+  .cancelButton:hover {
+    color: #fff!important;
+    background-color: red!important;
+    
+  }
+
+  .addButtonBlog{
+    background-color: #1da1f2 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px!important;
+    border: 1px solid black !important;
+    padding: 10px!important;
+    font-size: 1.0rem!important;
+    font-weight: bold!important;
+    cursor: pointer!important;
+    transition: background-color 0.2s ease-in-out!important;
+  }
+
+  .cancelButtonBlog{
+    background-color: #1da1f2 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px!important;
+    border: 1px solid black !important;
+    padding: 10px!important;
+    font-size: 1.0rem!important;
+    font-weight: bold!important;
+    cursor: pointer!important;
+    transition: background-color 0.2s ease-in-out!important;
+    margin-right: 14px !important;
+    margin-bottom: -19px !important;
+  }
+
+  .addButtonBlog:hover {
+    color: #fff!important;
+    background-color: green!important;
+    
+  }
+  .cancelButtonBlog:hover {
+    color: #fff!important;
+    background-color: red!important;
+    
+  }

@@ -25,12 +25,14 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
   const [modalType, setModalType] = useState('');
   const [isAddQuestionModalOpen, setIsAddQuestionModalOpen] = useState(false);
   const [isCreateBlogModalOpen, setIsCreateBlogModalOpen] = useState(false);
- 
+  
   const [blogContent, setBlogContent] = useState('');
   const [inputUrl, setInputUrl] = useState("");
   const [inputUrlBlog, setInputUrlBlog] = useState("");
   const [question, setQuestion] = useState("");
   const [openProfile, setOpenProfile] = useState(false);
+
+  const [activeTab, setActiveTab] = useState('feed');
   const loggedIn = window.localStorage.getItem("loggedIn");
   const Close = <CloseIcon />;
 
@@ -49,6 +51,10 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
     setModalType('blog');
   };
 
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+    onListSwitch(tabName);
+  };
 
   const handleSubmit = async () => {
     if(question !== "" ){
@@ -112,12 +118,12 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
           />
         </div>
         <div className="qHeader__icons">
-          <div className="qHeader__icon" onClick= {() => onListSwitch('feed')}>
-            <HomeIcon />
-          </div>
-          <div className="qHeader__icon"  onClick= {() => onListSwitch('blog')}>
-            <ListAltIcon />
-          </div>
+        <div className={`qHeader__icon ${activeTab === 'feed' ? 'active' : ''}`} onClick={() => handleTabClick('feed')}>
+        <HomeIcon />
+      </div>
+      <div className={`qHeader__icon ${activeTab === 'blog' ? 'active' : ''}`} onClick={() => handleTabClick('blog')}>
+        <ListAltIcon />
+      </div>
           <div className="qHeader__icon">
             <HistoryEduIcon/>
           </div>
@@ -130,23 +136,23 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
         </div>
         <div className="qHeader__input">
           <Search />
-          <input type="text" placeholder="Search questions" style={{background:'rgb(243, 218, 235)',color:'blueviolet',fontWeight:'bold'}}/>
+          <input type="text" placeholder="Search questions" style={{background:'white',color:'black',fontWeight:'bold',fontSize:'15px'}}/>
         </div>
         <div className="qHeader__Rem">
         { loggedIn ? <div onClick = {()=>setOpenProfile((prev) => (!prev))}>
             <Avatar/>
             {openProfile && <DropDownProfile/>}
-        </div> : <Button onClick={() =>onPageSwitch('login')}> Login </Button>}
+        </div> : <Button  className="loginbtn" onClick={() =>onPageSwitch('login')} style={{color:'white',fontWeight:'bold',fontSize:'21px'}}> Login </Button>}
         </div>
 
 
     
 
-      <Button onClick={() => setIsModalOpen(true)} style={{ color: 'darkblue', fontSize: '15px', fontWeight: 'bold' }}>
-        Add Question/Create Blog
+        <Button className="addbtn" onClick={() => setIsModalOpen(true)} style={{ color: 'white', fontSize: '45px', fontWeight: 'bold' }}>
+        +
       </Button>
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle>Add Question</DialogTitle>
+        <DialogTitle style={{fontSize:'20px',fontWeight:'bold'}}>Add Question/Create Blog</DialogTitle>
         <DialogContent>
          
         </DialogContent>
@@ -159,7 +165,7 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
       </Dialog>
       <Dialog open={isAddQuestionModalOpen} onClose={() => setIsAddQuestionModalOpen(false)}
       >
-        <DialogTitle>Add New Question</DialogTitle>
+        <DialogTitle style={{fontSize:'20px',fontWeight:'bold'}}>Add New Question</DialogTitle>
         <DialogContent style={{ marginTop: '-15px', width: '600px', height: '570px',marginDown: '30px' }}>
         
           <div className="modal__info">
@@ -209,15 +215,23 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
             </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick ={() => setIsAddQuestionModalOpen(false)}>Cancel</Button>
-          <Button onClick={handleSubmit} type='submit' className='add'>
+          <Button className="cancelButton" onClick ={() => setIsAddQuestionModalOpen(false)} >Cancel</Button>
+          <Button className="addButton" onClick={handleSubmit} type='submit'>
               Add Your Question
             </Button>
         </DialogActions>
       </Dialog>
       <Dialog open={isCreateBlogModalOpen} onClose={() => setIsCreateBlogModalOpen(false)}>
-        <DialogTitle>Create Blog</DialogTitle>
+        <DialogTitle style={{fontSize:'20px',fontWeight:'bold'}}>Create Blog</DialogTitle>
         <DialogContent style={{ marginTop: '10px', width: '600px', height: '570px',marginDown: '30px' }}>
+        <div className="modal__info">
+          <Avatar  className="avatar" />
+          <div className="modal__scope">
+          <PeopleAltOutlined />
+                <p>Public</p>
+                <ExpandMore/>
+          </div>
+          </div>
         <div className="modal__Field">
               <Input
                 value={blogContent}
@@ -257,8 +271,8 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
             </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsCreateBlogModalOpen(false)}>Cancel</Button>
-          <Button onClick={handleSubmitBlog} type='submit' className='add'>Create</Button>
+          <Button className="cancelButtonBlog" onClick={() => setIsCreateBlogModalOpen(false)}>Cancel</Button>
+          <Button className="addButtonBlog" onClick={handleSubmitBlog} type='submit' >Create</Button>
         </DialogActions>
       </Dialog>
       </div>

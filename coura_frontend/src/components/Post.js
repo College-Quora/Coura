@@ -17,6 +17,9 @@ import "react-quill/dist/quill.snow.css";
 import ReactTimeAgo from 'react-time-ago'
 import axios from 'axios';
 import ReactHtmlParser from 'html-react-parser';
+import { blue } from "@mui/material/colors";
+
+
 
 function LastSeen({ date }) {
   return (
@@ -73,13 +76,13 @@ function Post({post}) {
   return (
     <div className='post'>
       <div className='post__info'>
-        <Avatar />
-        <h3  style={{marginLeft:'10px'}}>Anonymous</h3>
+        <Avatar/>
+        <h3  style={{marginLeft:'10px',color:'black'}}>Anonymous</h3>
         <small> <LastSeen date={post?.createdAt}/></small>
       </div>
       <div className='post__body'>
         <div className='post__question'>
-          <p style={{fontSize:'23px', color:'#F94A29'}}>{post?.questionName}</p>
+          <p style={{fontSize:'23px', color:'black',fontFamily:'Playfair Display, serif',fontStyle:'italic'}}>{post?.questionName}</p>
            <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
           
 
@@ -177,13 +180,13 @@ function Post({post}) {
                 }}
                 className='post-info'
               >
-                <p style={{ fontSize: '18px', color: 'black' }}>Anonymous</p>
+                <p style={{ fontSize: '18px', color: 'rgb(1, 26, 80)' }}>Anonymous</p>
                 <span><LastSeen date={ans?.createdAt} /></span>
               </div>
             </div>
             <div
               className='post-answer'
-              style={{ color: '#790252', fontSize: '20px', fontWeight: 'bold' }}
+              style={{ color: '#1da1f2', fontSize: '20px', fontWeight: 'bold' }}
             >
               {ReactHtmlParser(ans?.answer)}
             </div>
@@ -229,7 +232,7 @@ function Post({post}) {
                     <span><LastSeen date={ans?.createdAt}/></span>
                   </div>
                 </div>
-                <div className='post-answer' style={{color:'#790252',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.answer)}</div>
+                <div className='post-answer' style={{color:'#1da1f2',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.answer)}</div>
                 </div>
               ) : null
             ))

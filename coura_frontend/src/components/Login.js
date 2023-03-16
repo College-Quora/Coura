@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
-
+import './css/Login.css';
 function Login({onPageSwitch}){
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
@@ -50,17 +50,45 @@ function Login({onPageSwitch}){
     }
 
     return (
-        <div className="auth-form-container">
-            <h2>Login</h2>
-            <form className="login-form" onSubmit={handleSubmit}>
-                <label htmlFor="email">email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value.trim())}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
-                <label htmlFor="password">password</label>
-                <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
-                <button type="submit">Log In</button>
-            </form>
-            <button className="link-btn" onClick={() =>onPageSwitch('register')}>Don't have an account? Register here.</button>
+
+        // <div className="auth-form-container">
+        //     <h2>Login</h2>
+        //     <form className="login-form" onSubmit={handleSubmit}>
+        //         <label htmlFor="email">email</label>
+        //         <input value={email} onChange={(e) => setEmail(e.target.value.trim())}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
+        //         <label htmlFor="password">password</label>
+        //         <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
+        //         <button type="submit">Log In</button>
+        //     </form>
+        //     <button className="link-btn" onClick={() =>onPageSwitch('register')}>Don't have an account? Register here.</button>
+        // </div>
+        
+        <div class="container">
+
+<div className="login-container">
+  <div className="auth-form-container">
+    <h1>Login</h1>
+    <form className="login-form" onSubmit={handleSubmit}>
+      <label htmlFor="email">email</label>
+      <input value={email} onChange={(e) => setEmail(e.target.value.trim())}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
+      <label htmlFor="password">password</label>
+      <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
+      <button type="submit">Log In</button>
+    </form>
+    <button className="link-btn" onClick={() =>onPageSwitch('register')}>Don't have an account? Register here.</button>
+  </div>
+</div>
+        <div className="main-container">
+             <div className="text-container">
+             <h1 style={{fontFamily:'Source Serif Pro, serif', fontSize:'50px',marginTop:'20px'}}>Discover what your college doesn't tell you !!!</h1>
+            </div>
+        <div class="image-container">
+        <img src="https://imageio.forbes.com/specials-images/dam/imageserve/1128723345/960x0.jpg?format=jpg&width=960" alt="Example image" />
+     </div>
+     <button className="link-btn-home" onClick={() => onPageSwitch('Post')}>Back To Home</button>
         </div>
+        </div>
+       
     )
 }
 

@@ -26,6 +26,11 @@
    background-color: white;
   }
 
+  .avatar {
+    position: relative;
+    z-index: 0;
+  }
+
   
   
   

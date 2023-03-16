@@ -70,12 +70,12 @@ function Post({post}) {
     <div className='post'>
       <div className='post__info'>
         <Avatar />
-        <h3  style={{marginLeft:'10px'}}>Anonymous</h3>
+        <h3  style={{marginLeft:'10px',color:'black'}}>Anonymous</h3>
         <small> <LastSeen date={post?.createdAt}/></small>
       </div>
       <div className='post__body'>
         <div className='post__question'>
-          <p style={{fontSize:'23px', color:'#F94A29'}}>{post?.blogName}</p>
+          <p style={{fontSize:'23px', color:'black',fontFamily:'Playfair Display, serif',fontStyle:'italic'}}>{post?.blogName}</p>
           <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Comment</button>
           <Modal
           open={isModalOpen} 
@@ -176,7 +176,7 @@ function Post({post}) {
           </div>
           <div
             className='post-answer'
-            style={{ color: '#790252', fontSize: '20px', fontWeight: 'bold' }}
+            style={{ color: '#1da1f2', fontSize: '20px', fontWeight: 'bold' }}
           >
             {ReactHtmlParser(comment?.comment)}
           </div>
@@ -226,7 +226,7 @@ function Post({post}) {
             }}
             className="post-info"
           >
-            <p style={{ fontSize: "18px", color: "black" }}>Anonymous</p>
+            <p style={{ fontSize: "18px", color: 'black' }}>Anonymous</p>
             <span>
               <LastSeen date={ans?.createdAt} />
             </span>
@@ -234,7 +234,7 @@ function Post({post}) {
         </div>
         <div
           className="post-answer"
-          style={{ color: "#790252", fontSize: "20px", fontWeight: "bold" }}
+          style={{ color: '#1da1f2', fontSize: "20px", fontWeight: "bold" }}
         >
           {ReactHtmlParser(ans?.comment)}  </div>
       </div>

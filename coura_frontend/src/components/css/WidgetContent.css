@@ -12,7 +12,7 @@
 
 .widget__content > img {
   height: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .widget__contentTitle {
