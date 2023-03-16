@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import QuoraHeader from './QuoraHeader'
 import Feed from './Feed';
 import Blog from './Blog';
+import Profile from './Profile';
 import Sidebar from './Sidebar'
 import Widget from './Widget'
 import "./css/Quora.css";
@@ -19,18 +20,20 @@ function Quora({onPageSwitch}) {
     <div className='quora'>
       <QuoraHeader onPageSwitch = {onPageSwitch} onListSwitch={toggleList}/>
       <div className="quora__contents">
-        <div className="quora__content">
-          <Sidebar/>
+        
+          
           {(() => {
             switch (currentList) {
               case 'blog':
-                return <Blog />;
+                return <div className="quora__content"> <Sidebar/> <Blog /> <Widget /> </div>;
+              case 'profile':
+                return <div className="quora__content"><Profile /></div>;
               default:
-                return <Feed />;;
+                return <div className="quora__content"> <Sidebar/> <Feed /> <Widget /> </div>;
             }
           })()}
-          <Widget />
-        </div>
+          
+        
       </div>
     </div>
   )

@@ -65,6 +65,13 @@
     background: rgb(42, 238, 68);
   }
   
+  .post__btnAnswer:disabled {
+    font-weight: bold;
+    color: white;
+    background: grey;
+  }
+  
+
   .post__question > p:hover {
     text-decoration: underline;
   }

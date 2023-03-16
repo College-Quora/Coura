@@ -135,20 +135,23 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
         <div className="qHeader__Rem">
         { loggedIn ? <div onClick = {()=>setOpenProfile((prev) => (!prev))}>
             <Avatar/>
-            {openProfile && <DropDownProfile/>}
+            {openProfile && <DropDownProfile onListSwitch = {onListSwitch}/>}
         </div> : <Button onClick={() =>onPageSwitch('login')}> Login </Button>}
         </div>
 
 
     
 
-      <Button onClick={() => setIsModalOpen(true)} style={{ color: 'darkblue', fontSize: '15px', fontWeight: 'bold' }}>
-        Add Question/Create Blog
+      <Button onClick ={()=> {
+          if(window.localStorage.getItem("token") == null) alert("Please login to add question/ blog!");
+          else setIsModalOpen(true);
+        }} style={{ color: 'darkblue', fontSize: '15px', fontWeight: 'bold' }}>
+        Add Question / Blog
       </Button>
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle>Add Question</DialogTitle>
+        <DialogTitle>Add Question/ Blog</DialogTitle>
         <DialogContent>
-         
+      
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsAddQuestionModalOpen(true)}>Add Question</Button>
