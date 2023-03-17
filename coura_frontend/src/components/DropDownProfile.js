@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./css/DropDownProfile.css";
 
-function DropDownProfile({onListSwitch}){
+function DropDownProfile(){
 
     const handleLogout = async(e)=>{
         console.log('logout')
@@ -12,7 +13,7 @@ function DropDownProfile({onListSwitch}){
     return(
         <div className='flex flex-col dropDownProfile'>
             <ul className='flex flex-col gap-4'>
-                <li onClick= {() => onListSwitch('profile')}> Profile </li>
+                <Link to="/profile"> <li> Profile </li></Link>
                 <li onClick={handleLogout}>Logout</li>
             </ul>
         </div>

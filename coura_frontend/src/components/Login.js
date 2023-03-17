@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
-function Login({onPageSwitch}){
+function Login(){
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
 
@@ -59,7 +60,10 @@ function Login({onPageSwitch}){
                 <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
                 <button type="submit">Log In</button>
             </form>
-            <button className="link-btn" onClick={() =>onPageSwitch('register')}>Don't have an account? Register here.</button>
+            <Link to="/signup">
+                <button className="link-btn">Don't have an account? Register here.</button>
+            </Link>
+            
         </div>
     )
 }

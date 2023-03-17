@@ -76,7 +76,7 @@ function Post({post}) {
       await axios.post('/api/answers', body, config).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
-        window.location.href = "/";
+        window.location.href = "/feed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in adding answer!')
@@ -100,7 +100,7 @@ function Post({post}) {
       await axios.put('/api/answers/' + ansId, body, config).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
-        window.location.href = "/";
+        window.location.href = "/feed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in updating answer!')
@@ -124,7 +124,7 @@ function Post({post}) {
       await axios.put('/api/questions/' + post?._id, body, config).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
-        window.location.href = "/";
+        window.location.href = "/feed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in updating question!')
@@ -138,7 +138,7 @@ function Post({post}) {
       await axios.delete('/api/answers/' + ansId + '/' + post?._id + '/' + userId).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
-        window.location.href = "/";
+        window.location.href = "/feed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in deleting answer!')
@@ -151,7 +151,7 @@ function Post({post}) {
       await axios.delete('/api/questions/' + post?._id).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
-        window.location.href = "/";
+        window.location.href = "/feed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in deleting question!')

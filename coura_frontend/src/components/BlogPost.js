@@ -64,7 +64,7 @@ function Post({post}) {
         console.log(res.data);
         alert(res.data.message);
         setIsModalOpen(false);
-        window.location.href = "/";
+        window.location.href = "/blogFeed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in adding comment!')
@@ -77,7 +77,7 @@ function Post({post}) {
       await axios.delete('/api/blogs/' + post?._id).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
-        window.location.href = "/";
+        window.location.href = "/blogFeed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in deleting blog!')
@@ -90,7 +90,7 @@ function Post({post}) {
       await axios.delete('/api/comments/' + commentId).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
-        window.location.href = "/";
+        window.location.href = "/blogFeed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in deleting comment!')
@@ -113,7 +113,7 @@ function Post({post}) {
       await axios.put('/api/blogs/' + post?._id, body, config).then((res) =>{
         console.log(res.data);
         alert(res.data.message);
-        window.location.href = "/";
+        window.location.href = "/blogFeed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in updating blog!')

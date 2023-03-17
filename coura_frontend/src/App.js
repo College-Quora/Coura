@@ -2,31 +2,22 @@ import React, { useState, useEffect } from 'react'
 import Quora from './components/Quora';
 import Login from './components/Login';
 import Register from './components/Register';
+import EmailVerified from './components/EmailVerified';
 import './App.css';
+import { Route, Routes, Navigate } from "react-router-dom";
 
 
-function App() {
-
-  const [currentPage, setCurrentPage] = useState('home');
-
-  const togglePage = (pageName) => {
-    setCurrentPage(pageName);
-  }
-
-  
+function App() {  
+    const token = window.localStorage.getItem("token");
     return (
       <div className='App'>
 
-        {(() => {
-        switch (currentPage) {
-          case 'login':
-            return <Login onPageSwitch={togglePage} />;
-          case 'register':
-            return <Register onPageSwitch={togglePage} />;
-          default:
-            return <Quora onPageSwitch={togglePage}/>
-        }
-      })()}
+      <Routes>
+        <Route path="/*" exact element={<Quora />} />
+        { !token && <Route path="/signup" exact element={<Register />} />}
+        { !token && <Route path="/login" exact element={<Login />} />}
+        <Route path="/auth/:id/verify/:token" element={<EmailVerified />} />
+      </Routes>
       
     </div>
     )

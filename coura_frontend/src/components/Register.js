@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
-function Register({onPageSwitch}) {
+function Register() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
@@ -26,11 +27,16 @@ function Register({onPageSwitch}) {
             await axios.post('/api/auth/register', body, config).then((res) =>{
                 console.log(res.data);
                 alert(res.data.message);
-                onPageSwitch('login');
+                setEmail("");
+                setPass("");
+                setName("");
+                setCollegeName("");
+                
             }).catch((err) =>{
                 console.log(err);
                 alert(err.response.data.message);
             })
+            
         }
         else alert("Please fill all the fields!");
     }
@@ -53,7 +59,8 @@ function Register({onPageSwitch}) {
             
             <button type="submit">Register</button>
         </form>
-        <button className="link-btn" onClick={() => onPageSwitch('login')}>Already have an account? Login here.</button>
+        <Link to="/login">
+        <button className="link-btn">Already have an account? Login here.</button></Link>
     </div>
     )
 }
