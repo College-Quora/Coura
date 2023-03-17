@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
 
         res.status(400).send({
                 status: true,
-                message: "An Email has been sent to your account, please verify!",
+                message: "An Email Verification Link has been sent to your account, please verify!",
                 data:token
             })
     }
@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
         if(!user){
             return res.status(400).send({
                 status: false,
-                message: "User not found!"
+                message: "User does not exist!"
             })
         }
 
@@ -79,12 +79,13 @@ router.post('/login', async (req, res) => {
                         userId: user._id,
                         token: crypto.randomBytes(32).toString("hex"),
                     });
-                    const url = `${process.env.BASE_URL}auth/${user._id}/verify/${token.token}`;
-                    await sendEmail(user.email, "Verify Email", url);
                 }
 
+                const url = `http://localhost:3000/auth/${user._id}/verify/${token.token}`;
+                await sendEmail(user.email, "Verify Email", url);
+
                 return res.status(400)
-                    .send({status:true, message: "An Email has been sent to your account, please verify!" });
+                    .send({status:true, message: "An Email Verification Link has been sent to your account, please verify!" });
             }
             else{
 
@@ -157,10 +158,10 @@ router.post('/userData', async (req, res) => {
 })
 
 
-router.get("/:id/verify/:token", async (req, res) => {
+router.get('/:id/verify/:token', async (req, res) => {
 	try {
 		const user = await userDB.findOne({ _id: req.params.id });
-		if (!user) return res.status(400).send({status:false, message: "Invalid Linkk" });
+		if (!user) return res.status(400).send({status:false, message: "Invalid Link" });
 
 		const token = await tokenDB.findOne({
 			userId: user._id,
@@ -171,13 +172,93 @@ router.get("/:id/verify/:token", async (req, res) => {
 		await userDB.updateOne({ _id: user._id }, { $set: { verified: true}});
 		await tokenDB.deleteOne({_id : token._id});
 
-		res.status(200).send({status: true, message: "Email verified successfully" });
+		res.status(200).send({status: true, message: "Email verified successfully!" });
 	} catch (err) {
 		res.status(500).send({
             status: false,
-            message: "Error while email verification!"
+            message: "Unexpected error!"
         })
 	}
 });
+
+
+router.post('/forgotPassword', async(req, res) => {
+    try{
+        const user = await userDB.findOne({ email: req.body.email });
+		if (!user || !user.verified) return res.status(400).send({status:false, message: "User does not exist!" });
+
+        let token = await tokenDB.findOne({ userId: user._id });
+        if (!token) {
+            token = await tokenDB.create({
+            userId: user._id,
+            token: crypto.randomBytes(32).toString("hex"),
+            });
+        }
+        const url = `http://localhost:3000/${user._id}/reset-password/${token.token}`;
+        await sendEmail(req.body.email, "Reset Password", url);
+        res.status(400).send({status:true, message: "Password Reset Link has been sent to your email address!" });
+
+    } catch (err) {
+		res.status(500).send({
+            status: false,
+            message: "Unexpected error!"
+        })
+	}
+})
+
+
+router.get('/:id/verify-reset-password-link/:token', async (req, res) => {
+
+    try{
+        const user = await userDB.findOne({ _id: req.params.id });
+		if (!user) return res.status(400).send({status:false, message: "Invalid Link" });
+
+		const token = await tokenDB.findOne({
+			userId: user._id,
+			token: req.params.token,
+		});
+		if (!token) return res.status(400).send({status:false, message: "Invalid Link" });
+
+        return res.status(200).send({status:true, message: "Valid Link" });
+
+    }
+    catch (err) {
+		res.status(500).send({
+            status: false,
+            message: "Unexpected error!"
+        })
+	}
+})
+
+
+router.post('/:id/reset-password/:token' , async (req, res) => {
+
+    try{
+        const user = await userDB.findOne({ _id: req.params.id });
+		if (!user) return res.status(400).send({status:false, message: "Invalid Link" });
+
+		const token = await tokenDB.findOne({
+			userId: user._id,
+			token: req.params.token,
+		});
+		if (!token) return res.status(400).send({status:false, message: "Invalid Link" });
+
+        const encryptedPassword = await bcrypt.hash(req.body.password,10);
+        await userDB.updateOne({ _id: user._id }, { $set: { password: encryptedPassword}});
+
+        await tokenDB.deleteOne({_id : token._id});
+
+		res.status(200).send({status: true, message: "Password Reset successfully!" });
+    }
+    catch (err) {
+		res.status(500).send({
+            status: false,
+            message: "Unexpected error!"
+        })
+	}
+})
+
+
+
 
 module.exports = router;
