@@ -152,7 +152,7 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
         +
       </Button>
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle style={{fontSize:'20px',fontWeight:'bold'}}>Add Question/Create Blog</DialogTitle>
+        <DialogTitle style={{fontSize:'20px',fontWeight:'bold'}}>Add Question/Blog</DialogTitle>
         <DialogContent>
          
         </DialogContent>
