@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import HomeIcon from '@mui/icons-material/Home';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import ReactQuill from 'react-quill';
+import { Link } from "react-router-dom";
 //import PostAddIcon from '@mui/icons-material/PostAdd';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import {
@@ -19,7 +20,7 @@ import "react-responsive-modal/styles.css";
 import axios from 'axios'
 import DropDownProfile from './DropDownProfile';
 
-function QuoraHeader({onPageSwitch, onListSwitch}) {
+function QuoraHeader() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState('');
@@ -53,7 +54,6 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
-    onListSwitch(tabName);
   };
 
   const handleSubmit = async () => {
@@ -74,7 +74,7 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
         console.log(res.data);
         alert(res.data.message);
         setIsModalOpen(false);
-        window.location.href = "/";
+        window.location.href = "/feed";
       }).catch((err) =>{
         console.log(err);
         alert('Error in adding question!')
@@ -100,10 +100,10 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
         console.log(res.data);
         alert(res.data.message);
         setIsModalOpen(false);
-        window.location.href = "/";
+        window.location.href = "/blogFeed";
       }).catch((err) =>{
         console.log(err);
-        alert('Error in adding question!')
+        alert('Error in adding blog!')
       })
     }
   }
@@ -118,12 +118,14 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
           />
         </div>
         <div className="qHeader__icons">
+          <Link to = "/feed">
         <div className={`qHeader__icon ${activeTab === 'feed' ? 'active' : ''}`} onClick={() => handleTabClick('feed')}>
         <HomeIcon />
-      </div>
+      </div></Link>
+      <Link to="/blogFeed">
       <div className={`qHeader__icon ${activeTab === 'blog' ? 'active' : ''}`} onClick={() => handleTabClick('blog')}>
         <ListAltIcon />
-      </div>
+      </div></Link>
           <div className="qHeader__icon">
             <HistoryEduIcon/>
           </div>
@@ -142,13 +144,16 @@ function QuoraHeader({onPageSwitch, onListSwitch}) {
         { loggedIn ? <div onClick = {()=>setOpenProfile((prev) => (!prev))}>
             <Avatar/>
             {openProfile && <DropDownProfile/>}
-        </div> : <Button  className="loginbtn" onClick={() =>onPageSwitch('login')} style={{color:'white',fontWeight:'bold',fontSize:'21px'}}> Login </Button>}
+        </div> : <Link to="/login"><Button  className="loginbtn" style={{color:'white',fontWeight:'bold',fontSize:'21px'}}> Login </Button></Link>}
         </div>
 
 
     
 
-        <Button className="addbtn" onClick={() => setIsModalOpen(true)} style={{ color: 'white', fontSize: '45px', fontWeight: 'bold' }}>
+        <Button className="addbtn" onClick ={()=> {
+          if(window.localStorage.getItem("token") == null) alert("Please login to add question/ blog!");
+          else setIsModalOpen(true);
+        }} style={{ color: 'white', fontSize: '45px', fontWeight: 'bold' }}>
         +
       </Button>
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>

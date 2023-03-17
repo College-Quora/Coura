@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import './css/Login.css';
-function Login({onPageSwitch}){
+
+function Login(){
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
 
@@ -75,7 +77,12 @@ function Login({onPageSwitch}){
       <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
       <button type="submit">Log In</button>
     </form>
-    <button className="link-btn" onClick={() =>onPageSwitch('register')}>Don't have an account? Register here.</button>
+    <Link to="/signup">
+        <button className="link-btn">Don't have an account? Register here.</button>
+    </Link>
+    <Link to="/forgotPassword">
+        <button className="link-btn">Forgot password?</button>
+    </Link>
   </div>
 </div>
         <div className="main-container">
@@ -85,7 +92,7 @@ function Login({onPageSwitch}){
         <div class="image-container">
         <img src="https://imageio.forbes.com/specials-images/dam/imageserve/1128723345/960x0.jpg?format=jpg&width=960" alt="Example image" />
      </div>
-     <button className="link-btn-home" onClick={() => onPageSwitch('Post')}>Back To Home</button>
+     <Link to="/"><button className="link-btn-home">Back To Home</button></Link>
         </div>
         </div>
        

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./css/DropDownProfile.css";
 
 function DropDownProfile(){
@@ -12,7 +13,7 @@ function DropDownProfile(){
     return(
         <div className='flex flex-col dropDownProfile'>
             <ul className='flex flex-col gap-4'>
-                <li> Profile </li>
+                <Link to="/profile"> <li> Profile </li></Link>
                 <li onClick={handleLogout}>Logout</li>
             </ul>
         </div>

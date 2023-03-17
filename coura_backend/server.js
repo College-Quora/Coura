@@ -32,7 +32,7 @@ app.get("*",(req,res) => {
         res.sendFile(path.join(`${__dirname}/../coura_frontend/build/index.html`));
     }
     catch(e){
-        res.send("Oops! unexpected error");
+        res.send("Oops! unexpected error!");
     }
 })
 app.use(cors());

@@ -13,7 +13,8 @@ const BlogSchema = new mongoose.Schema({
     comments: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "comments"
-    }
+    },
+    blogUserId: mongoose.Schema.Types.ObjectId,
 })
 
 module.exports = mongoose.model('Blogs', BlogSchema)

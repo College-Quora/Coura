@@ -64,6 +64,12 @@
     color: white;
     background:rgb(27, 238, 20);
   }
+
+  .post__btnAnswer:disabled {
+    font-weight: bold;
+    color: white;
+    background: grey;
+  }
   
   .post__question > p:hover {
     text-decoration: underline;

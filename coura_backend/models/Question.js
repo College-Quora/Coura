@@ -15,6 +15,9 @@ const QuestionSchema = new mongoose.Schema({
         ref: "answers"
     },
     quesUserId: mongoose.Schema.Types.ObjectId,
+    answeredByUsers:[{
+        type: mongoose.Schema.Types.ObjectId,
+    }]
 })
 
 module.exports = mongoose.model('Questions', QuestionSchema)

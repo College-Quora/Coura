@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 import './css/Register.css';
 import { color } from "@mui/system";
 
-function Register({onPageSwitch}) {
+function Register() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
@@ -28,11 +29,14 @@ function Register({onPageSwitch}) {
             await axios.post('/api/auth/register', body, config).then((res) =>{
                 console.log(res.data);
                 alert(res.data.message);
-                onPageSwitch('login');
             }).catch((err) =>{
                 console.log(err);
                 alert(err.response.data.message);
             })
+            setEmail("");
+            setPass("");
+            setName("");
+            setCollegeName("");
         }
         else alert("Please fill all the fields!");
     }
@@ -56,7 +60,8 @@ function Register({onPageSwitch}) {
         
         <button type="submit">Register</button>
     </form>
-    <button className="linkBtn" onClick={() => onPageSwitch('login')}>Already have an account? Login here.</button>
+    <Link to="/login">
+    <button className="linkBtn">Already have an account? Login here.</button></Link>
 </div>
 
 <div class="mainContainer">
@@ -68,7 +73,7 @@ function Register({onPageSwitch}) {
   <div class="imageContainer">
     <img src="https://images.complex.com/complex/images/c_fill,dpr_auto,f_auto,q_auto,w_1400/fl_lossy,pg_1/ra2mrnpdibc7vvae8bom/the-ugliest-college-campus-ever?fimg-ssr-default" alt="Example Image"/>
   </div>
-  <button className="linkBtnHome" onClick={() => onPageSwitch('Post')}>Back To Home</button>
+  <Link to="/"><button className="linkBtnHome">Back To Home</button></Link>
 </div>
 
 

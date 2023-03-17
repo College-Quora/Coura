@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-
-import { Avatar } from "@mui/material";
-import "./css/Post.css";
+import React, { useEffect, useState } from "react";
+import { Avatar, Input } from "@mui/material";
+import './css/Post.css';
 import {
   ArrowDownwardOutlined,
   ArrowUpwardOutlined,
   Comment,
   //RepeatOneOutlined,
   ShareOutlined,
+  PeopleAltOutlined,
+  ExpandMore,
+
 } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Modal } from "react-responsive-modal";
@@ -41,10 +43,23 @@ function Post({ post, choice }) {
   const [upVotes, setUpVotes] = useState(post?.quesUpvotes);
   const [downVotes, setDownVotes] = useState(post?.quesDownvotes);
   const [message, setMessage] = useState(displayVoteMessage(choice));
-
   const [showAnswers, setShowAnswers] = useState(false);
-
+  const [isEditAnsModalOpen, setIsEditAnsModalOpen] = useState(false);
+  const [isEditQuesModalOpen, setIsEditQuesModalOpen] = useState(false);
+  const [answerId, setAnswerId] = useState("");
+  const [question, setQuestion] = useState("");
+  const [inputUrl, setInputUrl] = useState("");
+  const [alreadyAnswered, setAlreadyAnswered] = useState(false);
+  const userId = window.localStorage.getItem("userId");
   const Close = <CloseIcon />;
+
+  useEffect(() =>{
+    for(let i=0; i < post?.answeredByUsers?.length;i++){
+        if(userId == null)break;
+        if((post?.answeredByUsers)[i] === userId) {setAlreadyAnswered(true); break;}
+    }
+  }, []);
+
 
   const handleQuill = (value) => {
     setAnswer(value);
@@ -65,20 +80,20 @@ function Post({ post, choice }) {
       const body = {
         answer: answer,
         questionId: post?._id,
-        userId: window.localStorage.getItem("userId"),
+        userId: userId,
       };
       await axios
         .post("/api/answers", body, config)
         .then((res) => {
           console.log(res.data);
           alert(res.data.message);
-          setIsModalOpen(false);
-          window.location.href = "/";
+          window.location.href = "/feed";
         })
         .catch((err) => {
           console.log(err);
           alert("Error in adding answer!");
         });
+        setIsModalOpen(false);
     }
   };
 
@@ -140,6 +155,79 @@ function Post({ post, choice }) {
     }
   };
 
+  const handleEditAns = async(ansId) =>{
+      const config = {
+          headers:{
+            "Content-Type": "application/json",
+          }
+        }
+
+      const body = {
+        answer: answer
+      }
+
+      await axios.put('/api/answers/' + ansId, body, config).then((res) =>{
+        console.log(res.data);
+        alert(res.data.message);
+        window.location.href = "/feed";
+      }).catch((err) =>{
+        console.log(err);
+        alert('Error in updating answer!')
+      })
+    
+      setIsEditAnsModalOpen(false);
+  }
+
+  const handleEditQues = async() =>{
+      const config = {
+          headers:{
+            "Content-Type": "application/json",
+          }
+        }
+
+      const body = {
+        questionName: question,
+        questionUrl: inputUrl
+      }
+
+      await axios.put('/api/questions/' + post?._id, body, config).then((res) =>{
+        console.log(res.data);
+        alert(res.data.message);
+        window.location.href = "/feed";
+      }).catch((err) =>{
+        console.log(err);
+        alert('Error in updating question!')
+      })
+    
+      setIsEditQuesModalOpen(false);
+  }
+
+  const handleDeleteAns = async(ansId) =>{
+
+      await axios.delete('/api/answers/' + ansId + '/' + post?._id + '/' + userId).then((res) =>{
+        console.log(res.data);
+        alert(res.data.message);
+        window.location.href = "/feed";
+      }).catch((err) =>{
+        console.log(err);
+        alert('Error in deleting answer!')
+      })
+    
+  }
+
+  const handleDeleteQues = async() =>{
+    
+      await axios.delete('/api/questions/' + post?._id).then((res) =>{
+        console.log(res.data);
+        alert(res.data.message);
+        window.location.href = "/feed";
+      }).catch((err) =>{
+        console.log(err);
+        alert('Error in deleting question!')
+      })
+    
+  }
+
   return (
     <div className="post">
       <div className="post__info">
@@ -162,12 +250,20 @@ function Post({ post, choice }) {
           >
             {post?.questionName}
           </p>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="post__btnAnswer"
-          >
-            Answer
-          </button>
+          <button onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to edit question!");
+            else { setQuestion(post?.questionName); setInputUrl(post?.questionUrl); setIsEditQuesModalOpen(true); }
+          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'>Edit</button>
+
+          <button onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to delete question!");
+            else {handleDeleteQues()};
+          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'>Delete</button>
+
+          <button onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to add answer!");
+            else setIsModalOpen(true);
+          }} disabled= {alreadyAnswered} className='post__btnAnswer'>Answer</button>
 
           <Modal
             open={isModalOpen}
@@ -213,9 +309,15 @@ function Post({ post, choice }) {
       </div>
       <div className="post__footer">
         <div className="post__footerAction">
-          <ArrowUpwardOutlined onClick={upVote} />
+          <ArrowUpwardOutlined onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to upvote question!");
+            else { upVote() }
+          }} />
           <p> {upVotes} </p>
-          <ArrowDownwardOutlined onClick={downVote} />
+          <ArrowDownwardOutlined onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to downvote question!");
+            else { downVote() }
+          }} />
           <p> {downVotes} </p>
         </div>
         <div>{message}</div>
@@ -239,7 +341,7 @@ function Post({ post, choice }) {
 
       {showAnswers && (
         <div className="modal__answers">
-          {post?.allAnswers?.slice(1).map((ans) => (
+          {post?.allAnswers?.map((ans) => (
             <>
               <div
                 style={{
@@ -288,13 +390,24 @@ function Post({ post, choice }) {
                 >
                   {ReactHtmlParser(ans?.answer)}
                 </div>
+                <div>
+                <button onClick={() => {
+              if(window.localStorage.getItem("token") == null) alert("Please login to edit answer!");
+              else {setAnswer(ans?.answer); setAnswerId(ans?._id); setIsEditAnsModalOpen(true); }
+            }} disabled={(ans?.ansUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Edit</button>
+
+            <button onClick={() => {
+              if(window.localStorage.getItem("token") == null) alert("Please login to delete amswer!");
+              else {handleDeleteAns(ans?._id)};
+            }} disabled={(ans?.ansUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Delete</button>
+            </div>
               </div>
             </>
           ))}
         </div>
       )}
 
-      <div
+      { !showAnswers && (<div
         style={{
           margin: "5px 0px 0px 0px",
           padding: "5px 0px 0px 20px",
@@ -350,10 +463,126 @@ function Post({ post, choice }) {
               >
                 {ReactHtmlParser(ans?.answer)}
               </div>
+              <div>
+                  <button onClick={() => {
+                if(window.localStorage.getItem("token") == null) alert("Please login to edit answer!");
+                else {setAnswer(ans?.answer); setAnswerId(ans?._id); setIsEditAnsModalOpen(true); }
+              }} disabled={(ans?.ansUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Edit</button>
+
+              <button onClick={() => {
+                if(window.localStorage.getItem("token") == null) alert("Please login to delete amswer!");
+                else {handleDeleteAns(ans?._id)};
+              }} disabled={(ans?.ansUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Delete</button>
+              </div>
             </div>
           ) : null
         )}
-      </div>
+      </div>)}
+
+          <Modal
+          open={isEditAnsModalOpen} 
+          closeIcon={Close}  
+          onClose={()=>{setAnswer(""); setAnswerId(""); setIsEditAnsModalOpen(false);}}
+          closeOnEsc
+          center
+          closeOnOverlayClick={false}
+          styles={{
+            overlay: {
+              height: "auto",
+            },
+          }}
+          >
+            <div  className="modal__question">
+              <h1>{post?.questionName}</h1>
+              <p>asked by {""}<span  className="name">Anonymous</span> on <span>{new Date(post?.createdAt).toLocaleString()}</span></p>
+            </div>
+
+            <div className="modal__answer">
+              <ReactQuill value = {answer} onChange={handleQuill} placeholder="Enter Your answer"/>
+            </div>
+            <div className="modal__buttons">
+            <button  className='cancle' onClick={() => {setAnswer(""); setAnswerId(""); setIsEditAnsModalOpen(false);}}>
+              Cancel
+            </button>
+
+            <button  type='submit' className='add' onClick={()=> (answerId !== "" ? handleEditAns(answerId): null)} >
+              Update Your Answer
+            </button>
+            </div>
+          </Modal >
+
+
+          <Modal open={isEditQuesModalOpen} 
+          closeIcon={Close}  
+          onClose={()=>setIsEditQuesModalOpen(false)}
+        closeOnEsc
+        center
+        closeOnOverlayClick={false}
+        styles={{
+          overlay: {
+            height: "auto",
+          },
+        }}
+        >
+          <div className="modal__title">
+          <h5>Update Question</h5>
+          </div>
+          <div className="modal__info">
+          <Avatar  className="avatar" />
+          <div className="modal__scope">
+          <PeopleAltOutlined />
+                <p>Public</p>
+                <ExpandMore/>
+          </div>
+          </div>
+          <div className="modal__Field">
+              <Input
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                type=" text"
+                placeholder="Start your question with 'What', 'How', 'Why', etc. "
+              />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <input
+                  type="text"
+                  value={inputUrl}
+                  onChange={(e) => setInputUrl(e.target.value)}
+                  style={{
+                    margin: "5px 0",
+                    border: "1px solid lightgray",
+                    padding: "10px",
+                    outline: "2px solid #000",
+                  }}
+                  placeholder="Optional: include a link that gives context"
+                />
+                {inputUrl !== "" && (
+                  <img
+                    style={{
+                      height: "40vh",
+                      objectFit: "contain",
+                    }}
+                    src={inputUrl}
+                    alt="displayimage"
+                  />
+                )}
+              </div>
+            </div>
+          <div className='modal__buttons'>
+            <button  className='cancel' onClick={() => setIsEditQuesModalOpen(false)}>
+              Cancel
+            </button>
+
+            <button onClick={handleEditQues} type='submit' className='add'>
+              Update Your Question
+            </button>
+          </div>
+        </Modal>
+
     </div>
   );
 }
