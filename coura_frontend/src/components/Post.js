@@ -101,15 +101,13 @@ function Post({ post, choice }) {
           console.log(res);
           setDownVotes(res.data.downvotes);
           setUpVotes(res.data.upvotes);
+          setMessage(displayVoteMessage(res.data.choice));
           alert(res.data.message);
         })
         .catch((err) => {
           console.log(err);
           alert("Error in upvoting");
         });
-
-      choice = 1;
-      setMessage(displayVoteMessage(choice));
     }
   };
 
@@ -132,15 +130,13 @@ function Post({ post, choice }) {
           console.log(res);
           setDownVotes(res.data.downvotes);
           setUpVotes(res.data.upvotes);
+          setMessage(displayVoteMessage(res.data.choice));
           alert(res.data.message);
         })
         .catch((err) => {
           console.log(err);
           alert("Error in downvoting");
         });
-
-      choice = -1;
-      setMessage(displayVoteMessage(choice));
     }
   };
 

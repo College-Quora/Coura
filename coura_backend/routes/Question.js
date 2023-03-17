@@ -80,7 +80,7 @@ router.post("/upvotes", async (req, res) => {
     // console.log(user.email);
     // console.log(choice);
 
-    if (choice === undefined) {
+    if (choice === undefined || choice === 0) {
       ques.quesUpvotes += 1;
       user.votes.set(postId, 1);
       message = "Question Upvoted";
@@ -91,7 +91,9 @@ router.post("/upvotes", async (req, res) => {
       message = "Question Upvoted";
     } else if (choice == 1) {
     //   console.log(`choice ${choice}`);
-      message = "Question was already Upvoted";
+      ques.quesUpvotes -= 1;
+      user.votes.set(postId, 0)
+      message = "vote removed";
     }
 
     await user.save();
@@ -102,6 +104,7 @@ router.post("/upvotes", async (req, res) => {
       message: message,
       upvotes: ques.quesUpvotes,
       downvotes: ques.quesDownvotes,
+      choice: user.votes.get(postId)
     });
   } catch (err) {
     res.status(500).send({
@@ -124,7 +127,7 @@ router.post("/downvotes", async (req, res) => {
     const choice = user.votes.get(postId);
     var message = "";
 
-    if (choice === undefined) {
+    if (choice === undefined || choice === 0) {
       ques.quesDownvotes += 1;
       user.votes.set(postId, -1);
       message = "Question Downvoted";
@@ -135,7 +138,9 @@ router.post("/downvotes", async (req, res) => {
 
       message = "Question Downvoted";
     } else if (choice == -1) {
-      message = "Question was already Downvoted";
+      user.votes.set(postId, 0)
+      ques.quesDownvotes -= 1;
+      message = "vote removed";
     }
 
     await ques.save();
@@ -146,6 +151,7 @@ router.post("/downvotes", async (req, res) => {
       message: "Question Downvoted",
       upvotes: ques.quesUpvotes,
       downvotes: ques.quesDownvotes,
+      choice: user.votes.get(postId)
     });
   } catch (err) {
     res.status(500).send({
