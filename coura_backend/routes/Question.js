@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
             questionName: req.body.questionName,
             questionUrl: req.body.questionUrl,
             createdAt: Date.now(),
-            userId: req.body.userId
+            quesUserId: req.body.userId
         }).then(() =>{
             res.status(201).send({
                 status: true,

@@ -10,7 +10,7 @@ const AnswerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    userId: mongoose.Schema.Types.ObjectId,
+    ansUserId: mongoose.Schema.Types.ObjectId,
 })
 
 module.exports = mongoose.model('Answers', AnswerSchema)

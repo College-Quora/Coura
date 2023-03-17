@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import './css/Register.css';
+import { color } from "@mui/system";
 
 function Register({onPageSwitch}) {
     const [email, setEmail] = useState('');
@@ -36,25 +38,45 @@ function Register({onPageSwitch}) {
     }
 
     return (
-        <div className="auth-form-container">
-            <h2>Register</h2>
-        <form className="register-form" onSubmit={handleSubmit}>
-            <label htmlFor="name">Full Name</label>
-            <input value={name} name="name" onChange={(e) => setName(e.target.value.trim())} id="name" placeholder="Full Name" />
-            
-            <label htmlFor="name">College Name</label>
-            <input value={collegeName} name="collegeName" onChange={(e) => setCollegeName(e.target.value.trim())} id="name" placeholder="College Name" />
-            
-            <label htmlFor="email">Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value.trim())}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
-            
-            <label htmlFor="password">password</label>
-            <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
-            
-            <button type="submit">Register</button>
-        </form>
-        <button className="link-btn" onClick={() => onPageSwitch('login')}>Already have an account? Login here.</button>
+        <div className="loginContainer">
+        <div className="authFormContainer">
+        <h1>Register</h1>
+    <form className="registerForm" onSubmit={handleSubmit}>
+        <label htmlFor="name">Full Name</label>
+        <input value={name} name="name" onChange={(e) => setName(e.target.value.trim())} id="name" placeholder="Full Name" />
+        
+        <label htmlFor="name">College Name</label>
+        <input value={collegeName} name="collegeName" onChange={(e) => setCollegeName(e.target.value.trim())} id="name" placeholder="College Name" />
+        
+        <label htmlFor="email">Email</label>
+        <input value={email} onChange={(e) => setEmail(e.target.value.trim())}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
+        
+        <label htmlFor="password">password</label>
+        <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
+        
+        <button type="submit">Register</button>
+    </form>
+    <button className="linkBtn" onClick={() => onPageSwitch('login')}>Already have an account? Login here.</button>
+</div>
+
+<div class="mainContainer">
+<div class="textContainer">
+    <h1>Welcome to COURA!</h1>
+    <p style={{color:'blue'}}>Your college story matters - sign up and make your voice heard anonymously!</p>
+  </div>
+  
+  <div class="imageContainer">
+    <img src="https://images.complex.com/complex/images/c_fill,dpr_auto,f_auto,q_auto,w_1400/fl_lossy,pg_1/ra2mrnpdibc7vvae8bom/the-ugliest-college-campus-ever?fimg-ssr-default" alt="Example Image"/>
+  </div>
+  <button className="linkBtnHome" onClick={() => onPageSwitch('Post')}>Back To Home</button>
+</div>
+
+
     </div>
+
+
+    
+        
     )
 }
 

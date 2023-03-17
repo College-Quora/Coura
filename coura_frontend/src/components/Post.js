@@ -17,6 +17,9 @@ import "react-quill/dist/quill.snow.css";
 import ReactTimeAgo from 'react-time-ago'
 import axios from 'axios';
 import ReactHtmlParser from 'html-react-parser';
+import { blue } from "@mui/material/colors";
+
+
 
 function LastSeen({ date }) {
   return (
@@ -30,11 +33,19 @@ function Post({post}) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer, setAnswer] = useState("");
+ 
+  const [showAnswers, setShowAnswers] = useState(false);
+  
   const Close = <CloseIcon />;
 
   const handleQuill = (value) => {
     setAnswer(value);
   }
+
+  const toggleAnswers = () => {
+    setShowAnswers(!showAnswers);
+  };
+
 
   const handleSubmit = async() =>{
     if(post?._id && answer !== "" ){
@@ -65,14 +76,16 @@ function Post({post}) {
   return (
     <div className='post'>
       <div className='post__info'>
-        <Avatar />
-        <h3  style={{marginLeft:'10px'}}>Anonymous</h3>
+        <Avatar/>
+        <h3  style={{marginLeft:'10px',color:'black'}}>Anonymous</h3>
         <small> <LastSeen date={post?.createdAt}/></small>
       </div>
       <div className='post__body'>
         <div className='post__question'>
-          <p style={{fontSize:'23px', color:'#F94A29'}}>{post?.questionName}</p>
-          <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
+          <p style={{fontSize:'23px', color:'black',fontFamily:'Playfair Display, serif',fontStyle:'italic'}}>{post?.questionName}</p>
+           <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
+          
+
           <Modal
           open={isModalOpen} 
           closeIcon={Close}  
@@ -90,7 +103,7 @@ function Post({post}) {
               <h1>{post?.questionName}</h1>
               <p>asked by {""}<span  className="name">Anonymous</span> on <span>{new Date(post?.createdAt).toLocaleString()}</span></p>
             </div>
-
+           
             <div className="modal__answer">
               <ReactQuill value = {answer} onChange={handleQuill} placeholder="Enter Your answer"/>
             </div>
@@ -119,52 +132,114 @@ function Post({post}) {
           <ShareOutlined className="iconHover" />
         </div>
       </div>
-      <p style={{
-        color: "black",
-        fontSize: "15px",
-        fontWeight: "bold",
-        margin: "10px 0",
-      }}> {post?.allAnswers.length} Answer(s)</p>
+      <p
+        onClick={toggleAnswers}
+        style={{
+          color: "black",
+          fontSize: "15px",
+          fontWeight: "bold",
+          margin: "10px 0",
+          cursor: "pointer",
+        }}
+      >
+        {post?.allAnswers.length} Answer(s)
+      </p>
 
+      {showAnswers && (
+  <div className='modal__answers'>
+    {post?.allAnswers
+      ?.slice(1)
+      .map((ans) => (
+        <>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              padding: '10px 5px',
+              borderTop: '1px solid lightgray',
+            }}
+            className='post-answer-container'
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '10px',
+                fontSize: '12px',
+                fontWeight: 600,
+                color: '#888',
+              }}
+              className='post-answered'
+            >
+              <Avatar />
+
+              <div
+                style={{
+                  margin: '0px 10px',
+                }}
+                className='post-info'
+              >
+                <p style={{ fontSize: '18px', color: 'rgb(1, 26, 80)' }}>Anonymous</p>
+                <span><LastSeen date={ans?.createdAt} /></span>
+              </div>
+            </div>
+            <div
+              className='post-answer'
+              style={{ color: '#1da1f2', fontSize: '20px', fontWeight: 'bold' }}
+            >
+              {ReactHtmlParser(ans?.answer)}
+            </div>
+          </div>
+        </>
+      ))}
+  </div>
+)}
+
+
+      
       <div style={{
         margin: "5px 0px 0px 0px",
         padding: "5px 0px 0px 20px",
         borderTop: "1px solid lightgray",
       }} className='post__answer'>
 
-        
-          {
-            post?.allAnswers?.map((ans) =>(<>
-              <div style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                padding: "10px 5px",
-                borderTop: "1px solid lightgray",
-              }} className='post-answer-container'>
-              
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "10px",
-                fontSize: "12px",
-                fontWeight: 600,
-                color: "#888",
-                }} className='post-answered'>
-                <Avatar />
-
+        {
+            post?.allAnswers?.map((ans, index) => (
+              index === 0 ? (
+                <div key={ans.id} style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  padding: "10px 5px",
+                  borderTop: "1px solid lightgray",
+                }} className='post-answer-container'>
+                
                 <div style={{
-                  margin: "0px 10px",
-                  }} className='post-info'>
-                  <p style={{fontSize:'18px', color:'black'}}>Anonymous</p>
-                  <span><LastSeen date={ans?.createdAt}/></span>
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: "#888",
+                  }} className='post-answered'>
+                  <Avatar />
+
+                  <div style={{
+                    margin: "0px 10px",
+                    }} className='post-info'>
+                    <p style={{fontSize:'18px', color:'black'}}>Anonymous</p>
+                    <span><LastSeen date={ans?.createdAt}/></span>
+                  </div>
                 </div>
-              </div>
-              <div className='post-answer' style={{color:'#790252',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.answer)}</div>
-              </div>
-            </>))
+                <div className='post-answer' style={{color:'#1da1f2',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.answer)}</div>
+                </div>
+              ) : null
+            ))
           }
 
+            
+ 
           
         
       </div>

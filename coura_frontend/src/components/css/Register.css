@@ -1,0 +1,133 @@
+.loginContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f8fb;
+  }
+
+  .authFormContainer {
+    width: 60%;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 5px 6px 7px #5eb8f0;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .authFormContainer input {
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .registerForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .authFormContainer label {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  button[type='submit'] {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    background-color: #0077cc;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .linkBtn {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #0077cc;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .authFormContainer button:hover {
+    background-color: #0d8ecf;
+  }
+
+  .linkBtn:hover {
+    color: #fff;
+    background-color: #1da1f2;
+  }
+  
+  .linkBtnHome{
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1.0rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 3px;
+  }
+
+  .linkBtnHome:hover{
+    color: #fff;
+    background-color: #0d8ecf;
+  }
+  .mainContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .textContainer {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .textContainer h1 {
+    font-size: 47px;
+    margin-bottom: 20px;
+    font-Family:'Source Serif Pro, serif';
+  }
+  
+  .textContainer p {
+    font-size: 32px;
+    color: #666;
+    line-height: 1.5;
+   
+  }
+  
+  .imageContainer {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .imageContainer img {
+    max-width: 75%;
+    border-radius: 10px;
+    box-shadow: 0 10px 14px rgba(29, 29, 25, 0.1);
+    margin-bottom: 5px;
+    margin-top: -50px;
+  }
+  

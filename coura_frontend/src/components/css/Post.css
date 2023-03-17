@@ -2,14 +2,14 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-    background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20190221/ourmid/pngtree-green-gradient-geometric-background-simple-image_12263.jpg");
+    background-color: white;
     background-size: cover;
-
+    border: 2px solid lightgray;
     margin-top: 10px;
-    border: 3px solid black;
-    border-radius: 5px;
+    
+    border-radius: 10px;
     max-width: 700px;
-    box-shadow: 0px 5px 8px -9px solid rgab(0, 0, 0, 0.5);
+    box-shadow: 6px 6px 6px rgb(1, 26, 80);
     width:1500px;
   }
   
@@ -50,19 +50,19 @@
     margin-left: auto;
     cursor: pointer;
     padding: 7px;
-    background-color: #222;
+    background-color:green;
     outline: none;
     border: none;
-    color: lightgray;
+    color: white;
     font-weight: 300;
     font-size: 14px;
     border-radius: 5px;
   }
   
   .post__btnAnswer:hover {
-    font-weight: bold;
-    color: black;
-    background: rgb(42, 238, 68);
+    
+    color: white;
+    background:rgb(27, 238, 20);
   }
   
   .post__question > p:hover {
@@ -94,14 +94,14 @@
   }
   
   .post__footer > .MuiSvgIcon-root {
-    color:#FB2576;
+    color: rgb(1, 26, 80);
     margin-right: 40px;
     cursor: pointer;
     font-size: 30px;
   }
   
   .post__footerAction {
-    background-color: rgb(243, 208, 243);
+    background-color:#9bd8f7 ;
     border-color: 2px solid black;
     margin-right: 8px;
     padding: 5px;
@@ -112,7 +112,7 @@
   }
 
   .post__footerAction > .MuiSvgIcon-root {
-    color:#FB2576;
+    color: rgb(1, 26, 80);
     margin-right: 10px;
     cursor: pointer;
     font-size: 32px;
@@ -131,7 +131,7 @@
   }
   
   .post__footerLeft > .MuiSvgIcon-root {
-    color:#FB2576;
+    color: rgb(1, 26, 80);
     cursor: pointer;
     margin-left: 30px;
     font-size: 30px;
@@ -145,7 +145,7 @@
   }
   
   .modal__question > h1 {
-    color: #8f1f1b;
+    color: rgb(1, 26, 80);
     font-weight: 600;
     margin-bottom: 10px;
   }
@@ -225,5 +225,10 @@
   }
   .iconHover:hover {
     color: black;
+  }
+
+  .avatar {
+    position: relative;
+    z-index: 0;
   }
   

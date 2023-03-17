@@ -9,7 +9,7 @@ function QuoraBox() {
         <Avatar/>
       </div>
       <div className="quoraBox__quora">
-        <h5 style={{fontSize:'25px', color:'#2B3467', fontWeight:'bold'}}>What is your question or link?</h5>
+        <h5 style={{fontSize:'25px', color:'black', fontWeight:'bold'}}>What is your question or link?</h5>
       </div>
     </div>
   )

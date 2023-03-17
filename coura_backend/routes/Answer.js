@@ -9,7 +9,7 @@ router.post('/', async(req, res) =>{
             answer: req.body.answer,
             questionId: req.body.questionId,
             createdAt: Date.now(),
-            userId: req.body.userId
+            ansUserId: req.body.userId
         }).then(() =>{
             res.status(201).send({
                 status: true,
