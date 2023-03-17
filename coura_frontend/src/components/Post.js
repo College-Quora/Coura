@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Avatar } from "@mui/material";
-import './css/Post.css';
+import "./css/Post.css";
 import {
   ArrowDownwardOutlined,
   ArrowUpwardOutlined,
@@ -9,124 +9,220 @@ import {
   //RepeatOneOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import ReactTimeAgo from 'react-time-ago'
-import axios from 'axios';
-import ReactHtmlParser from 'html-react-parser';
+import ReactTimeAgo from "react-time-ago";
+import axios from "axios";
+import ReactHtmlParser from "html-react-parser";
 import { blue } from "@mui/material/colors";
 
-
+const displayVoteMessage = (choice) => {
+  var message = "";
+  if (choice == 0) message = "not voted";
+  else if (choice == 1) message = "you upvoted";
+  else if (choice == -1) message = "you downvoted";
+  return message;
+};
 
 function LastSeen({ date }) {
   return (
     <div>
-      <ReactTimeAgo date={date} locale="en-US" timeStyle="round"/>
+      <ReactTimeAgo date={date} locale="en-US" timeStyle="round" />
     </div>
-  )
+  );
 }
 
-function Post({post}) {
-
+function Post({ post, choice }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer, setAnswer] = useState("");
- 
+  const [upVotes, setUpVotes] = useState(post?.quesUpvotes);
+  const [downVotes, setDownVotes] = useState(post?.quesDownvotes);
+  const [message, setMessage] = useState(displayVoteMessage(choice));
+
   const [showAnswers, setShowAnswers] = useState(false);
-  
+
   const Close = <CloseIcon />;
 
   const handleQuill = (value) => {
     setAnswer(value);
-  }
+  };
 
   const toggleAnswers = () => {
     setShowAnswers(!showAnswers);
   };
 
-
-  const handleSubmit = async() =>{
-    if(post?._id && answer !== "" ){
-
+  const handleSubmit = async () => {
+    if (post?._id && answer !== "") {
       const config = {
-        headers:{
+        headers: {
           "Content-Type": "application/json",
-        }
-      }
+        },
+      };
 
       const body = {
         answer: answer,
         questionId: post?._id,
-        userId: window.localStorage.getItem("userId")
-      }
-      await axios.post('/api/answers', body, config).then((res) =>{
-        console.log(res.data);
-        alert(res.data.message);
-        setIsModalOpen(false);
-        window.location.href = "/";
-      }).catch((err) =>{
-        console.log(err);
-        alert('Error in adding answer!')
-      })
+        userId: window.localStorage.getItem("userId"),
+      };
+      await axios
+        .post("/api/answers", body, config)
+        .then((res) => {
+          console.log(res.data);
+          alert(res.data.message);
+          setIsModalOpen(false);
+          window.location.href = "/";
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Error in adding answer!");
+        });
     }
-  }
+  };
+
+  const upVote = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = {
+      postId: post._id,
+      userId: window.localStorage.getItem("userId"),
+    };
+
+    if (post?._id) {
+      await axios
+        .post("/api/questions/upvotes", body, config)
+        .then((res) => {
+          console.log(res);
+          setDownVotes(res.data.downvotes);
+          setUpVotes(res.data.upvotes);
+          alert(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Error in upvoting");
+        });
+
+      choice = 1;
+      setMessage(displayVoteMessage(choice));
+    }
+  };
+
+  const downVote = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = {
+      postId: post._id,
+      userId: window.localStorage.getItem("userId"),
+    };
+
+    if (post?._id) {
+      await axios
+        .post("/api/questions/downvotes", body, config)
+        .then((res) => {
+          console.log(res);
+          setDownVotes(res.data.downvotes);
+          setUpVotes(res.data.upvotes);
+          alert(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Error in downvoting");
+        });
+
+      choice = -1;
+      setMessage(displayVoteMessage(choice));
+    }
+  };
 
   return (
-    <div className='post'>
-      <div className='post__info'>
-        <Avatar/>
-        <h3  style={{marginLeft:'10px',color:'black'}}>Anonymous</h3>
-        <small> <LastSeen date={post?.createdAt}/></small>
+    <div className="post">
+      <div className="post__info">
+        <Avatar />
+        <h3 style={{ marginLeft: "10px", color: "black" }}>Anonymous</h3>
+        <small>
+          {" "}
+          <LastSeen date={post?.createdAt} />
+        </small>
       </div>
-      <div className='post__body'>
-        <div className='post__question'>
-          <p style={{fontSize:'23px', color:'black',fontFamily:'Playfair Display, serif',fontStyle:'italic'}}>{post?.questionName}</p>
-           <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
-          
+      <div className="post__body">
+        <div className="post__question">
+          <p
+            style={{
+              fontSize: "23px",
+              color: "black",
+              fontFamily: "Playfair Display, serif",
+              fontStyle: "italic",
+            }}
+          >
+            {post?.questionName}
+          </p>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="post__btnAnswer"
+          >
+            Answer
+          </button>
 
           <Modal
-          open={isModalOpen} 
-          closeIcon={Close}  
-          onClose={()=> setIsModalOpen(false)}
-          closeOnEsc
-          center
-          closeOnOverlayClick={false}
-          styles={{
-            overlay: {
-              height: "auto",
-            },
-          }}
+            open={isModalOpen}
+            closeIcon={Close}
+            onClose={() => setIsModalOpen(false)}
+            closeOnEsc
+            center
+            closeOnOverlayClick={false}
+            styles={{
+              overlay: {
+                height: "auto",
+              },
+            }}
           >
-            <div  className="modal__question">
+            <div className="modal__question">
               <h1>{post?.questionName}</h1>
-              <p>asked by {""}<span  className="name">Anonymous</span> on <span>{new Date(post?.createdAt).toLocaleString()}</span></p>
+              <p>
+                asked by {""}
+                <span className="name">Anonymous</span> on{" "}
+                <span>{new Date(post?.createdAt).toLocaleString()}</span>
+              </p>
             </div>
-           
+
             <div className="modal__answer">
-              <ReactQuill value = {answer} onChange={handleQuill} placeholder="Enter Your answer"/>
+              <ReactQuill
+                value={answer}
+                onChange={handleQuill}
+                placeholder="Enter Your answer"
+              />
             </div>
             <div className="modal__buttons">
-            <button  className='cancle' onClick={() => setIsModalOpen(false)}>
-              Cancel
-            </button>
+              <button className="cancle" onClick={() => setIsModalOpen(false)}>
+                Cancel
+              </button>
 
-            <button  type='submit' className='add' onClick={handleSubmit}>
-              Add Your Answer
-            </button>
+              <button type="submit" className="add" onClick={handleSubmit}>
+                Add Your Answer
+              </button>
             </div>
-          </Modal >
+          </Modal>
         </div>
-        {
-          post?.questionUrl && <img src = {post?.questionUrl} alt = 'url'/>
-        }
+        {post?.questionUrl && <img src={post?.questionUrl} alt="url" />}
       </div>
       <div className="post__footer">
         <div className="post__footerAction">
-          <ArrowUpwardOutlined />
-          <ArrowDownwardOutlined />
+          <ArrowUpwardOutlined onClick={upVote} />
+          <p> {upVotes} </p>
+          <ArrowDownwardOutlined onClick={downVote} />
+          <p> {downVotes} </p>
         </div>
+        <div>{message}</div>
         <Comment className="iconHover" />
         <div className="post__footerLeft">
           <ShareOutlined className="iconHover" />
@@ -146,105 +242,124 @@ function Post({post}) {
       </p>
 
       {showAnswers && (
-  <div className='modal__answers'>
-    {post?.allAnswers
-      ?.slice(1)
-      .map((ans) => (
-        <>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              padding: '10px 5px',
-              borderTop: '1px solid lightgray',
-            }}
-            className='post-answer-container'
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '10px',
-                fontSize: '12px',
-                fontWeight: 600,
-                color: '#888',
-              }}
-              className='post-answered'
-            >
-              <Avatar />
-
+        <div className="modal__answers">
+          {post?.allAnswers?.slice(1).map((ans) => (
+            <>
               <div
                 style={{
-                  margin: '0px 10px',
-                }}
-                className='post-info'
-              >
-                <p style={{ fontSize: '18px', color: 'rgb(1, 26, 80)' }}>Anonymous</p>
-                <span><LastSeen date={ans?.createdAt} /></span>
-              </div>
-            </div>
-            <div
-              className='post-answer'
-              style={{ color: '#1da1f2', fontSize: '20px', fontWeight: 'bold' }}
-            >
-              {ReactHtmlParser(ans?.answer)}
-            </div>
-          </div>
-        </>
-      ))}
-  </div>
-)}
-
-
-      
-      <div style={{
-        margin: "5px 0px 0px 0px",
-        padding: "5px 0px 0px 20px",
-        borderTop: "1px solid lightgray",
-      }} className='post__answer'>
-
-        {
-            post?.allAnswers?.map((ans, index) => (
-              index === 0 ? (
-                <div key={ans.id} style={{
                   display: "flex",
                   flexDirection: "column",
                   width: "100%",
                   padding: "10px 5px",
                   borderTop: "1px solid lightgray",
-                }} className='post-answer-container'>
-                
-                <div style={{
+                }}
+                className="post-answer-container"
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    color: "#888",
+                  }}
+                  className="post-answered"
+                >
+                  <Avatar />
+
+                  <div
+                    style={{
+                      margin: "0px 10px",
+                    }}
+                    className="post-info"
+                  >
+                    <p style={{ fontSize: "18px", color: "rgb(1, 26, 80)" }}>
+                      Anonymous
+                    </p>
+                    <span>
+                      <LastSeen date={ans?.createdAt} />
+                    </span>
+                  </div>
+                </div>
+                <div
+                  className="post-answer"
+                  style={{
+                    color: "#1da1f2",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {ReactHtmlParser(ans?.answer)}
+                </div>
+              </div>
+            </>
+          ))}
+        </div>
+      )}
+
+      <div
+        style={{
+          margin: "5px 0px 0px 0px",
+          padding: "5px 0px 0px 20px",
+          borderTop: "1px solid lightgray",
+        }}
+        className="post__answer"
+      >
+        {post?.allAnswers?.map((ans, index) =>
+          index === 0 ? (
+            <div
+              key={ans.id}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                padding: "10px 5px",
+                borderTop: "1px solid lightgray",
+              }}
+              className="post-answer-container"
+            >
+              <div
+                style={{
                   display: "flex",
                   alignItems: "center",
                   marginBottom: "10px",
                   fontSize: "12px",
                   fontWeight: 600,
                   color: "#888",
-                  }} className='post-answered'>
-                  <Avatar />
+                }}
+                className="post-answered"
+              >
+                <Avatar />
 
-                  <div style={{
+                <div
+                  style={{
                     margin: "0px 10px",
-                    }} className='post-info'>
-                    <p style={{fontSize:'18px', color:'black'}}>Anonymous</p>
-                    <span><LastSeen date={ans?.createdAt}/></span>
-                  </div>
+                  }}
+                  className="post-info"
+                >
+                  <p style={{ fontSize: "18px", color: "black" }}>Anonymous</p>
+                  <span>
+                    <LastSeen date={ans?.createdAt} />
+                  </span>
                 </div>
-                <div className='post-answer' style={{color:'#1da1f2',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.answer)}</div>
-                </div>
-              ) : null
-            ))
-          }
-
-            
- 
-          
-        
+              </div>
+              <div
+                className="post-answer"
+                style={{
+                  color: "#1da1f2",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+              >
+                {ReactHtmlParser(ans?.answer)}
+              </div>
+            </div>
+          ) : null
+        )}
       </div>
     </div>
-  )
+  );
 }
 
 export default Post;

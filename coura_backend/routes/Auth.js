@@ -25,6 +25,7 @@ router.post('/register', async (req, res) => {
             email: req.body.email,
             collegeName: req.body.collegeName,
             password: encryptedPassword,
+            votes: {},
         }).then(() =>{
             res.status(201).send({
                 status: true,
