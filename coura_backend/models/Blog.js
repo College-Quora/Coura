@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const BlogSchema = new mongoose.Schema({
     blogName: String,
     blogUrl: String,
+    blogUpvotes: Number,
+    blogDownvotes: Number,
+    
     createdAt:{
         type: Date,
         default: Date.now()
