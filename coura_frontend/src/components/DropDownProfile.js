@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./css/DropDownProfile.css";
 
 function DropDownProfile(){
@@ -10,11 +10,16 @@ function DropDownProfile(){
         window.location.href = "/";
     }
 
+    const navigate = useNavigate();
+
+    const NavigateToProfile = ()=>{
+        navigate("/profile");
+    }
     return(
         <div className='flex flex-col dropDownProfile'>
             <ul className='flex flex-col gap-4'>
-                <Link to="/profile"> <li> Profile </li></Link>
-                <li onClick={handleLogout}>Logout</li>
+            <li onClick={NavigateToProfile} style={{fontWeight:"bold"}}> Profile </li>
+                <li onClick={handleLogout}  style={{fontWeight:"bold"}}>Logout</li>
             </ul>
         </div>
     );

@@ -4,13 +4,13 @@ import Feed from './Feed';
 import Blog from './Blog';
 import Profile from './Profile';
 import Sidebar from './Sidebar'
-import Widget from './Widget'
+
 import "./css/Quora.css";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 function Quora() {
 
-  
+  const token= window.localStorage.getItem("token");
   return (
     <div className='quora'>
 
@@ -18,10 +18,10 @@ function Quora() {
       <div className="quora__contents">
         
         <Routes>
-          <Route path="/" exact element={<div className="quora__content"> <Sidebar/> <Feed /> <Widget /> </div>} />
-          <Route path="/feed" exact element={<div className="quora__content"> <Sidebar/> <Feed /> <Widget /> </div>} />
-          <Route path="/blogFeed" exact element={<div className="quora__content"> <Sidebar/> <Blog /> <Widget /> </div>} />
-          <Route path="/profile" exact element={<div className="quora__content"><Profile /></div>} />
+          <Route path="/" exact element={<div className="quora__content"> <Sidebar/> <Feed />  </div>} />
+          <Route path="/feed" exact element={<div className="quora__content"> <Sidebar/> <Feed />  </div>} />
+          <Route path="/blogFeed" exact element={<div className="quora__content"> <Sidebar/> <Blog /> </div>} />
+          { token && <Route path="/profile" exact element={<div className="quora__content"><Profile /></div>} />}
         </Routes>
           
         

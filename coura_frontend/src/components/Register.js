@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './css/Register.css';
+import HouseIcon from '@mui/icons-material/House';
 import { color } from "@mui/system";
 
 function Register() {
@@ -9,7 +10,15 @@ function Register() {
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
     const [collegeName, setCollegeName] = useState('');
+    const navigate = useNavigate();
 
+    const NavigateToLogin = ()=>{
+        navigate("/login", {replace: true});
+    }
+
+    const NavigateToHome = ()=>{
+        navigate("/", {replace: true});
+    }
     const handleSubmit = async(e) => {
         e.preventDefault();
         if(email !== "" && pass !== "" && name !== "" && collegeName !== ""){
@@ -57,23 +66,28 @@ function Register() {
         
         <label htmlFor="password">password</label>
         <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
+
+        <label htmlFor="confirmpassword">confirm-password</label>
+        <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
         
         <button type="submit">Register</button>
     </form>
-    <Link to="/login">
-    <button className="linkBtn">Already have an account? Login here.</button></Link>
+    <button className="linkBtn" onClick={NavigateToLogin}>Already have an account? Login here.</button>
+    
 </div>
 
 <div class="mainContainer">
 <div class="textContainer">
-    <h1>Welcome to COURA!</h1>
-    <p style={{color:'blue'}}>Your college story matters - sign up and make your voice heard anonymously!</p>
+
+    <button className="linkBtnHome" onClick={NavigateToHome}><HouseIcon/></button>
+    <h1  style={{fontFamily:'Source Serif Pro, serif',marginTop:'2px'}}>Welcome to COURA!</h1>
+    <p style={{color:'black'}}>Your college story matters - sign up and make your voice heard anonymously!</p>
   </div>
   
   <div class="imageContainer">
     <img src="https://images.complex.com/complex/images/c_fill,dpr_auto,f_auto,q_auto,w_1400/fl_lossy,pg_1/ra2mrnpdibc7vvae8bom/the-ugliest-college-campus-ever?fimg-ssr-default" alt="Example Image"/>
   </div>
-  <Link to="/"><button className="linkBtnHome">Back To Home</button></Link>
+ 
 </div>
 
 
