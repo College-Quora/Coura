@@ -35,7 +35,7 @@ function ProfileAnswers({post}) {
         </div>
         <div className='post__body'>
             <div className='post__question'>
-            <p style={{fontSize:'23px', color:'#F94A29'}}>{post?.questionName}</p>
+            <p style={{fontSize:'23px', color:'black'}}>{post?.questionName}</p>
             
             
             </div>
@@ -97,7 +97,7 @@ function ProfileAnswers({post}) {
                 </div>
                 <div
                 className='post-answer'
-                style={{ color: '#790252', fontSize: '20px', fontWeight: 'bold' }}
+                style={{ color: 'black', fontSize: '20px', fontWeight: 'bold' }}
                 >
                 {ReactHtmlParser(ans?.answer)}
                 </div>
@@ -141,7 +141,7 @@ function ProfileAnswers({post}) {
                         <span><LastSeen date={ans?.createdAt}/></span>
                     </div>
                     </div>
-                    <div className='post-answer' style={{color:'#790252',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.answer)}</div>
+                    <div className='post-answer' style={{color:'black',fontSize:'20px',fontWeight:'bold'}}>{ReactHtmlParser(ans?.answer)}</div>
                     </div>
                 ) : null
                 ))

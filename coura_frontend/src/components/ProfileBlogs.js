@@ -34,7 +34,7 @@ function ProfileBlogs({post}) {
         </div>
         <div className='post__body'>
             <div className='post__question'>
-            <p style={{fontSize:'23px', color:'#F94A29'}}>{post?.blogName}</p>
+            <p style={{fontSize:'23px', color:'black'}}>{post?.blogName}</p>
             
             
             </div>
@@ -94,7 +94,7 @@ function ProfileBlogs({post}) {
             </div>
             <div
                 className='post-answer'
-                style={{ color: '#790252', fontSize: '20px', fontWeight: 'bold' }}
+                style={{ color: 'black', fontSize: '20px', fontWeight: 'bold' }}
             >
                 {ReactHtmlParser(comment?.comment)}
             </div>

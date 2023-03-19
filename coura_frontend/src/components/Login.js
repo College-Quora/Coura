@@ -1,11 +1,28 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './css/Login.css';
+import HouseIcon from '@mui/icons-material/House';
 
 function Login(){
+
+    const navigate = useNavigate();
+    
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+
+    const NavigateToSignUp = ()=>{
+        navigate("/signup", {replace: true});
+    }
+
+    const NavigateToHome = ()=>{
+        navigate("/", {replace: true});
+    }
+
+    const NavigateToForgotPassword = ()=>{
+        navigate("/forgotPassword");
+    }
+
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -77,22 +94,20 @@ function Login(){
       <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
       <button type="submit">Log In</button>
     </form>
-    <Link to="/signup">
-        <button className="link-btn">Don't have an account? Register here.</button>
-    </Link>
-    <Link to="/forgotPassword">
-        <button className="link-btn">Forgot password?</button>
-    </Link>
+    <button className="link-btn" onClick = {NavigateToSignUp}>Don't have an account? Register here.</button>
+    
+    <button className="link-btn" onClick={NavigateToForgotPassword}>Forgot password?</button>
   </div>
 </div>
         <div className="main-container">
              <div className="text-container">
-             <h1 style={{fontFamily:'Source Serif Pro, serif', fontSize:'50px',marginTop:'20px'}}>Discover what your college doesn't tell you !!!</h1>
+             <button className="link-btn-home" onClick={NavigateToHome}><HouseIcon/></button>
+             <h1 style={{fontFamily:'Source Serif Pro, serif', fontSize:'50px',marginTop:'7px'}}>Discover what your college doesn't tell you !!!</h1>
             </div>
         <div class="image-container">
         <img src="https://imageio.forbes.com/specials-images/dam/imageserve/1128723345/960x0.jpg?format=jpg&width=960" alt="Example image" />
      </div>
-     <Link to="/"><button className="link-btn-home">Back To Home</button></Link>
+     
         </div>
         </div>
        

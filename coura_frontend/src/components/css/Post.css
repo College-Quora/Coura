@@ -8,9 +8,10 @@
     margin-top: 10px;
     
     border-radius: 10px;
-    max-width: 700px;
+    max-width: 850px;
     box-shadow: 6px 6px 6px rgb(1, 26, 80);
     width:1500px;
+    margin-left:  85px;
   }
   
   .post__info {
@@ -34,6 +35,7 @@
   .post__body {
     display: flex;
     flex-direction: column;
+    position: relative;
   }
   
   .post__body > .post__question {
@@ -46,8 +48,9 @@
     flex: 1;
   }
   
-  .post__question > .post__btnAnswer {
-    margin-left: auto;
+  .post__question >.post__btnContainer> .post___btnAnswer {
+    margin-left: 10px;
+    margin-right: 10px;
     cursor: pointer;
     padding: 7px;
     background-color:green;
@@ -57,20 +60,77 @@
     font-weight: 300;
     font-size: 14px;
     border-radius: 5px;
-  }
-  
-  .post__btnAnswer:hover {
     
-    color: white;
-    background:rgb(27, 238, 20);
+    
   }
 
-  .post__btnAnswer:disabled {
+  .post__question >.post__btnContainer> .post__btnAnswer {
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    padding: 7px;
+    background-color:black;
+    outline: none;
+    border: none;
+    color: white;
+    font-weight: 300;
+    font-size: 14px;
+    border-radius: 5px;
+    
+  }
+  
+  .post__question >.post__btnContainer>.post___btnAnswer:hover {
+    
+    color: white;
+    background:rgb(52, 235, 6);
+  }
+
+  .post__question >.post__btnContainer>.post__btnAnswer:hover {
+    
+    color: white;
+    background: rgb(241, 241, 130);
+  }
+
+  .post__question >.post__btnContainer>.post__btnAnswer:disabled {
+    font-weight: bold;
+    color: white;
+    background: grey;
+   
+  }
+
+  .post__question >.post__btnContainer>.post___btnAnswer:disabled {
+    font-weight: bold;
+    color: white;
+    background: grey;
+   
+  }
+
+
+  .ansbtns > .post__btnAnswer{
+   
+    cursor: pointer;
+    padding: 7px;
+    background-color:rgb(8, 10, 8);
+    outline: none;
+    border: none;
+    color: white;
+    font-weight: 300;
+    font-size: 10px;
+    border-radius: 5px;
+
+  }
+  
+  .ansbtns > .post__btnAnswer:hover{
+    color: white;
+    background: rgb(130, 182, 241);
+  }
+  .ansbtns > .post__btnAnswer:disabled{
     font-weight: bold;
     color: white;
     background: grey;
   }
-  
+
+
   .post__question > p:hover {
     text-decoration: underline;
   }
@@ -237,4 +297,35 @@
     position: relative;
     z-index: 0;
   }
+
+  /* .post__btnContainer{
+    
+   display: flex;
+    justify-content: flex-end;
+    margin-left: 15px;
+    gap: 13px;
+  } */
+  .post__btnContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 55px;
+  }
+
+  .ansbtns{
+    display: inline-block;
+    justify-content: flex-end;
+    margin-left: 154px;
+    padding-right: 13px;
+  }
+  .ansbtns button {
+    margin-left: 13px;
+  }
+
+  .likebtn{
+    margin-bottom: -30px;
+  }
+
   

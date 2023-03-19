@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Input } from "@mui/material";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+
 import './css/Post.css';
 import {
   ArrowDownwardOutlined,
@@ -19,13 +23,14 @@ import "react-quill/dist/quill.snow.css";
 import ReactTimeAgo from "react-time-ago";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
-import { blue } from "@mui/material/colors";
+
+
 
 const displayVoteMessage = (choice) => {
   var message = "";
-  if (choice == 0) message = "not voted";
-  else if (choice == 1) message = "you upvoted";
-  else if (choice == -1) message = "you downvoted";
+  if (choice === 0) message = "not voted";
+  else if (choice === 1) message = "you upvoted";
+  else if (choice === -1) message = "you downvoted";
   return message;
 };
 
@@ -51,6 +56,10 @@ function Post({ post, choice }) {
   const [inputUrl, setInputUrl] = useState("");
   const [alreadyAnswered, setAlreadyAnswered] = useState(false);
   const userId = window.localStorage.getItem("userId");
+
+  const [upvoted, setUpvoted] = useState(false);
+  const [downvoted, setDownvoted] = useState(false);
+  
   const Close = <CloseIcon />;
 
   useEffect(() =>{
@@ -124,6 +133,13 @@ function Post({ post, choice }) {
           alert("Error in upvoting");
         });
     }
+    if (upvoted) {
+      setUpvoted(false);
+    } else {
+      setUpvoted(true);
+      setDownvoted(false);
+    }
+   
   };
 
   const downVote = async () => {
@@ -153,6 +169,13 @@ function Post({ post, choice }) {
           alert("Error in downvoting");
         });
     }
+    if (downvoted) {
+      setDownvoted(false);
+    } else {
+      setDownvoted(true);
+      setUpvoted(false);
+    }
+   
   };
 
   const handleEditAns = async(ansId) =>{
@@ -230,7 +253,9 @@ function Post({ post, choice }) {
 
   return (
     <div className="post">
+     
       <div className="post__info">
+     
         <Avatar />
         <h3 style={{ marginLeft: "10px", color: "black" }}>Anonymous</h3>
         <small>
@@ -239,6 +264,7 @@ function Post({ post, choice }) {
         </small>
       </div>
       <div className="post__body">
+     
         <div className="post__question">
           <p
             style={{
@@ -250,20 +276,25 @@ function Post({ post, choice }) {
           >
             {post?.questionName}
           </p>
+          <div className='post__btnContainer'>
+
           <button onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to edit question!");
             else { setQuestion(post?.questionName); setInputUrl(post?.questionUrl); setIsEditQuesModalOpen(true); }
-          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'>Edit</button>
+          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faPencilAlt} /></button>
 
           <button onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to delete question!");
             else {handleDeleteQues()};
-          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'>Delete</button>
-
+          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faTrashAlt} /></button>
+          
           <button onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to add answer!");
             else setIsModalOpen(true);
-          }} disabled= {alreadyAnswered} className='post__btnAnswer'>Answer</button>
+          }} disabled= {alreadyAnswered} className='post___btnAnswer'>Answer</button>
+
+          </div>
+    
 
           <Modal
             open={isModalOpen}
@@ -312,19 +343,26 @@ function Post({ post, choice }) {
           <ArrowUpwardOutlined onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to upvote question!");
             else { upVote() }
-          }} />
+          }} 
+          style={{ 
+            color:
+              message==="you upvoted" ? "green" : "black"
+           }} 
+          />
           <p> {upVotes} </p>
           <ArrowDownwardOutlined onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to downvote question!");
             else { downVote() }
-          }} />
+          }}  
+          style={{ 
+            color:
+              message==="you downvoted" ? "red" : "black"
+           }} 
+          />
           <p> {downVotes} </p>
         </div>
-        <div>{message}</div>
-        <Comment className="iconHover" />
-        <div className="post__footerLeft">
-          <ShareOutlined className="iconHover" />
-        </div>
+        {/* <div>{message}</div> */}
+        
       </div>
       <p
         onClick={toggleAnswers}
@@ -391,15 +429,45 @@ function Post({ post, choice }) {
                   {ReactHtmlParser(ans?.answer)}
                 </div>
                 <div>
-                <button onClick={() => {
-              if(window.localStorage.getItem("token") == null) alert("Please login to edit answer!");
-              else {setAnswer(ans?.answer); setAnswerId(ans?._id); setIsEditAnsModalOpen(true); }
-            }} disabled={(ans?.ansUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Edit</button>
 
-            <button onClick={() => {
-              if(window.localStorage.getItem("token") == null) alert("Please login to delete amswer!");
-              else {handleDeleteAns(ans?._id)};
-            }} disabled={(ans?.ansUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Delete</button>
+                <div className="ansbtns" style={{ display: "flex", alignItems: "center" }}>
+  <button
+    onClick={() => {
+      if (window.localStorage.getItem("token") == null)
+        alert("Please login to edit answer!");
+      else {
+        setAnswer(ans?.answer);
+        setAnswerId(ans?._id);
+        setIsEditAnsModalOpen(true);
+      }
+    }}
+    disabled={ans?.ansUserId === userId || userId === null ? false : true}
+    className="post__btnAnswer"
+    style={{ marginRight: "10px" ,fontSize:"15px"}}
+  >
+    <FontAwesomeIcon icon={faPencilAlt} />
+  </button>
+
+  <button
+    onClick={() => {
+      if (window.localStorage.getItem("token") == null)
+        alert("Please login to delete answer!");
+      else {
+        handleDeleteAns(ans?._id);
+      }
+    }}
+    disabled={ans?.ansUserId === userId || userId === null ? false : true}
+    className="post__btnAnswer"
+    style={{ marginRight: "10px" ,fontSize:"15px"}}
+  >
+    <FontAwesomeIcon icon={faTrashAlt} />
+  </button>
+
+  <button className="post__btnAnswer" style={{ fontSize: "0.1em", marginRight: "10px" }}>
+    <ThumbUpIcon />
+  </button>
+</div>
+            
             </div>
               </div>
             </>
@@ -464,15 +532,44 @@ function Post({ post, choice }) {
                 {ReactHtmlParser(ans?.answer)}
               </div>
               <div>
-                  <button onClick={() => {
-                if(window.localStorage.getItem("token") == null) alert("Please login to edit answer!");
-                else {setAnswer(ans?.answer); setAnswerId(ans?._id); setIsEditAnsModalOpen(true); }
-              }} disabled={(ans?.ansUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Edit</button>
+              <div className="ansbtns" style={{ display: "flex", alignItems: "center" }}>
+  <button
+    onClick={() => {
+      if (window.localStorage.getItem("token") == null)
+        alert("Please login to edit answer!");
+      else {
+        setAnswer(ans?.answer);
+        setAnswerId(ans?._id);
+        setIsEditAnsModalOpen(true);
+      }
+    }}
+    disabled={ans?.ansUserId === userId || userId === null ? false : true}
+    className="post__btnAnswer"
+    style={{ marginRight: "10px" ,fontSize:"15px"}}
+  >
+    <FontAwesomeIcon icon={faPencilAlt} />
+  </button>
 
-              <button onClick={() => {
-                if(window.localStorage.getItem("token") == null) alert("Please login to delete amswer!");
-                else {handleDeleteAns(ans?._id)};
-              }} disabled={(ans?.ansUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Delete</button>
+  <button
+    onClick={() => {
+      if (window.localStorage.getItem("token") == null)
+        alert("Please login to delete answer!");
+      else {
+        handleDeleteAns(ans?._id);
+      }
+    }}
+    disabled={ans?.ansUserId === userId || userId === null ? false : true}
+    className="post__btnAnswer"
+    style={{ marginRight: "10px" ,fontSize:"15px"}}
+  >
+    <FontAwesomeIcon icon={faTrashAlt} />
+  </button>
+
+  <button className="post__btnAnswer" style={{ fontSize: "0.1em", marginRight: "10px" }}>
+    <ThumbUpIcon />
+  </button>
+</div>
+
               </div>
             </div>
           ) : null

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Avatar , Input } from "@mui/material";
 import "./css/Post.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import {
   ArrowDownwardOutlined,
   ArrowUpwardOutlined,
   Comment,
-  //RepeatOneOutlined,
-  ShareOutlined,
   PeopleAltOutlined,
   ExpandMore,
 } from "@mui/icons-material";
@@ -18,6 +18,7 @@ import "react-quill/dist/quill.snow.css";
 import ReactTimeAgo from "react-time-ago";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 const displayVoteMessage = (choice) => {
   var message = "";
@@ -46,7 +47,11 @@ function Post({ post, choice }) {
   const [blog, setBlog] = useState("");
   const [inputUrl, setInputUrl] = useState("");
   const userId = window.localStorage.getItem("userId");
+  
   const Close = <CloseIcon />;
+  
+  const [upvoted, setUpvoted] = useState(false);
+  const [downvoted, setDownvoted] = useState(false);
 
   const handleQuill = (value) => {
     setComment(value);
@@ -111,6 +116,15 @@ function Post({ post, choice }) {
           alert("Error in upvoting");
         });
     }
+    if(upvoted)
+    {
+      setUpvoted(false);
+    }
+    else
+    {
+    setUpvoted(true);
+    setDownvoted(false);
+    }
   };
 
   const downVote = async () => {
@@ -139,6 +153,16 @@ function Post({ post, choice }) {
           console.log(err);
           alert("Error in downvoting");
         });
+    }
+
+    if(downvoted)
+    {
+      setDownvoted(false);
+    }
+    else
+    {
+    setDownvoted(true);
+    setUpvoted(false);
     }
   };
 
@@ -214,22 +238,24 @@ function Post({ post, choice }) {
           >
             {post?.blogName}
           </p>
-
+          
+          <div className="post__btnContainer">
           <button onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to edit blog!");
             else { setBlog(post?.blogName); setInputUrl(post?.blogUrl); setIsEditBlogModalOpen(true); }
-          }} disabled={(post?.blogUserId === userId || userId === null) ? false : true} className='post__btnAnswer'>Edit</button>
+          }} disabled={(post?.blogUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faPencilAlt} /></button>
 
           <button onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to delete question!");
             else {handleDeleteBlog()};
-          }} disabled={(post?.blogUserId === userId || userId === null) ? false : true} className='post__btnAnswer'>Delete</button>
+          }} disabled={(post?.blogUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faTrashAlt} /></button>
 
           <button onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to add comment!");
             else setIsModalOpen(true);
-          }} className='post__btnAnswer'>Comment</button>
-
+          }} className='post___btnAnswer'>Comment</button>
+    
+          </div>
           <Modal
             open={isModalOpen}
             closeIcon={Close}
@@ -275,22 +301,35 @@ function Post({ post, choice }) {
       </div>
       <div className="post__footer">
         <div className="post__footerAction">
-          <ArrowUpwardOutlined onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to upvote blog!");
-            else { upVote() }
-          }} />
-          <p> {upVotes} </p>
+         
+            <ArrowUpwardOutlined onClick={() => {
+              if(window.localStorage.getItem("token") == null) alert("Please login to upvote blog!");
+              else { upVote() }
+            }}
+            style={{ 
+              color:
+                message==="you upvoted" ? "green" : "black"
+             }} 
+             />
+            <p> {upVotes} </p> 
+         
+           
+           
           <ArrowDownwardOutlined onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to downvote blog!");
             else { downVote() }
-          }} />
+          }}
+          style={{ 
+            color:
+              message==="you downvoted" ? "red" : "black"
+           }} 
+           />
           <p> {downVotes} </p>
         </div>
-        <div>{message}</div>
-        <Comment className="iconHover" />
-        <div className="post__footerLeft">
-          <ShareOutlined className="iconHover" />
-        </div>
+        {/* <div>{message}</div> */}
+        
+       
+        
       </div>
       <p
         style={{
@@ -354,10 +393,18 @@ function Post({ post, choice }) {
                 {ReactHtmlParser(comment?.comment)}
               </div>
                 <div>
+                  <div className="ansbtns"  style={{ display: "flex", alignItems: "center" }}>
               <button onClick={() => {
-                if(window.localStorage.getItem("token") == null) alert("Please login to delete amswer!");
+                if(window.localStorage.getItem("token") == null) alert("Please login to delete comment!");
                 else {handleDeleteComment(comment?._id)};
-              }} disabled={(comment?.commentUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Delete</button>
+              }} disabled={(comment?.commentUserId === userId || userId===null) ? false : true} className='post__btnAnswer'
+             
+              style={{ marginRight: "10px" ,fontSize:"15px"}}>
+                <FontAwesomeIcon icon={faTrashAlt} /></button>
+                <button className="post__btnAnswer" style={{ fontSize: "0.1em", marginRight: "10px" }}>
+               <ThumbUpIcon />
+                      </button>
+              </div>
               </div>
             </div>
           ))}
@@ -421,10 +468,18 @@ function Post({ post, choice }) {
               </div>
 
               <div>
+              <div className="ansbtns"  style={{ display: "flex", alignItems: "center" }}>
               <button onClick={() => {
-                if(window.localStorage.getItem("token") == null) alert("Please login to delete amswer!");
+                if(window.localStorage.getItem("token") == null) alert("Please login to delete comment!");
                 else {handleDeleteComment(comment?._id)};
-              }} disabled={(comment?.commentUserId === userId || userId===null) ? false : true} className='post__btnAnswer'>Delete</button>
+              }} disabled={(comment?.commentUserId === userId || userId===null) ? false : true} className='post__btnAnswer'
+             
+    style={{ marginRight: "10px" ,fontSize:"15px"}}>
+                <FontAwesomeIcon icon={faTrashAlt} /></button>
+                <button className="post__btnAnswer" style={{ fontSize: "0.1em", marginRight: "10px" }}>
+               <ThumbUpIcon />
+                      </button>
+              </div>
             </div>
             </div>
           ) : null

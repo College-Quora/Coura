@@ -94,17 +94,17 @@
   }
 
   .link-btn-home{
-    background-color: #1da1f2;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 8px;
     padding: 10px;
-    font-size: 1.0rem;
+    font-size: 0.7rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
-    margin-left: 320px;
-    margin-top: 3px;
+    margin-left: 700px;
+    margin-top: 1px;
     
   }
 
