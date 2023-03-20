@@ -8,6 +8,7 @@ import { color } from "@mui/system";
 function Register() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
     const [name, setName] = useState('');
     const [collegeName, setCollegeName] = useState('');
     const navigate = useNavigate();
@@ -33,7 +34,8 @@ function Register() {
                 name: name,
                 email: email,
                 collegeName: collegeName,
-                password: pass
+                password: pass,
+                confirmPassword: confirmPass,
             }
             await axios.post('/api/auth/register', body, config).then((res) =>{
                 console.log(res.data);
@@ -44,6 +46,7 @@ function Register() {
             })
             setEmail("");
             setPass("");
+            setConfirmPass("");
             setName("");
             setCollegeName("");
         }
@@ -51,10 +54,10 @@ function Register() {
     }
 
     return (
-        <div className="loginContainer">
+        <div className="registerContainer">
         <div className="authFormContainer">
         <h1>Register</h1>
-    <form className="registerForm" onSubmit={handleSubmit}>
+        <form className="registerForm" onSubmit={handleSubmit}>
         <label htmlFor="name">Full Name</label>
         <input value={name} name="name" onChange={(e) => setName(e.target.value.trim())} id="name" placeholder="Full Name" />
         
@@ -64,11 +67,11 @@ function Register() {
         <label htmlFor="email">Email</label>
         <input value={email} onChange={(e) => setEmail(e.target.value.trim())}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
         
-        <label htmlFor="password">password</label>
+        <label htmlFor="password">Password</label>
         <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
 
-        <label htmlFor="confirmpassword">confirm-password</label>
-        <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
+        <label htmlFor="confirmpassword">Confirm-Password</label>
+        <input value={confirmPass} onChange={(e) => setConfirmPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
         
         <button type="submit">Register</button>
     </form>
@@ -79,9 +82,9 @@ function Register() {
 <div class="mainContainer">
 <div class="textContainer">
 
-    <button className="linkBtnHome" onClick={NavigateToHome}><HouseIcon/></button>
-    <h1  style={{fontFamily:'Source Serif Pro, serif',marginTop:'2px'}}>Welcome to COURA!</h1>
-    <p style={{color:'black'}}>Your college story matters - sign up and make your voice heard anonymously!</p>
+    <div className="home-container"><button className="linkBtnHome" onClick={NavigateToHome}><HouseIcon/></button></div>
+    <h1  style={{fontFamily:'Source Serif Pro, serif', fontSize:'50px',marginTop:'2px'}}>Welcome to COURA!</h1>
+    <p style={{color:'#333333', fontFamily:'Source Serif Pro, serif', fontSize:'27px'}}>Your college story matters - sign up and make your voice heard anonymously!</p>
   </div>
   
   <div class="imageContainer">

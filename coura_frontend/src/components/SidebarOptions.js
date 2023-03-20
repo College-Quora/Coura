@@ -1,7 +1,4 @@
-
- import "./css/SidebarOptions.css";
-
-
+import "./css/SidebarOptions.css";
 import React from 'react';
 
 

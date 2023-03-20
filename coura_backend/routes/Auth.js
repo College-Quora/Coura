@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const dotenv = require('dotenv');
+dotenv.config();
 
 const userDB = require('../models/User');
 const tokenDB = require('../models/Token');
@@ -8,11 +10,18 @@ const crypto = require("crypto");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "abgjhagsj21e67781@!E#!@E#!@bjkadb@!E21bfwedvdfvfvmpmpsdqww@@13&*()Sdk"; // any random string
+const JWT_SECRET = process.env.JWT_SECRET; // any random string
+const BASE_URL = process.env.BASE_URL;
 
 router.post('/register', async (req, res) => {
 
     try{
+        if(req.body.confirmPassword != req.body.password) {
+            return res.status(400).send({
+                status: false,
+                message: "Both the password must be same!"
+            })
+        }
         let user = await userDB.findOne({email: req.body.email});
         if(user){
             return res.status(400).send({
@@ -42,7 +51,7 @@ router.post('/register', async (req, res) => {
 			userId: user._id,
 			token: crypto.randomBytes(32).toString("hex"),
 		});
-		const url = `http://localhost:3000/auth/${user._id}/verify/${token.token}`;
+		const url = `${BASE_URL}/auth/${user._id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
 
         res.status(400).send({
@@ -82,14 +91,14 @@ router.post('/login', async (req, res) => {
                     });
                 }
 
-                const url = `http://localhost:3000/auth/${user._id}/verify/${token.token}`;
+                const url = `${BASE_URL}/auth/${user._id}/verify/${token.token}`;
                 await sendEmail(user.email, "Verify Email", url);
 
                 return res.status(400)
                     .send({status:true, message: "An Email Verification Link has been sent to your account, please verify!" });
             }
             else{
-                const loginToken = jwt.sign({email: user.email}, JWT_SECRET, {expiresIn: 86400});
+                const loginToken = jwt.sign({email: user.email}, JWT_SECRET, {expiresIn: '365d'});
 
             if(res.status(201)){
                 return res.status(200).send({
@@ -196,7 +205,7 @@ router.post('/forgotPassword', async(req, res) => {
             token: crypto.randomBytes(32).toString("hex"),
             });
         }
-        const url = `http://localhost:3000/${user._id}/reset-password/${token.token}`;
+        const url = `${BASE_URL}/${user._id}/reset-password/${token.token}`;
         await sendEmail(req.body.email, "Reset Password", url);
         res.status(400).send({status:true, message: "Password Reset Link has been sent to your email address!" });
 
@@ -244,6 +253,13 @@ router.post('/:id/reset-password/:token' , async (req, res) => {
 			token: req.params.token,
 		});
 		if (!token) return res.status(400).send({status:false, message: "Invalid Link" });
+
+        if(req.body.confirmPassword != req.body.password) {
+            return res.status(400).send({
+                status: false,
+                message: "Both the password must be same!"
+            })
+        }
 
         const encryptedPassword = await bcrypt.hash(req.body.password,10);
         await userDB.updateOne({ _id: user._id }, { $set: { password: encryptedPassword}});

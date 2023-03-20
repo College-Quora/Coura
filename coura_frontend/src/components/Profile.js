@@ -68,7 +68,7 @@ function Profile() {
             <div className="profileCoverBg" />
             <img
               className="profileUserImg"
-              src="https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png"
+              src="https://t3.ftcdn.net/jpg/05/17/79/88/360_F_517798849_WuXhHTpg2djTbfNf0FQAjzFEoluHpnct.jpg"
               alt="profile user image"
             />
           </div>

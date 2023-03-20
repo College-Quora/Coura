@@ -3,10 +3,12 @@ import QuoraBox from './QuoraBox';
 import './css/Feed.css';
 import BlogPost from './BlogPost';
 import axios from 'axios';
+import SortIcon from '@mui/icons-material/Sort';
 
-function Blog() {
-    const [blogposts, setBlogPosts] = useState([])
+function Blog({searchKey}) {
+    const [blogPosts, setBlogPosts] = useState([])
     const [votes, setVotes] = useState([]);
+
     useEffect(() =>{
     axios.get('/api/blogs').then((res) =>{
       console.log(res.data);
@@ -43,11 +45,14 @@ function Blog() {
     else return 0;
   };
 
+
   return (
     <div className='blog'>
     <QuoraBox />
     {
-        blogposts.map((post,index) => (<BlogPost key = {index} post = {post} choice = {voteById(post._id)} />))
+        blogPosts.map((post, index) => (
+        (post.blogName.toLowerCase().includes(searchKey.toLowerCase())) === true ? 
+        <BlogPost key={index} post={post} choice={voteById(post._id)} /> : null))
     }
     </div>
   )

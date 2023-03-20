@@ -30,7 +30,7 @@ function ProfileQuestions({post}) {
         <div className='post'>
         <div className='post__info'>
             <Avatar />
-        <h3  style={{marginLeft:'10px'}}>{userName}</h3>
+        <h3  style={{marginLeft:'10px', color:"#333333"}}>{userName}</h3>
             <small> <LastSeen date={post?.createdAt}/></small>
         </div>
         <div className='post__body'>
@@ -48,7 +48,7 @@ function ProfileQuestions({post}) {
         <p
             onClick={toggleAnswers}
             style={{
-            color: "black",
+            color: "#0d8ecf",
             fontSize: "15px",
             fontWeight: "bold",
             margin: "10px 0",
@@ -79,8 +79,6 @@ function ProfileQuestions({post}) {
                     alignItems: 'center',
                     marginBottom: '10px',
                     fontSize: '12px',
-                    fontWeight: 600,
-                    color: '#888',
                 }}
                 className='post-answered'
                 >
@@ -92,7 +90,7 @@ function ProfileQuestions({post}) {
                     }}
                     className='post-info'
                 >
-                    <p style={{ fontSize: '18px', color: 'black' }}>Anonymous</p>
+                    <p style={{ fontSize: '18px', color: '#333333', fontWeight:"600" }}>Anonymous</p>
                     <span><LastSeen date={ans?.createdAt} /></span>
                 </div>
                 </div>

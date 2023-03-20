@@ -3,8 +3,9 @@ import QuoraBox from "./QuoraBox";
 import "./css/Feed.css";
 import Post from "./Post";
 import axios from "axios";
+import SortIcon from '@mui/icons-material/Sort';
 
-function Feed() {
+function Feed({searchKey}) {
   const [posts, setPosts] = useState([]);
   const [votes, setVotes] = useState([]);
 
@@ -42,6 +43,7 @@ function Feed() {
       });
   }, []);
 
+
   const voteById = (id) => {
     if (votes[id]) return votes[id];
     else return 0;
@@ -50,9 +52,13 @@ function Feed() {
   return (
     <div className="feed">
       <QuoraBox />
-      {posts.map((post, index) => (
-        <Post key={index} post={post} choice={voteById(post._id)} />
-      ))}
+      {
+        posts.map((post, index) => (
+        (post.questionName.toLowerCase().includes(searchKey.toLowerCase())) === true ? 
+        <Post key={index} post={post} choice={voteById(post._id)} /> :null))
+
+      }
+      
     </div>
   );
 }

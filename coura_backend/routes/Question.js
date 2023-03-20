@@ -114,8 +114,8 @@ router.get("/", async (req, res) => {
         },
       ])
       .exec()
-      .then((doc) => {
-        res.status(200).send(doc);
+      .then((data) => {
+        res.status(200).send(data);
       })
       .catch((err) => {
         res.status(400).send({

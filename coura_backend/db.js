@@ -1,6 +1,8 @@
 const mongoose  = require('mongoose')
+const dotenv = require('dotenv');
+dotenv.config();
 
-const url = "mongodb+srv://testuser:testuser@practicemongo.wgswd6c.mongodb.net/CouraDatabase?retryWrites=true&w=majority"
+const url = process.env.MONGODB_CONNECTION_URL
 
 module.exports.connect = () => {
     mongoose.connect(url, {

@@ -88,20 +88,21 @@ function Login(){
   <div className="auth-form-container">
     <h1>Login</h1>
     <form className="login-form" onSubmit={handleSubmit}>
-      <label htmlFor="email">email</label>
+      <label htmlFor="email" style={{ color: "#333333"}}>Email</label>
       <input value={email} onChange={(e) => setEmail(e.target.value.trim())}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
-      <label htmlFor="password">password</label>
+      <label htmlFor="password" style={{ color: "#333333"}}>Password</label>
       <input value={pass} onChange={(e) => setPass(e.target.value.trim())} type="password" placeholder="********" id="password" name="password" />
       <button type="submit">Log In</button>
     </form>
-    <button className="link-btn" onClick = {NavigateToSignUp}>Don't have an account? Register here.</button>
+    <button className="linkBtn" onClick = {NavigateToSignUp}>Don't have an account? Register here.</button>
     
-    <button className="link-btn" onClick={NavigateToForgotPassword}>Forgot password?</button>
+    <button className="linkBtn" onClick={NavigateToForgotPassword}>Forgot password?</button>
   </div>
 </div>
         <div className="main-container">
              <div className="text-container">
-             <button className="link-btn-home" onClick={NavigateToHome}><HouseIcon/></button>
+            <div className="home-container"><button className="link-btn-home" onClick={NavigateToHome}><HouseIcon/></button></div>
+             
              <h1 style={{fontFamily:'Source Serif Pro, serif', fontSize:'50px',marginTop:'7px'}}>Discover what your college doesn't tell you !!!</h1>
             </div>
         <div class="image-container">

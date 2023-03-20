@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar , Input } from "@mui/material";
 import "./css/Post.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -19,6 +19,7 @@ import ReactTimeAgo from "react-time-ago";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ChatBubbleSharpIcon from '@mui/icons-material/ChatBubbleSharp';
 
 const displayVoteMessage = (choice) => {
   var message = "";
@@ -37,7 +38,8 @@ function LastSeen({ date }) {
 }
 
 function Post({ post, choice }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isCommentInputOpen, setIsCommentInputOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [upVotes, setUpVotes] = useState(post?.blogUpvotes);
@@ -49,9 +51,14 @@ function Post({ post, choice }) {
   const userId = window.localStorage.getItem("userId");
   
   const Close = <CloseIcon />;
-  
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
+
+  useEffect(()=>{
+    if(!isCommentInputOpen) {
+      setComment("");
+    }
+  },[isCommentInputOpen])
 
   const handleQuill = (value) => {
     setComment(value);
@@ -79,7 +86,7 @@ function Post({ post, choice }) {
         .then((res) => {
           console.log(res.data);
           alert(res.data.message);
-          setIsModalOpen(false);
+          setIsCommentInputOpen(false);
           window.location.href = "/blogFeed";
         })
         .catch((err) => {
@@ -220,7 +227,7 @@ function Post({ post, choice }) {
     <div className="post">
       <div className="post__info">
         <Avatar />
-        <h3 style={{ marginLeft: "10px", color: "black" }}>Anonymous</h3>
+        <h3 style={{ marginLeft: "10px", color: "#333333" }}>Anonymous</h3>
         <small>
           {" "}
           <LastSeen date={post?.createdAt} />
@@ -232,8 +239,6 @@ function Post({ post, choice }) {
             style={{
               fontSize: "23px",
               color: "black",
-              fontFamily: "Playfair Display, serif",
-              fontStyle: "italic",
             }}
           >
             {post?.blogName}
@@ -249,53 +254,9 @@ function Post({ post, choice }) {
             if(window.localStorage.getItem("token") == null) alert("Please login to delete question!");
             else {handleDeleteBlog()};
           }} disabled={(post?.blogUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faTrashAlt} /></button>
-
-          <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to add comment!");
-            else setIsModalOpen(true);
-          }} className='post___btnAnswer'>Comment</button>
     
           </div>
-          <Modal
-            open={isModalOpen}
-            closeIcon={Close}
-            onClose={() => setIsModalOpen(false)}
-            closeOnEsc
-            center
-            closeOnOverlayClick={false}
-            styles={{
-              overlay: {
-                height: "auto",
-              },
-            }}
-          >
-            <div className="modal__question">
-              <h1>{post?.blogName}</h1>
-              <p>
-                {" "}
-                Posted By {""}
-                <span className="name">Anonymous</span> on{" "}
-                <span>{new Date(post?.createdAt).toLocaleString()}</span>
-              </p>
-            </div>
-
-            <div className="modal__answer">
-              <ReactQuill
-                value={comment}
-                onChange={handleQuill}
-                placeholder="Enter Your comment"
-              />
-            </div>
-            <div className="modal__buttons">
-              <button className="cancle" onClick={() => setIsModalOpen(false)}>
-                Cancel
-              </button>
-
-              <button type="submit" className="add" onClick={handleSubmit}>
-                Add Your Comment
-              </button>
-            </div>
-          </Modal>
+          
         </div>
         {post?.blogUrl && <img src={post?.blogUrl} alt="url" />}
       </div>
@@ -326,6 +287,10 @@ function Post({ post, choice }) {
            />
           <p> {downVotes} </p>
         </div>
+        <ChatBubbleSharpIcon onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to add comment!");
+            else setIsCommentInputOpen((prev)=>!prev);
+          }} style={{color: "#0d8ecf"}}/>
         {/* <div>{message}</div> */}
         
        
@@ -333,7 +298,7 @@ function Post({ post, choice }) {
       </div>
       <p
         style={{
-          color: "black",
+          color: "#0d8ecf",
           fontSize: "15px",
           fontWeight: "bold",
           margin: "10px 0",
@@ -343,6 +308,13 @@ function Post({ post, choice }) {
       >
         {post?.allComments.length} Comment(s)
       </p>
+      { isCommentInputOpen && <div className="commentInput">
+        <input value={comment} onChange={(e) => setComment(e.target.value.trim())} type="text" placeholder="Add a comment..." id="comment" name="comment" className ="commentInputBox" />
+        <button type="submit" onClick={handleSubmit} className="addComment">
+                Add Comment
+            </button>
+      </div>}
+     
       {showComments && (
         <div>
           {post?.allComments?.map((comment, index) => (
@@ -363,8 +335,6 @@ function Post({ post, choice }) {
                   alignItems: "center",
                   marginBottom: "10px",
                   fontSize: "12px",
-                  fontWeight: 600,
-                  color: "#888",
                 }}
                 className="post-answered"
               >
@@ -376,7 +346,7 @@ function Post({ post, choice }) {
                   }}
                   className="post-info"
                 >
-                  <p style={{ fontSize: "18px", color: "black" }}>Anonymous</p>
+                  <p style={{ fontSize: "18px", color: "#333333", fontWeight:"600" }}>Anonymous</p>
                   <span>
                     <LastSeen date={comment?.createdAt} />
                   </span>
@@ -385,12 +355,12 @@ function Post({ post, choice }) {
               <div
                 className="post-answer"
                 style={{
-                  color: "#1da1f2",
+                  color: "black",
                   fontSize: "20px",
                   fontWeight: "bold",
                 }}
               >
-                {ReactHtmlParser(comment?.comment)}
+                {comment?.comment}
               </div>
                 <div>
                   <div className="ansbtns"  style={{ display: "flex", alignItems: "center" }}>
@@ -401,8 +371,8 @@ function Post({ post, choice }) {
              
               style={{ marginRight: "10px" ,fontSize:"15px"}}>
                 <FontAwesomeIcon icon={faTrashAlt} /></button>
-                <button className="post__btnAnswer" style={{ fontSize: "0.1em", marginRight: "10px" }}>
-               <ThumbUpIcon />
+                <button className="post__btnAnswer" style={{ marginRight: "10px" }}>
+               <ThumbUpIcon style={{fontSize: "17px"}} />
                       </button>
               </div>
               </div>
@@ -437,8 +407,6 @@ function Post({ post, choice }) {
                   alignItems: "center",
                   marginBottom: "10px",
                   fontSize: "12px",
-                  fontWeight: 600,
-                  color: "#888",
                 }}
                 className="post-answered"
               >
@@ -450,7 +418,7 @@ function Post({ post, choice }) {
                   }}
                   className="post-info"
                 >
-                  <p style={{ fontSize: "18px", color: "black" }}>Anonymous</p>
+                  <p style={{ fontSize: "18px", color: "#333333", fontWeight:"600" }}>Anonymous</p>
                   <span>
                     <LastSeen date={comment?.createdAt} />
                   </span>
@@ -459,7 +427,7 @@ function Post({ post, choice }) {
               <div
                 className="post-answer"
                 style={{
-                  color: "#1da1f2",
+                  color: "black",
                   fontSize: "20px",
                   fontWeight: "bold",
                 }}
@@ -476,8 +444,8 @@ function Post({ post, choice }) {
              
     style={{ marginRight: "10px" ,fontSize:"15px"}}>
                 <FontAwesomeIcon icon={faTrashAlt} /></button>
-                <button className="post__btnAnswer" style={{ fontSize: "0.1em", marginRight: "10px" }}>
-               <ThumbUpIcon />
+                <button className="post__btnAnswer" style={{  marginRight: "10px" }}>
+               <ThumbUpIcon style={{fontSize: "17px"}} />
                       </button>
               </div>
             </div>
@@ -500,14 +468,6 @@ function Post({ post, choice }) {
           >
             <div className="modal__title">
             <h5>Update Blog</h5>
-            </div>
-            <div className="modal__info">
-            <Avatar  className="avatar" />
-            <div className="modal__scope">
-            <PeopleAltOutlined />
-                  <p>Public</p>
-                  <ExpandMore/>
-            </div>
             </div>
             <div className="modal__Field">
                 <Input
@@ -547,7 +507,7 @@ function Post({ post, choice }) {
                 </div>
               </div>
             <div className='modal__buttons'>
-              <button  className='cancel' onClick={() => setIsEditBlogModalOpen(false)}>
+              <button  className='cancle' onClick={() => setIsEditBlogModalOpen(false)}>
                 Cancel
               </button>
 

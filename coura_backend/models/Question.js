@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 const QuestionSchema = new mongoose.Schema({
-    questionName: String,
-    questionUrl: String,
+    questionName: { type: String },
+    questionUrl: { type: String },
     quesUpvotes: Number,
     quesDownvotes: Number,
     
@@ -14,7 +14,7 @@ const QuestionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "answers"
     },
-    quesUserId: mongoose.Schema.Types.ObjectId,
+    quesUserId: {type: mongoose.Schema.Types.ObjectId,  required:true},
     answeredByUsers:[{
         type: mongoose.Schema.Types.ObjectId,
     }]

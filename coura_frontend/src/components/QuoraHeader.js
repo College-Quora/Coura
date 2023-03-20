@@ -317,10 +317,11 @@ import "react-responsive-modal/styles.css";
 import axios from 'axios'
 import DropDownProfile from './DropDownProfile';
 import { useLocation } from 'react-router-dom';
+import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
 
 
 
-function QuoraHeader() {
+function QuoraHeader({searchKey , setSearchKey}) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState('');
@@ -444,8 +445,8 @@ function QuoraHeader() {
           
         </div>
         <div className="qHeader__input">
-          <Search />
-          <input type="text" placeholder="Search questions" style={{background:'white',color:'black',fontWeight:'bold',fontSize:'15px'}}/>
+          <Search style={{color:"#333333"}} />
+          <input type="text" placeholder="Search questions" style={{background:'white',color:'#333333',fontWeight:'bold',fontSize:'15px'}} value = {searchKey} onChange={(e) => setSearchKey(e.target.value)}/>
         </div>
         <div className="qHeader__Rem">
         { loggedIn ? <div onClick = {()=>setOpenProfile((prev) => (!prev))}>
@@ -457,14 +458,13 @@ function QuoraHeader() {
 
     
 
-        <Button className="addbtn" onClick ={()=> {
+        <AddCircleOutlineSharpIcon className="addbtn" onClick ={()=> {
           if(window.localStorage.getItem("token") == null) alert("Please login to add question/ blog!");
           else setIsModalOpen(true);
-        }} style={{ color: 'white', fontSize: '45px', fontWeight: 'bold' }}>
-        +
-      </Button>
+        }} style={{ color: 'white', fontSize: '45px', fontWeight: 'bold' }}/>
+       
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle style={{fontSize:'20px',fontWeight:'bold'}}>Add Question/Blog</DialogTitle>
+        <DialogTitle style={{fontSize:'20px',fontWeight:'bold', color:"#333333"}}>Add Question/Blog</DialogTitle>
         <DialogContent>
          
         </DialogContent>
@@ -477,7 +477,7 @@ function QuoraHeader() {
       </Dialog>
       <Dialog open={isAddQuestionModalOpen} onClose={() => setIsAddQuestionModalOpen(false)}
       >
-        <DialogTitle style={{fontSize:'20px',fontWeight:'bold'}}>Add New Question</DialogTitle>
+        <DialogTitle style={{fontSize:'20px',fontWeight:'bold', color:"#333333"}}>Add New Question</DialogTitle>
         <DialogContent style={{ marginTop: '-15px', width: '600px', height: '570px',marginDown: '30px' }}>
         
          
@@ -522,12 +522,12 @@ function QuoraHeader() {
         <DialogActions>
           <Button className="cancelButton" onClick ={() => setIsAddQuestionModalOpen(false)} >Cancel</Button>
           <Button className="addButton" onClick={handleSubmit} type='submit'>
-              Add Your Question
+              Add
             </Button>
         </DialogActions>
       </Dialog>
       <Dialog open={isCreateBlogModalOpen} onClose={() => setIsCreateBlogModalOpen(false)}>
-        <DialogTitle style={{fontSize:'20px',fontWeight:'bold'}}>Create Blog</DialogTitle>
+        <DialogTitle style={{fontSize:'20px',fontWeight:'bold',color:"#333333"}}>Create Blog</DialogTitle>
         <DialogContent style={{ marginTop: '10px', width: '600px', height: '570px',marginDown: '30px' }}>
        
         <div className="modal__Field">

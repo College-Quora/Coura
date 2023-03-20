@@ -1,11 +1,13 @@
 const express= require('express')
 const cors=require('cors')
-const PORT = 80;
 const app=express()
 const bodyParser=require('body-parser')
 const path=require('path')
 const db = require('./db')
 const router = require('./routes')
+const dotenv = require('dotenv');
+dotenv.config();
+const PORT = process.env.PORT || 5000;
 
 //database connection
 db.connect()
@@ -36,6 +38,6 @@ app.get("*",(req,res) => {
     }
 })
 app.use(cors());
-app.listen(process.env.PORT || PORT, () => {
+app.listen(PORT, () => {
     console.log(`Listening on port no ${PORT}`);
 });

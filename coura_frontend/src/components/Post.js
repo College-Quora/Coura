@@ -139,7 +139,7 @@ function Post({ post, choice }) {
       setUpvoted(true);
       setDownvoted(false);
     }
-   
+
   };
 
   const downVote = async () => {
@@ -257,7 +257,7 @@ function Post({ post, choice }) {
       <div className="post__info">
      
         <Avatar />
-        <h3 style={{ marginLeft: "10px", color: "black" }}>Anonymous</h3>
+        <h3 style={{ marginLeft: "10px", color: "#333333" }}>Anonymous</h3>
         <small>
           {" "}
           <LastSeen date={post?.createdAt} />
@@ -268,10 +268,8 @@ function Post({ post, choice }) {
         <div className="post__question">
           <p
             style={{
-              fontSize: "23px",
+              fontSize: "22px",
               color: "black",
-              fontFamily: "Playfair Display, serif",
-              fontStyle: "italic",
             }}
           >
             {post?.questionName}
@@ -367,12 +365,12 @@ function Post({ post, choice }) {
       <p
         onClick={toggleAnswers}
         style={{
-          color: "black",
+          color: "#0d8ecf",
           fontSize: "15px",
           fontWeight: "bold",
           margin: "10px 0",
           cursor: "pointer",
-        }}
+        }} 
       >
         {post?.allAnswers.length} Answer(s)
       </p>
@@ -397,8 +395,6 @@ function Post({ post, choice }) {
                     alignItems: "center",
                     marginBottom: "10px",
                     fontSize: "12px",
-                    fontWeight: 600,
-                    color: "#888",
                   }}
                   className="post-answered"
                 >
@@ -410,7 +406,7 @@ function Post({ post, choice }) {
                     }}
                     className="post-info"
                   >
-                    <p style={{ fontSize: "18px", color: "rgb(1, 26, 80)" }}>
+                    <p style={{ fontSize: "18px", color: "#333333",fontWeight: "600" }}>
                       Anonymous
                     </p>
                     <span>
@@ -421,7 +417,7 @@ function Post({ post, choice }) {
                 <div
                   className="post-answer"
                   style={{
-                    color: "#1da1f2",
+                    color: "black",
                     fontSize: "20px",
                     fontWeight: "bold",
                   }}
@@ -463,8 +459,8 @@ function Post({ post, choice }) {
     <FontAwesomeIcon icon={faTrashAlt} />
   </button>
 
-  <button className="post__btnAnswer" style={{ fontSize: "0.1em", marginRight: "10px" }}>
-    <ThumbUpIcon />
+  <button className="post__btnAnswer" style={{ marginRight: "10px"}}>
+    <ThumbUpIcon style={{fontSize:"17px" }}/>
   </button>
 </div>
             
@@ -502,8 +498,7 @@ function Post({ post, choice }) {
                   alignItems: "center",
                   marginBottom: "10px",
                   fontSize: "12px",
-                  fontWeight: 600,
-                  color: "#888",
+                  
                 }}
                 className="post-answered"
               >
@@ -515,8 +510,8 @@ function Post({ post, choice }) {
                   }}
                   className="post-info"
                 >
-                  <p style={{ fontSize: "18px", color: "black" }}>Anonymous</p>
-                  <span>
+                  <p style={{ fontSize: "18px", color: "#333333", fontWeight: "600"}}>Anonymous</p>
+                  <span >
                     <LastSeen date={ans?.createdAt} />
                   </span>
                 </div>
@@ -524,7 +519,7 @@ function Post({ post, choice }) {
               <div
                 className="post-answer"
                 style={{
-                  color: "#1da1f2",
+                  color: "black",
                   fontSize: "20px",
                   fontWeight: "bold",
                 }}
@@ -565,8 +560,8 @@ function Post({ post, choice }) {
     <FontAwesomeIcon icon={faTrashAlt} />
   </button>
 
-  <button className="post__btnAnswer" style={{ fontSize: "0.1em", marginRight: "10px" }}>
-    <ThumbUpIcon />
+  <button className="post__btnAnswer" style={{marginRight: "10px" }}>
+    <ThumbUpIcon style={{fontSize:"17px" }}/>
   </button>
 </div>
 
@@ -624,14 +619,6 @@ function Post({ post, choice }) {
           <div className="modal__title">
           <h5>Update Question</h5>
           </div>
-          <div className="modal__info">
-          <Avatar  className="avatar" />
-          <div className="modal__scope">
-          <PeopleAltOutlined />
-                <p>Public</p>
-                <ExpandMore/>
-          </div>
-          </div>
           <div className="modal__Field">
               <Input
                 value={question}
@@ -670,7 +657,7 @@ function Post({ post, choice }) {
               </div>
             </div>
           <div className='modal__buttons'>
-            <button  className='cancel' onClick={() => setIsEditQuesModalOpen(false)}>
+            <button  className='cancle' onClick={() => setIsEditQuesModalOpen(false)}>
               Cancel
             </button>
 
