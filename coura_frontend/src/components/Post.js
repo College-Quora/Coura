@@ -54,6 +54,7 @@ function Post({ post, choice }) {
   const [answerId, setAnswerId] = useState("");
   const [question, setQuestion] = useState("");
   const [inputUrl, setInputUrl] = useState("");
+  const [quesCategory, setQuesCategory] = useState(post?.category);
   const [alreadyAnswered, setAlreadyAnswered] = useState(false);
   const userId = window.localStorage.getItem("userId");
 
@@ -69,6 +70,10 @@ function Post({ post, choice }) {
     }
   }, []);
 
+
+  const handleQuesCategory=(e)=>{
+    setQuesCategory(e.target.value);
+  }
 
   const handleQuill = (value) => {
     setAnswer(value);
@@ -210,7 +215,8 @@ function Post({ post, choice }) {
 
       const body = {
         questionName: question,
-        questionUrl: inputUrl
+        questionUrl: inputUrl,
+        category: quesCategory
       }
 
       await axios.put('/api/questions/' + post?._id, body, config).then((res) =>{
@@ -268,31 +274,13 @@ function Post({ post, choice }) {
         <div className="post__question">
           <p
             style={{
-              fontSize: "22px",
+              fontSize: "18px",
               color: "black",
             }}
           >
             {post?.questionName}
           </p>
-          <div className='post__btnContainer'>
-
-          <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to edit question!");
-            else { setQuestion(post?.questionName); setInputUrl(post?.questionUrl); setIsEditQuesModalOpen(true); }
-          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faPencilAlt} /></button>
-
-          <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to delete question!");
-            else {handleDeleteQues()};
-          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faTrashAlt} /></button>
           
-          <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to add answer!");
-            else setIsModalOpen(true);
-          }} disabled= {alreadyAnswered} className='post___btnAnswer'>Answer</button>
-
-          </div>
-    
 
           <Modal
             open={isModalOpen}
@@ -337,7 +325,8 @@ function Post({ post, choice }) {
         {post?.questionUrl && <img src={post?.questionUrl} alt="url" />}
       </div>
       <div className="post__footer">
-        <div className="post__footerAction">
+        <div className="post___footerAction">
+          <div className="post__footerAction">
           <ArrowUpwardOutlined onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to upvote question!");
             else { upVote() }
@@ -357,10 +346,25 @@ function Post({ post, choice }) {
               message==="you downvoted" ? "red" : "black"
            }} 
           />
-          <p> {downVotes} </p>
+          <p> {downVotes} </p> 
+          </div>   
         </div>
-        {/* <div>{message}</div> */}
-        
+        <div className="button_container">
+         <button onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to edit question!");
+            else { setQuestion(post?.questionName); setInputUrl(post?.questionUrl); setIsEditQuesModalOpen(true); }
+          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faPencilAlt} /></button>
+
+          <button onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to delete question!");
+            else {handleDeleteQues()};
+          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faTrashAlt} /></button>
+          
+          <button onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to add answer!");
+            else setIsModalOpen(true);
+          }} disabled= {alreadyAnswered} className='post___btnAnswer'>Answer</button>
+        </div>
       </div>
       <p
         onClick={toggleAnswers}
@@ -418,7 +422,7 @@ function Post({ post, choice }) {
                   className="post-answer"
                   style={{
                     color: "black",
-                    fontSize: "20px",
+                    fontSize: "18px",
                     fontWeight: "bold",
                   }}
                 >
@@ -520,7 +524,7 @@ function Post({ post, choice }) {
                 className="post-answer"
                 style={{
                   color: "black",
-                  fontSize: "20px",
+                  fontSize: "18px",
                   fontWeight: "bold",
                 }}
               >
@@ -620,12 +624,26 @@ function Post({ post, choice }) {
           <h5>Update Question</h5>
           </div>
           <div className="modal__Field">
+              <div style={{display: "flex", justifyContent:"space-between"}}>
               <Input
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 type=" text"
                 placeholder="Start your question with 'What', 'How', 'Why', etc. "
+                style={{width:"80%"}}
               />
+                <select name="categoryQues" id="categoryQues" onChange={handleQuesCategory}>
+                  <option value="none" selected ={ quesCategory === "none" ? true: false}>None</option>
+                  <option value="placementReview" selected ={ quesCategory === "placementReview" ? true: false}>Placement Review</option>
+                  <option value="courseFeedback" selected ={ quesCategory === "courseFeedback" ? true: false}>Course Feedback</option>
+                  <option value="hostelReview" selected ={ quesCategory === "hostelReview" ? true: false}>Hostel Review</option>
+                  <option value="collegeInfrastructure" selected ={ quesCategory === "collegeInfrastructure" ? true: false}>College Infrastructure</option>
+                  <option value="sportsFacilities" selected ={ quesCategory === "sportsFacilities" ? true: false}>Sports Facilities</option>
+                  <option value="scholarships" selected ={ quesCategory === "scholarships" ? true: false}>Scholarships</option>
+                  <option value="feeStructure" selected ={ quesCategory === "feeStructure" ? true: false}>Fee Structure</option>
+                  <option value="collegeLocation" selected ={ quesCategory === "collegeLocation" ? true: false}>College Location</option>
+                </select>
+              </div>
               <div
                 style={{
                   display: "flex",

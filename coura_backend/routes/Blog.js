@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
         blogName: req.body.blogName,
         blogUrl: req.body.blogUrl,
         createdAt: Date.now(),
+        category: req.body.category,
         blogUpvotes: 0,
         blogDownvotes: 0,
         blogUserId: req.body.userId
@@ -43,7 +44,7 @@ router.put('/:id', async(req, res) =>{
         const blogId = req.params.id;
         await blogDB.updateOne(
                 { _id: blogId},
-                { $set: { blogName: req.body.blogName, blogUrl : req.body.blogUrl} }
+                { $set: { blogName: req.body.blogName, blogUrl : req.body.blogUrl, category: req.body.category,} }
         ).then(() =>{
             res.status(200).send({
                 status: true,

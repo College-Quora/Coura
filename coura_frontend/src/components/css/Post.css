@@ -8,10 +8,9 @@
     margin-top: 10px;
     
     border-radius: 10px;
-    max-width: 850px;
+    max-width: 900px;
     box-shadow: 2px 2px 2px #0d8ecf;
     width:1500px;
-    margin-left:  85px;
   }
   
   .post__info {
@@ -45,10 +44,11 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    padding:5px;
     flex: 1;
   }
   
-  .post__question >.post__btnContainer> .post___btnAnswer {
+  .post__footer > .button_container > .post___btnAnswer {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
@@ -64,7 +64,7 @@
     
   }
 
-  .post__question >.post__btnContainer> .post__btnAnswer {
+  .post__footer > .button_container > .post__btnAnswer {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
@@ -79,32 +79,35 @@
     
   }
   
-  .post__question >.post__btnContainer>.post___btnAnswer:hover {
+  .post__footer > .button_container  >.post___btnAnswer:hover {
     
     color: white;
     background: goldenrod;
   }
 
-  .post__question >.post__btnContainer>.post__btnAnswer:hover {
+  .post__footer > .button_container >.post__btnAnswer:hover {
     
     color: white;
     background: goldenrod;
   }
 
-  .post__question >.post__btnContainer>.post__btnAnswer:disabled {
+ .post__footer > .button_container > .post__btnAnswer:disabled {
     font-weight: bold;
     color: white;
     background: grey;
    
   }
 
-  .post__question >.post__btnContainer>.post___btnAnswer:disabled {
+  .post__footer > .button_container >.post___btnAnswer:disabled {
     font-weight: bold;
     color: white;
     background: grey;
    
   }
 
+  .ansbtns{
+    margin-top:10px
+  }
 
   .ansbtns > .post__btnAnswer{
    
@@ -129,14 +132,10 @@
     color: white;
     background: grey;
   }
-
-
-  .post__question > p:hover {
-    text-decoration: underline;
-  }
   
   .post__body > .post__answer > p {
     margin-bottom: 10px;
+    padding:5px;
   }
   
   /* .post__image {
@@ -157,6 +156,7 @@
     display: flex;
     align-items: center;
     margin-top: 5px;
+    justify-content: space-between;
   }
   
   .post__footer > .MuiSvgIcon-root {
@@ -322,7 +322,7 @@
     margin-left: 15px;
     gap: 13px;
   } */
-  .post__btnContainer {
+  /* .post__btnContainer {
     position: absolute;
     top: 0;
     right: 0;
@@ -330,7 +330,7 @@
     justify-content: flex-end;
     padding-top: 55px;
     padding-right: 20px;
-  }
+  } */
 
   .ansbtns{
     display: inline-block;
@@ -357,4 +357,9 @@
     border:1px solid gray;
     width:80%;
     margin:6px;
+  }
+
+  .post___footerAction{
+    display: flex;
+    flex-direction: row;
   }

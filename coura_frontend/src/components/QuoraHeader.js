@@ -332,6 +332,8 @@ function QuoraHeader({searchKey , setSearchKey}) {
   const [inputUrl, setInputUrl] = useState("");
   const [inputUrlBlog, setInputUrlBlog] = useState("");
   const [question, setQuestion] = useState("");
+  const [quesCategory, setQuesCategory] = useState("none");
+  const [blogCategory, setBlogCategory] = useState("none");
   const [openProfile, setOpenProfile] = useState(false);
 
   const [activeTab, setActiveTab] = useState('feed');
@@ -342,7 +344,15 @@ function QuoraHeader({searchKey , setSearchKey}) {
 
   const NavigateToLogin = ()=>{
         navigate("/login", {replace: true});
-    }
+  }
+
+  const handleBlogCategory=(e)=>{
+    setBlogCategory(e.target.value);
+  }
+
+  const handleQuesCategory=(e)=>{
+    setQuesCategory(e.target.value);
+  }
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -383,6 +393,7 @@ function QuoraHeader({searchKey , setSearchKey}) {
       const body = {
         questionName: question,
         questionUrl: inputUrl,
+        category: quesCategory,
         userId: window.localStorage.getItem("userId")
       }
       await axios.post('/api/questions', body, config).then((res) =>{
@@ -409,6 +420,7 @@ function QuoraHeader({searchKey , setSearchKey}) {
       const body = {
         blogName: blogContent,
         blogUrl: inputUrlBlog,
+        category: blogCategory,
         userId: window.localStorage.getItem("userId")
       }
       await axios.post('/api/blogs', body, config).then((res) =>{
@@ -480,14 +492,32 @@ function QuoraHeader({searchKey , setSearchKey}) {
         <DialogTitle style={{fontSize:'20px',fontWeight:'bold', color:"#333333"}}>Add New Question</DialogTitle>
         <DialogContent style={{ marginTop: '-15px', width: '600px', height: '570px',marginDown: '30px' }}>
         
-         
           <div className="modal__Field">
+            <div style={{display: "flex", justifyContent:"space-between"}}>
               <Input
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 type=" text"
-                placeholder="Start your question with 'What', 'How', 'Why', etc. "
+                placeholder="Start your question with 'What', 'How', 'Why', etc. " 
+                style={{width:"80%"}}
               />
+
+              <select name="categoryQues" id="categoryQues" onChange={handleQuesCategory}>
+                  <option value="none" selected ={ true }>None</option>
+                  <option value="placementReview">Placement Review</option>
+                  <option value="courseFeedback">Course Feedback</option>
+                  <option value="hostelReview">Hostel Review</option>
+                  <option value="collegeInfrastructure">College Infrastructure</option>
+                  <option value="sportsFacilities">Sports Facilities</option>
+                  <option value="scholarships">Scholarships</option>
+                  <option value="feeStructure">Fee Structure</option>
+                  <option value="collegeLocation">College Location</option>
+                </select>
+            </div>
+            
+                
+              
+              
               <div
                 style={{
                   display: "flex",
@@ -531,12 +561,26 @@ function QuoraHeader({searchKey , setSearchKey}) {
         <DialogContent style={{ marginTop: '10px', width: '600px', height: '570px',marginDown: '30px' }}>
        
         <div className="modal__Field">
+          <div style={{display: "flex", justifyContent:"space-between"}}>
               <Input
                 value={blogContent}
                 onChange={(e) => setBlogContent(e.target.value)}
                 type=" text"
                 placeholder="Say Something....... "
+                style={{width:"80%"}}
               />
+              <select name="categoryBlog" id="categoryBlog" onChange={handleBlogCategory}>
+                  <option value="none" selected ={ true }>None</option>
+                  <option value="placementReview">Placement Review</option>
+                  <option value="courseFeedback">Course Feedback</option>
+                  <option value="hostelReview">Hostel Review</option>
+                  <option value="collegeInfrastructure">College Infrastructure</option>
+                  <option value="sportsFacilities">Sports Facilities</option>
+                  <option value="scholarships">Scholarships</option>
+                  <option value="feeStructure">Fee Structure</option>
+                  <option value="collegeLocation">College Location</option>
+                </select>
+              </div>
               <div
                 style={{
                   display: "flex",

@@ -19,7 +19,7 @@ import ReactTimeAgo from "react-time-ago";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ChatBubbleSharpIcon from '@mui/icons-material/ChatBubbleSharp';
+import MessageIcon from '@mui/icons-material/Message';
 
 const displayVoteMessage = (choice) => {
   var message = "";
@@ -48,6 +48,7 @@ function Post({ post, choice }) {
   const [isEditBlogModalOpen, setIsEditBlogModalOpen] = useState(false);
   const [blog, setBlog] = useState("");
   const [inputUrl, setInputUrl] = useState("");
+  const [blogCategory, setBlogCategory] = useState(post?.category);
   const userId = window.localStorage.getItem("userId");
   
   const Close = <CloseIcon />;
@@ -59,6 +60,10 @@ function Post({ post, choice }) {
       setComment("");
     }
   },[isCommentInputOpen])
+
+  const handleBlogCategory=(e)=>{
+    setBlogCategory(e.target.value);
+  }
 
   const handleQuill = (value) => {
     setComment(value);
@@ -208,7 +213,8 @@ function Post({ post, choice }) {
 
       const body = {
         blogName: blog,
-        blogUrl: inputUrl
+        blogUrl: inputUrl,
+        category: blogCategory
       }
 
       await axios.put('/api/blogs/' + post?._id, body, config).then((res) =>{
@@ -237,14 +243,49 @@ function Post({ post, choice }) {
         <div className="post__question">
           <p
             style={{
-              fontSize: "23px",
+              fontSize: "18px",
               color: "black",
             }}
           >
             {post?.blogName}
           </p>
           
-          <div className="post__btnContainer">
+        </div>
+        {post?.blogUrl && <img src={post?.blogUrl} alt="url" />}
+      </div>
+      <div className="post__footer">
+        <div className="post___footerAction">
+            <div className="post__footerAction">
+            <ArrowUpwardOutlined onClick={() => {
+              if(window.localStorage.getItem("token") == null) alert("Please login to upvote blog!");
+              else { upVote() }
+            }}
+            style={{ 
+              color:
+                message==="you upvoted" ? "green" : "black"
+              }} 
+             />
+            <p> {upVotes} </p> 
+
+          <ArrowDownwardOutlined onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to downvote blog!");
+            else { downVote() }
+          }}
+          style={{ 
+            color:
+              message==="you downvoted" ? "red" : "black"
+           }} 
+           />
+          <p> {downVotes} </p>
+          </div>
+          <MessageIcon onClick={() => {
+            if(window.localStorage.getItem("token") == null) alert("Please login to add comment!");
+            else setIsCommentInputOpen((prev)=>!prev);
+          }} style={{color: "#0d8ecf", fontSize:"40px", marginLeft:"10px"}}/>
+       
+        </div>
+        
+        <div className="button_container">
           <button onClick={() => {
             if(window.localStorage.getItem("token") == null) alert("Please login to edit blog!");
             else { setBlog(post?.blogName); setInputUrl(post?.blogUrl); setIsEditBlogModalOpen(true); }
@@ -256,45 +297,6 @@ function Post({ post, choice }) {
           }} disabled={(post?.blogUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faTrashAlt} /></button>
     
           </div>
-          
-        </div>
-        {post?.blogUrl && <img src={post?.blogUrl} alt="url" />}
-      </div>
-      <div className="post__footer">
-        <div className="post__footerAction">
-         
-            <ArrowUpwardOutlined onClick={() => {
-              if(window.localStorage.getItem("token") == null) alert("Please login to upvote blog!");
-              else { upVote() }
-            }}
-            style={{ 
-              color:
-                message==="you upvoted" ? "green" : "black"
-             }} 
-             />
-            <p> {upVotes} </p> 
-         
-           
-           
-          <ArrowDownwardOutlined onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to downvote blog!");
-            else { downVote() }
-          }}
-          style={{ 
-            color:
-              message==="you downvoted" ? "red" : "black"
-           }} 
-           />
-          <p> {downVotes} </p>
-        </div>
-        <ChatBubbleSharpIcon onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to add comment!");
-            else setIsCommentInputOpen((prev)=>!prev);
-          }} style={{color: "#0d8ecf"}}/>
-        {/* <div>{message}</div> */}
-        
-       
-        
       </div>
       <p
         style={{
@@ -356,7 +358,7 @@ function Post({ post, choice }) {
                 className="post-answer"
                 style={{
                   color: "black",
-                  fontSize: "20px",
+                  fontSize: "18px",
                   fontWeight: "bold",
                 }}
               >
@@ -428,7 +430,7 @@ function Post({ post, choice }) {
                 className="post-answer"
                 style={{
                   color: "black",
-                  fontSize: "20px",
+                  fontSize: "18px",
                   fontWeight: "bold",
                 }}
               >
@@ -470,12 +472,26 @@ function Post({ post, choice }) {
             <h5>Update Blog</h5>
             </div>
             <div className="modal__Field">
+              <div style={{display: "flex", justifyContent:"space-between"}}>
                 <Input
                   value={blog}
                   onChange={(e) => setBlog(e.target.value)}
                   type=" text"
                   placeholder="Say Something....... "
+                  style={{width:"80%"}}
                 />
+                <select name="categoryBlog" id="categoryBlog" onChange={handleBlogCategory}>
+                  <option value="none" selected ={ blogCategory === "none" ? true: false}>None</option>
+                  <option value="placementReview" selected ={ blogCategory === "placementReview" ? true: false}>Placement Review</option>
+                  <option value="courseFeedback" selected ={ blogCategory === "courseFeedback" ? true: false}>Course Feedback</option>
+                  <option value="hostelReview" selected ={ blogCategory === "hostelReview" ? true: false}>Hostel Review</option>
+                  <option value="collegeInfrastructure" selected ={ blogCategory === "collegeInfrastructure" ? true: false}>College Infrastructure</option>
+                  <option value="sportsFacilities" selected ={ blogCategory === "sportsFacilities" ? true: false}>Sports Facilities</option>
+                  <option value="scholarships" selected ={ blogCategory === "scholarships" ? true: false}>Scholarships</option>
+                  <option value="feeStructure" selected ={ blogCategory === "feeStructure" ? true: false}>Fee Structure</option>
+                  <option value="collegeLocation" selected ={ blogCategory === "collegeLocation" ? true: false}>College Location</option>
+                </select>
+                </div>
                 <div
                   style={{
                     display: "flex",

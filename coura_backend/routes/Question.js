@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
         questionName: req.body.questionName,
         questionUrl: req.body.questionUrl,
         createdAt: Date.now(),
+        category: req.body.category,
         quesUserId: req.body.userId,
         quesUpvotes: 0,
         quesDownvotes: 0,
@@ -44,7 +45,7 @@ router.put('/:id', async(req, res) =>{
         const quesId = req.params.id;
         await questionDB.updateOne(
                 { _id: quesId},
-                { $set: { questionName: req.body.questionName, questionUrl : req.body.questionUrl} }
+                { $set: { questionName: req.body.questionName, questionUrl : req.body.questionUrl, category: req.body.category,} }
         ).then(() =>{
             res.status(200).send({
                 status: true,

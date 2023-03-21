@@ -4,8 +4,6 @@
   }
   
   .quora__contents {
-    display: flex;
-    justify-content: center;
     padding: 50px 0;
     background-color: rgba(0, 0, 0, 0.05);
     min-width: fit-content;
@@ -17,7 +15,7 @@
     flex-direction: row;
     padding: 0px 10px;
     width: 100%;
-    max-width: 1200px;
+    justify-content: space-evenly;
   }
   
   .react-responsive-modal-modal {

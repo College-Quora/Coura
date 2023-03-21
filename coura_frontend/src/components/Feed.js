@@ -5,9 +5,13 @@ import Post from "./Post";
 import axios from "axios";
 import SortIcon from '@mui/icons-material/Sort';
 
-function Feed({searchKey}) {
+function Feed({searchKey, category, setCategory}) {
   const [posts, setPosts] = useState([]);
   const [votes, setVotes] = useState([]);
+
+  useEffect(() =>{
+    setCategory("none");
+  },[])
 
   useEffect(() => {
     axios
@@ -42,7 +46,7 @@ function Feed({searchKey}) {
         console.log(err);
       });
   }, []);
-
+  
 
   const voteById = (id) => {
     if (votes[id]) return votes[id];
@@ -54,7 +58,7 @@ function Feed({searchKey}) {
       <QuoraBox />
       {
         posts.map((post, index) => (
-        (post.questionName.toLowerCase().includes(searchKey.toLowerCase())) === true ? 
+        ((post.questionName.toLowerCase().includes(searchKey.toLowerCase())) === true && (category==="none" || post.category === category)) ? 
         <Post key={index} post={post} choice={voteById(post._id)} /> :null))
 
       }

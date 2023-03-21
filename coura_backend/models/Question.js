@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const QuestionSchema = new mongoose.Schema({
     questionName: { type: String },
     questionUrl: { type: String },
+    category: { type: String },
     quesUpvotes: Number,
     quesDownvotes: Number,
     

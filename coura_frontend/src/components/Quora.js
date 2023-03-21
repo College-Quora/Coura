@@ -11,6 +11,7 @@ function Quora() {
 
   const token= window.localStorage.getItem("token");
   const [searchKey, setSearchKey] = useState("");
+  const [category, setCategory] = useState("none");
 
   return (
     <div className='quora'>
@@ -19,9 +20,9 @@ function Quora() {
       <div className="quora__contents">
         
         <Routes>
-          <Route path="/" exact element={<div className="quora__content"> <Sidebar/> <Feed searchKey = {searchKey}/> </div>} />
-          <Route path="/feed" exact element={<div className="quora__content"> <Sidebar/> <Feed searchKey = {searchKey}/>  </div>} />
-          <Route path="/blogFeed" exact element={<div className="quora__content"> <Sidebar/> <Blog searchKey = {searchKey}/> </div>} />
+          <Route path="/" exact element={<div className="quora__content"> <Sidebar category={category} setCategory={setCategory}/> <Feed searchKey = {searchKey} category={category} setCategory={setCategory}/> </div>} />
+          <Route path="/feed" exact element={<div className="quora__content"> <Sidebar category={category} setCategory={setCategory}/> <Feed searchKey = {searchKey} category ={category} setCategory={setCategory}/>  </div>} />
+          <Route path="/blogFeed" exact element={<div className="quora__content"> <Sidebar category={category} setCategory={setCategory}/> <Blog searchKey = {searchKey} category ={category} setCategory={setCategory}/> </div>} />
           { token && <Route path="/profile" exact element={<div className="quora__content"><Profile /></div>} />}
         </Routes>
           

@@ -5,9 +5,13 @@ import BlogPost from './BlogPost';
 import axios from 'axios';
 import SortIcon from '@mui/icons-material/Sort';
 
-function Blog({searchKey}) {
+function Blog({searchKey, category, setCategory}) {
     const [blogPosts, setBlogPosts] = useState([])
     const [votes, setVotes] = useState([]);
+
+    useEffect(() =>{
+    setCategory("none");
+    },[])
 
     useEffect(() =>{
     axios.get('/api/blogs').then((res) =>{
@@ -51,7 +55,7 @@ function Blog({searchKey}) {
     <QuoraBox />
     {
         blogPosts.map((post, index) => (
-        (post.blogName.toLowerCase().includes(searchKey.toLowerCase())) === true ? 
+        ((post.blogName.toLowerCase().includes(searchKey.toLowerCase())) === true && (category==="none" || post.category === category)) ? 
         <BlogPost key={index} post={post} choice={voteById(post._id)} /> : null))
     }
     </div>
