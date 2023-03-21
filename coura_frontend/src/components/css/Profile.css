@@ -66,6 +66,9 @@
   
   .profileBottom {
     margin-top: 50px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .profileOptions {
@@ -73,6 +76,7 @@
     justify-content: space-around;
     margin-bottom: 20px;
     color: #333333;
+    width: 100%;
   }
 
   .profileOptions h4:hover {
@@ -143,4 +147,3 @@
     margin-right: 42px;
     cursor: pointer;
   }
-  
