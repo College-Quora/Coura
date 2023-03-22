@@ -2,7 +2,10 @@
   "name": "coura-frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://coura.onrender.com",
+  "proxy": {
+      "target" : "https://coura.onrender.com",
+      "changeOrigin" : true
+    },
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
