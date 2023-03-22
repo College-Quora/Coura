@@ -27,25 +27,25 @@ app.use((req, res, next) => {
 app.use("/api", router);
 
 //app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
-/*
-app.use(express.static(path.join(__dirname, "/../coura_frontend/build")));
+
+app.use(express.static(path.join(__dirname, "./coura_frontend/build")));
 app.get("*", (req, res) => {
   try {
-    res.sendFile(path.join(`${__dirname}/../coura_frontend/build/index.html`));
+    res.sendFile(path.join(__dirname, "./coura_frontend/build/index.html"));
   } catch (e) {
     res.send("Oops! unexpected error!");
   }
 });
-*/
 
-app.use(express.static(path.resolve(__dirname, '../coura_frontend', 'build')));
-    app.get("/*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../coura_frontend', 'build', 'index.html'),function (err) {
-            if(err) {
-                res.status(500).send(err)
-            }
-        });
-    });
+
+// app.use(express.static(path.resolve(__dirname, '../coura_frontend', 'build')));
+//     app.get("/*", (req, res) => {
+//         res.sendFile(path.resolve(__dirname, '../coura_frontend', 'build', 'index.html'),function (err) {
+//             if(err) {
+//                 res.status(500).send(err)
+//             }
+//         });
+//     });
 
     /*
     app.use(express.static(path.join(__dirname, "../coura_frontend/build")));
