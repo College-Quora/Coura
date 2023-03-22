@@ -1,9 +1,19 @@
 {
-    "version": 2,
-    "builds": [
-      { "src": "./server.js", "use": "@vercel/node" }
-    ],
-    "routes": [
-        { "src": "/(.*)", "dest": "server.js" }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "./coura_backend/server.js", 
+      "use": "@vercel/node"
+    },
+    {
+      "src": "./coura_frontend/build",  
+      "use": "@vercel/static"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/coura_backend/server.js"
+    }
+  ]
+}
