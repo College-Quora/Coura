@@ -214,6 +214,7 @@
   font-weight: 300 !important;
   cursor: pointer !important;
   transition: background-color 0.2s ease-in-out !important;
+  width:max-content !important;
 }
 
 .cancelButtonBlog {

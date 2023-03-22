@@ -123,7 +123,7 @@ function Register() {
             name="password"
           />
 
-          <div>
+          <div style={{display: "flex", flexDirection: "column" ,alignItems: "center"}}>
             {isProcessing ? (
               <progress />
             ) : (
