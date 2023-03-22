@@ -14,7 +14,7 @@ function Feed({ searchKey, category, setCategory }) {
 
   useEffect(() => {
     axios
-      .get("https://coura.onrender.com/api/questions")
+      .get("/api/questions")
       .then((res) => {
         console.log(res.data);
         setPosts(res.data.reverse());
@@ -36,7 +36,7 @@ function Feed({ searchKey, category, setCategory }) {
     };
 
     axios
-      .post("https://coura.onrender.com/api/questions/votes", body, config)
+      .post("/api/questions/votes", body, config)
       .then((res) => {
         console.log(res.data.votes);
         setVotes(res.data.votes);
