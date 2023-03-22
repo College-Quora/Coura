@@ -27,7 +27,7 @@ function Feed({ searchKey, category, setCategory }) {
   useEffect(() => {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
       },
     };
 
