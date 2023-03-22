@@ -38,17 +38,16 @@ app.get("*", (req, res) => {
 });
 */
 
-/*
-app.use(express.static(path.resolve(__dirname, 'coura_frontend', 'build')));
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'coura_frontend', 'build', 'index.html'),function (err) {
+app.use(express.static(path.resolve(__dirname, '../coura_frontend', 'build')));
+    app.get("/*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../coura_frontend', 'build', 'index.html'),function (err) {
             if(err) {
                 res.status(500).send(err)
             }
         });
     });
-    */
 
+    /*
     app.use(express.static(path.join(__dirname, "../coura_frontend/build")));
     app.get("*", (req, res) => {
       try {
@@ -57,7 +56,8 @@ app.use(express.static(path.resolve(__dirname, 'coura_frontend', 'build')));
         res.send("Oops! unexpected error!");
       }
     });
-    
+    */
+
 app.use(cors());
 app.listen(PORT, () => {
   console.log(`Listening on port no ${PORT}`);
