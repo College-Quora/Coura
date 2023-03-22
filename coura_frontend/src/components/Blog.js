@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import QuoraBox from './QuoraBox';
-import './css/Feed.css';
-import BlogPost from './BlogPost';
-import axios from 'axios';
-import SortIcon from '@mui/icons-material/Sort';
+import React, { useEffect, useState } from "react";
+import QuoraBox from "./QuoraBox";
+import "./css/Feed.css";
+import BlogPost from "./BlogPost";
+import axios from "axios";
 
-function Blog({searchKey, category, setCategory}) {
-    const [blogPosts, setBlogPosts] = useState([])
-    const [votes, setVotes] = useState([]);
+function Blog({ searchKey, category, setCategory }) {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [votes, setVotes] = useState([]);
 
-    useEffect(() =>{
+  useEffect(() => {
     setCategory("none");
-    },[])
+  }, []);
 
-    useEffect(() =>{
-    axios.get('/api/blogs').then((res) =>{
-      console.log(res.data);
-      setBlogPosts(res.data.reverse());
-    }).catch((err) =>{
-      console.log(err);
-    })
+  useEffect(() => {
+    axios
+      .get("/api/blogs")
+      .then((res) => {
+        console.log(res.data);
+        setBlogPosts(res.data.reverse());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
@@ -49,17 +51,18 @@ function Blog({searchKey, category, setCategory}) {
     else return 0;
   };
 
-
   return (
-    <div className='blog'>
-    <QuoraBox />
-    {
-        blogPosts.map((post, index) => (
-        ((post.blogName.toLowerCase().includes(searchKey.toLowerCase())) === true && (category==="none" || post.category === category)) ? 
-        <BlogPost key={index} post={post} choice={voteById(post._id)} /> : null))
-    }
+    <div className="blog">
+      <QuoraBox />
+      {blogPosts.map((post, index) =>
+        post.blogName.toLowerCase().includes(searchKey.toLowerCase()) ===
+          true &&
+        (category === "none" || post.category === category) ? (
+          <BlogPost key={index} post={post} choice={voteById(post._id)} />
+        ) : null
+      )}
     </div>
-  )
+  );
 }
 
-export default Blog
+export default Blog;
