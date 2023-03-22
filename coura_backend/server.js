@@ -38,9 +38,9 @@ app.use("/api", router);
 // });
 
 
-app.use(express.static(path.resolve('coura_frontend', 'build')));
+app.use(express.static(path.resolve(__dirname, 'coura_frontend', 'build')));
     app.get("*", (req, res) => {
-        res.sendFile(path.resolve('coura_frontend', 'build', 'index.html'),function (err) {
+        res.sendFile(path.resolve(__dirname, 'coura_frontend', 'build', 'index.html'),function (err) {
             if(err) {
                 res.status(500).send(err)
             }
