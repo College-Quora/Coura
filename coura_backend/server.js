@@ -19,9 +19,12 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 //cors
 app.use((req, res, next) => {
   req.header("Access-Control-Allow-Origin", "*");
-  req.header("Access-Control-Allow-Headers", "*");
+  req.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
   next();
 });
+
+
 
 //routes
 app.use("/api", router);

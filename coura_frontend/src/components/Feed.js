@@ -14,7 +14,7 @@ function Feed({ searchKey, category, setCategory }) {
 
   useEffect(() => {
     axios
-      .get("/questions")
+      .get("/api/questions")
       .then((res) => {
         console.log(res.data);
         setPosts(res.data.reverse());
@@ -36,7 +36,7 @@ function Feed({ searchKey, category, setCategory }) {
     };
 
     axios
-      .post("/questions/votes", body, config)
+      .post("/api/questions/votes", body, config)
       .then((res) => {
         console.log(res.data.votes);
         setVotes(res.data.votes);
