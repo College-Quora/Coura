@@ -48,10 +48,10 @@ app.use("/api", router);
 //     });
 
     
-    app.use(express.static(path.join(__dirname, "../coura_frontend/build")));
+    app.use(express.static(path.join("../coura_frontend/build")));
     app.get("*", (req, res) => {
       try {
-        res.sendFile(path.join(__dirname,"../coura_frontend/build/index.html"));
+        res.sendFile(path.join("../coura_frontend/build/index.html"));
       } catch (e) {
         res.send("Oops! unexpected error!");
       }
