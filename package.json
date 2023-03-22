@@ -1,5 +1,4 @@
 {
-  "homepage": "https://coura.vercel.app/",
   "name": "coura",
   "version": "1.0.0",
   "description": "",
@@ -10,6 +9,7 @@
     "server": "nodemon coura_backend/server",
     "start": "nodemon --watch coura_backend --exec node coura_backend/server.js"
   },
+  "homepage": "https://github.com/College-Quora/Coura#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/College-Quora/Coura.git"

@@ -11,7 +11,7 @@ TimeAgo.addDefaultLocale(en);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter basename='/'>
+  <BrowserRouter>
     <App />
   </BrowserRouter>
 );
