@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   collegeName: { type: String, required: true },
   password: { type: String, required: true },
   verified: { type: Boolean, default: false },
-  votes: { type: Map, unique: true, of: Number },
+  votes: { type: Map, of: Number },
 });
 
 module.exports = mongoose.model("Users", UserSchema);
