@@ -1,10 +1,9 @@
 const express = require("express");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const router = express.Router();
-
-const blogDB = require('../models/Blog');
-const userDB = require('../models/User');
-const commentDB = require('../models/Comment');
+const blogDB = require("../models/Blog");
+const userDB = require("../models/User");
+const commentDB = require("../models/Comment");
 
 router.post("/", async (req, res) => {
   try {
@@ -16,7 +15,7 @@ router.post("/", async (req, res) => {
         category: req.body.category,
         blogUpvotes: 0,
         blogDownvotes: 0,
-        blogUserId: req.body.userId
+        blogUserId: req.body.userId,
       })
       .then(() => {
         res.status(201).send({
@@ -38,66 +37,74 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const blogId = req.params.id;
+    await blogDB
+      .updateOne(
+        { _id: blogId },
+        {
+          $set: {
+            blogName: req.body.blogName,
+            blogUrl: req.body.blogUrl,
+            category: req.body.category,
+          },
+        }
+      )
+      .then(() => {
+        res.status(200).send({
+          status: true,
+          message: "Blog updated successfully!",
+        });
+      })
+      .catch(() => {
+        res.status(400).send({
+          status: false,
+          message: "Bad request!",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Unexpected error!",
+    });
+  }
+});
 
-router.put('/:id', async(req, res) =>{
-    try{
-        const blogId = req.params.id;
-        await blogDB.updateOne(
-                { _id: blogId},
-                { $set: { blogName: req.body.blogName, blogUrl : req.body.blogUrl, category: req.body.category,} }
-        ).then(() =>{
+router.delete("/:id", async (req, res) => {
+  try {
+    const blogId = req.params.id;
+    await blogDB
+      .deleteOne({ _id: blogId })
+      .then(async () => {
+        await commentDB
+          .deleteMany({ blogId: blogId })
+          .then(() => {
             res.status(200).send({
-                status: true,
-                message: "Blog updated successfully!"
-            })
-        }).catch(() =>{
+              status: true,
+              message: "Blog deleted successfully!",
+            });
+          })
+          .catch(() => {
             res.status(400).send({
-                status: false,
-                message: "Bad request!"
-            })
-        })
-    }
-    catch(err){
-        res.status(500).send({
-            status: false,
-            message: "Unexpected error!"
-        })
-    }
-})
-
-
-router.delete('/:id', async(req,res)=>{
-    try{
-        const blogId = req.params.id;
-        await blogDB.deleteOne(
-                { _id: blogId} 
-        ).then(async() =>{
-            await commentDB.deleteMany({blogId: blogId}).then(()=>{
-                res.status(200).send({
-                status: true,
-                message: "Blog deleted successfully!"
-            })
-            }).catch(() =>{
-            res.status(400).send({
-                status: false,
-                message: "Bad request!"
-            })
-        })
-            
-        }).catch(() =>{
-            res.status(400).send({
-                status: false,
-                message: "Bad request!"
-            })
-        })
-    }
-    catch(err){
-        res.status(500).send({
-            status: false,
-            message: "Unexpected error!"
-        })
-    }
-})
+              status: false,
+              message: "Bad request!",
+            });
+          });
+      })
+      .catch(() => {
+        res.status(400).send({
+          status: false,
+          message: "Bad request!",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Unexpected error!",
+    });
+  }
+});
 
 router.get("/", async (req, res) => {
   try {
@@ -130,74 +137,65 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-
-router.get('/:id', async(req, res) => {
-    
-    try{
-        const userId = req.params.id;
-        await userDB.findOne({_id: userId}).then(async()=>{
-
-            blogDB.aggregate([
-                {
-                    $match:{
-                        blogUserId: new mongoose.Types.ObjectId(userId)
-                    }
-                },
-                {
-                    $lookup:{
-                        from: "comments",
-                        localField: "_id",
-                        foreignField: "blogId",
-                        as : "allComments"
-                }
-                }
-                
-            ]).then((data)=>{
-                res.status(200).send({
-                    status: true,
-                    message: "Blogs fetched successfully!",
-                    data:data
-                })
-            }).catch(() =>{
-                res.status(400).send({
-                    status: false,
-                    message: "Bad request!"
-                })
-            })
-            
-            
-        }).catch(() =>{
-            return res.status(400).send({
-                status: false,
-                message: "User does not exist!"
-            })
-        })
-        
-    }
-    catch(err){
-        res.status(500).send({
-            status: false,
-            message: "Error while getting blogs!"
-        })
-    }
-})
-
-
+router.get("/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    await userDB
+      .findOne({ _id: userId })
+      .then(async () => {
+        blogDB
+          .aggregate([
+            {
+              $match: {
+                blogUserId: new mongoose.Types.ObjectId(userId),
+              },
+            },
+            {
+              $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "blogId",
+                as: "allComments",
+              },
+            },
+          ])
+          .then((data) => {
+            res.status(200).send({
+              status: true,
+              message: "Blogs fetched successfully!",
+              data: data,
+            });
+          })
+          .catch(() => {
+            res.status(400).send({
+              status: false,
+              message: "Bad request!",
+            });
+          });
+      })
+      .catch(() => {
+        return res.status(400).send({
+          status: false,
+          message: "User does not exist!",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Error while getting blogs!",
+    });
+  }
+});
 
 router.post("/upvotes", async (req, res) => {
   const postId = req.body.postId;
   const userId = req.body.userId;
 
-  //   console.log(`upvote ${postId}`);
   try {
     const user = await userDB.findById(userId).exec();
     const blog = await blogDB.findById(postId).exec();
     const choice = user.votes.get(postId);
     var message = "";
-
-    // console.log(user.email);
-    // console.log(choice);
 
     if (choice === undefined || choice === 0) {
       blog.blogUpvotes += 1;
@@ -209,7 +207,6 @@ router.post("/upvotes", async (req, res) => {
       user.votes.set(postId, 1);
       message = "Blog Upvoted";
     } else if (choice == 1) {
-      //   console.log(`choice ${choice}`);
       blog.blogUpvotes -= 1;
       user.votes.set(postId, 0);
       message = "vote removed";
@@ -239,7 +236,6 @@ router.post("/downvotes", async (req, res) => {
   const postId = req.body.postId;
   const userId = req.body.userId;
 
-  //   console.log(`downvote ${postId}`);
   try {
     const user = await userDB.findById(userId).exec();
     const blog = await blogDB.findById(postId).exec();
@@ -267,7 +263,7 @@ router.post("/downvotes", async (req, res) => {
 
     res.status(200).send({
       status: true,
-      message: "Blog Downvoted",
+      message: message,
       upvotes: blog.blogUpvotes,
       downvotes: blog.blogDownvotes,
       choice: user.votes.get(postId),

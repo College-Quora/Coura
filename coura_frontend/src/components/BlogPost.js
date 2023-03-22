@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Avatar , Input } from "@mui/material";
+import { Avatar, Input } from "@mui/material";
 import "./css/Post.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import {
   ArrowDownwardOutlined,
   ArrowUpwardOutlined,
-  Comment,
-  PeopleAltOutlined,
-  ExpandMore,
 } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ReactTimeAgo from "react-time-ago";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import MessageIcon from '@mui/icons-material/Message';
+import MessageIcon from "@mui/icons-material/Message";
 
 const displayVoteMessage = (choice) => {
   var message = "";
@@ -38,7 +33,6 @@ function LastSeen({ date }) {
 }
 
 function Post({ post, choice }) {
-
   const [isCommentInputOpen, setIsCommentInputOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
@@ -50,20 +44,20 @@ function Post({ post, choice }) {
   const [inputUrl, setInputUrl] = useState("");
   const [blogCategory, setBlogCategory] = useState(post?.category);
   const userId = window.localStorage.getItem("userId");
-  
+
   const Close = <CloseIcon />;
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
 
-  useEffect(()=>{
-    if(!isCommentInputOpen) {
+  useEffect(() => {
+    if (!isCommentInputOpen) {
       setComment("");
     }
-  },[isCommentInputOpen])
+  }, [isCommentInputOpen]);
 
-  const handleBlogCategory=(e)=>{
+  const handleBlogCategory = (e) => {
     setBlogCategory(e.target.value);
-  }
+  };
 
   const handleQuill = (value) => {
     setComment(value);
@@ -74,7 +68,8 @@ function Post({ post, choice }) {
   };
 
   const handleSubmit = async () => {
-    if (post?._id && comment !== "") {
+    setComment(comment.trim());
+    if (post?._id && comment.trim() !== "") {
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +79,7 @@ function Post({ post, choice }) {
       const body = {
         comment: comment,
         blogId: post?._id,
-        userId: window.localStorage.getItem("userId")
+        userId: window.localStorage.getItem("userId"),
       };
       await axios
         .post("/api/comments", body, config)
@@ -128,14 +123,11 @@ function Post({ post, choice }) {
           alert("Error in upvoting");
         });
     }
-    if(upvoted)
-    {
+    if (upvoted) {
       setUpvoted(false);
-    }
-    else
-    {
-    setUpvoted(true);
-    setDownvoted(false);
+    } else {
+      setUpvoted(true);
+      setDownvoted(false);
     }
   };
 
@@ -167,67 +159,69 @@ function Post({ post, choice }) {
         });
     }
 
-    if(downvoted)
-    {
+    if (downvoted) {
       setDownvoted(false);
-    }
-    else
-    {
-    setDownvoted(true);
-    setUpvoted(false);
+    } else {
+      setDownvoted(true);
+      setUpvoted(false);
     }
   };
 
-  const handleDeleteBlog = async() =>{
-    
-      await axios.delete('/api/blogs/' + post?._id).then((res) =>{
+  const handleDeleteBlog = async () => {
+    await axios
+      .delete("/api/blogs/" + post?._id)
+      .then((res) => {
         console.log(res.data);
         alert(res.data.message);
         window.location.href = "/blogFeed";
-      }).catch((err) =>{
-        console.log(err);
-        alert('Error in deleting blog!')
       })
-    
-  }
+      .catch((err) => {
+        console.log(err);
+        alert("Error in deleting blog!");
+      });
+  };
 
-  const handleDeleteComment = async(commentId) =>{
-
-      await axios.delete('/api/comments/' + commentId).then((res) =>{
+  const handleDeleteComment = async (commentId) => {
+    await axios
+      .delete("/api/comments/" + commentId)
+      .then((res) => {
         console.log(res.data);
         alert(res.data.message);
         window.location.href = "/blogFeed";
-      }).catch((err) =>{
-        console.log(err);
-        alert('Error in deleting comment!')
       })
-    
-  }
+      .catch((err) => {
+        console.log(err);
+        alert("Error in deleting comment!");
+      });
+  };
 
-  const handleEditBlog = async() =>{
-      const config = {
-          headers:{
-            "Content-Type": "application/json",
-          }
-        }
+  const handleEditBlog = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      const body = {
-        blogName: blog,
-        blogUrl: inputUrl,
-        category: blogCategory
-      }
+    const body = {
+      blogName: blog,
+      blogUrl: inputUrl,
+      category: blogCategory,
+    };
 
-      await axios.put('/api/blogs/' + post?._id, body, config).then((res) =>{
+    await axios
+      .put("/api/blogs/" + post?._id, body, config)
+      .then((res) => {
         console.log(res.data);
         alert(res.data.message);
         window.location.href = "/blogFeed";
-      }).catch((err) =>{
-        console.log(err);
-        alert('Error in updating blog!')
       })
-    
-      setIsEditBlogModalOpen(false);
-  }
+      .catch((err) => {
+        console.log(err);
+        alert("Error in updating blog!");
+      });
+
+    setIsEditBlogModalOpen(false);
+  };
 
   return (
     <div className="post">
@@ -249,54 +243,85 @@ function Post({ post, choice }) {
           >
             {post?.blogName}
           </p>
-          
         </div>
         {post?.blogUrl && <img src={post?.blogUrl} alt="url" />}
       </div>
       <div className="post__footer">
         <div className="post___footerAction">
-            <div className="post__footerAction">
-            <ArrowUpwardOutlined onClick={() => {
-              if(window.localStorage.getItem("token") == null) alert("Please login to upvote blog!");
-              else { upVote() }
+          <div className="post__footerAction">
+            <ArrowUpwardOutlined
+              onClick={() => {
+                if (window.localStorage.getItem("token") == null)
+                  alert("Please login to upvote blog!");
+                else {
+                  upVote();
+                }
+              }}
+              style={{
+                color: message === "you upvoted" ? "green" : "black",
+              }}
+            />
+            <p> {upVotes} </p>
+
+            <ArrowDownwardOutlined
+              onClick={() => {
+                if (window.localStorage.getItem("token") == null)
+                  alert("Please login to downvote blog!");
+                else {
+                  downVote();
+                }
+              }}
+              style={{
+                color: message === "you downvoted" ? "red" : "black",
+              }}
+            />
+            <p> {downVotes} </p>
+          </div>
+          <MessageIcon
+            onClick={() => {
+              if (window.localStorage.getItem("token") == null)
+                alert("Please login to add comment!");
+              else setIsCommentInputOpen((prev) => !prev);
             }}
-            style={{ 
-              color:
-                message==="you upvoted" ? "green" : "black"
-              }} 
-             />
-            <p> {upVotes} </p> 
-
-          <ArrowDownwardOutlined onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to downvote blog!");
-            else { downVote() }
-          }}
-          style={{ 
-            color:
-              message==="you downvoted" ? "red" : "black"
-           }} 
-           />
-          <p> {downVotes} </p>
-          </div>
-          <MessageIcon onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to add comment!");
-            else setIsCommentInputOpen((prev)=>!prev);
-          }} style={{color: "#0d8ecf", fontSize:"40px", marginLeft:"10px"}}/>
-       
+            style={{ color: "#0d8ecf", fontSize: "40px", marginLeft: "10px" }}
+          />
         </div>
-        
-        <div className="button_container">
-          <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to edit blog!");
-            else { setBlog(post?.blogName); setInputUrl(post?.blogUrl); setIsEditBlogModalOpen(true); }
-          }} disabled={(post?.blogUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faPencilAlt} /></button>
 
-          <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to delete question!");
-            else {handleDeleteBlog()};
-          }} disabled={(post?.blogUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faTrashAlt} /></button>
-    
-          </div>
+        <div className="button_container">
+          <button
+            onClick={() => {
+              if (window.localStorage.getItem("token") == null)
+                alert("Please login to edit blog!");
+              else {
+                setBlog(post?.blogName);
+                setInputUrl(post?.blogUrl);
+                setIsEditBlogModalOpen(true);
+              }
+            }}
+            disabled={
+              post?.blogUserId === userId || userId === null ? false : true
+            }
+            className="post__btnAnswer"
+          >
+            <FontAwesomeIcon icon={faPencilAlt} />
+          </button>
+
+          <button
+            onClick={() => {
+              if (window.localStorage.getItem("token") == null)
+                alert("Please login to delete question!");
+              else {
+                handleDeleteBlog();
+              }
+            }}
+            disabled={
+              post?.blogUserId === userId || userId === null ? false : true
+            }
+            className="post__btnAnswer"
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </button>
+        </div>
       </div>
       <p
         style={{
@@ -310,13 +335,23 @@ function Post({ post, choice }) {
       >
         {post?.allComments.length} Comment(s)
       </p>
-      { isCommentInputOpen && <div className="commentInput">
-        <input value={comment} onChange={(e) => setComment(e.target.value.trim())} type="text" placeholder="Add a comment..." id="comment" name="comment" className ="commentInputBox" />
-        <button type="submit" onClick={handleSubmit} className="addComment">
-                Add Comment
-            </button>
-      </div>}
-     
+      {isCommentInputOpen && (
+        <div className="commentInput">
+          <input
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            type="text"
+            placeholder="Add a comment..."
+            id="comment"
+            name="comment"
+            className="commentInputBox"
+          />
+          <button type="submit" onClick={handleSubmit} className="addComment">
+            Add Comment
+          </button>
+        </div>
+      )}
+
       {showComments && (
         <div>
           {post?.allComments?.map((comment, index) => (
@@ -348,7 +383,15 @@ function Post({ post, choice }) {
                   }}
                   className="post-info"
                 >
-                  <p style={{ fontSize: "18px", color: "#333333", fontWeight:"600" }}>Anonymous</p>
+                  <p
+                    style={{
+                      fontSize: "18px",
+                      color: "#333333",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Anonymous
+                  </p>
                   <span>
                     <LastSeen date={comment?.createdAt} />
                   </span>
@@ -364,175 +407,261 @@ function Post({ post, choice }) {
               >
                 {comment?.comment}
               </div>
-                <div>
-                  <div className="ansbtns"  style={{ display: "flex", alignItems: "center" }}>
-              <button onClick={() => {
-                if(window.localStorage.getItem("token") == null) alert("Please login to delete comment!");
-                else {handleDeleteComment(comment?._id)};
-              }} disabled={(comment?.commentUserId === userId || userId===null) ? false : true} className='post__btnAnswer'
-             
-              style={{ marginRight: "10px" ,fontSize:"15px"}}>
-                <FontAwesomeIcon icon={faTrashAlt} /></button>
-                <button className="post__btnAnswer" style={{ marginRight: "10px" }}>
-               <ThumbUpIcon style={{fontSize: "17px"}} />
-                      </button>
-              </div>
+              <div>
+                <div
+                  className="ansbtns"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <button
+                    onClick={() => {
+                      if (window.localStorage.getItem("token") == null)
+                        alert("Please login to delete comment!");
+                      else {
+                        handleDeleteComment(comment?._id);
+                      }
+                    }}
+                    disabled={
+                      comment?.commentUserId === userId || userId === null
+                        ? false
+                        : true
+                    }
+                    className="post__btnAnswer"
+                    style={{ marginRight: "10px", fontSize: "15px" }}
+                  >
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      { !showComments &&  (<div
-        style={{
-          margin: "5px 0px 0px 0px",
-          padding: "5px 0px 0px 20px",
-          borderTop: "1px solid lightgray",
-        }}
-        className="post__answer"
-      >
-        {post?.allComments?.map((comment, index) =>
-          index == 0 ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                padding: "10px 5px",
-                borderTop: "1px solid lightgray",
-              }}
-              className="post-answer-container"
-            >
+      {!showComments && (
+        <div
+          style={{
+            margin: "5px 0px 0px 0px",
+            padding: "5px 0px 0px 20px",
+            borderTop: "1px solid lightgray",
+          }}
+          className="post__answer"
+        >
+          {post?.allComments?.map((comment, index) =>
+            index == 0 ? (
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                  fontSize: "12px",
+                  flexDirection: "column",
+                  width: "100%",
+                  padding: "10px 5px",
+                  borderTop: "1px solid lightgray",
                 }}
-                className="post-answered"
+                className="post-answer-container"
               >
-                <Avatar />
-
-                <div
-                  style={{
-                    margin: "0px 10px",
-                  }}
-                  className="post-info"
-                >
-                  <p style={{ fontSize: "18px", color: "#333333", fontWeight:"600" }}>Anonymous</p>
-                  <span>
-                    <LastSeen date={comment?.createdAt} />
-                  </span>
-                </div>
-              </div>
-              <div
-                className="post-answer"
-                style={{
-                  color: "black",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                }}
-              >
-                {ReactHtmlParser(comment?.comment)}{" "}
-              </div>
-
-              <div>
-              <div className="ansbtns"  style={{ display: "flex", alignItems: "center" }}>
-              <button onClick={() => {
-                if(window.localStorage.getItem("token") == null) alert("Please login to delete comment!");
-                else {handleDeleteComment(comment?._id)};
-              }} disabled={(comment?.commentUserId === userId || userId===null) ? false : true} className='post__btnAnswer'
-             
-    style={{ marginRight: "10px" ,fontSize:"15px"}}>
-                <FontAwesomeIcon icon={faTrashAlt} /></button>
-                <button className="post__btnAnswer" style={{  marginRight: "10px" }}>
-               <ThumbUpIcon style={{fontSize: "17px"}} />
-                      </button>
-              </div>
-            </div>
-            </div>
-          ) : null
-        )}
-      </div>)}
-
-            <Modal open={isEditBlogModalOpen} 
-            closeIcon={Close}  
-            onClose={()=>setIsEditBlogModalOpen(false)}
-          closeOnEsc
-          center
-          closeOnOverlayClick={false}
-          styles={{
-            overlay: {
-              height: "auto",
-            },
-          }}
-          >
-            <div className="modal__title">
-            <h5>Update Blog</h5>
-            </div>
-            <div className="modal__Field">
-              <div style={{display: "flex", justifyContent:"space-between"}}>
-                <Input
-                  value={blog}
-                  onChange={(e) => setBlog(e.target.value)}
-                  type=" text"
-                  placeholder="Say Something....... "
-                  style={{width:"80%"}}
-                />
-                <select name="categoryBlog" id="categoryBlog" onChange={handleBlogCategory}>
-                  <option value="none" selected ={ blogCategory === "none" ? true: false}>None</option>
-                  <option value="placementReview" selected ={ blogCategory === "placementReview" ? true: false}>Placement Review</option>
-                  <option value="courseFeedback" selected ={ blogCategory === "courseFeedback" ? true: false}>Course Feedback</option>
-                  <option value="hostelReview" selected ={ blogCategory === "hostelReview" ? true: false}>Hostel Review</option>
-                  <option value="collegeInfrastructure" selected ={ blogCategory === "collegeInfrastructure" ? true: false}>College Infrastructure</option>
-                  <option value="sportsFacilities" selected ={ blogCategory === "sportsFacilities" ? true: false}>Sports Facilities</option>
-                  <option value="scholarships" selected ={ blogCategory === "scholarships" ? true: false}>Scholarships</option>
-                  <option value="feeStructure" selected ={ blogCategory === "feeStructure" ? true: false}>Fee Structure</option>
-                  <option value="collegeLocation" selected ={ blogCategory === "collegeLocation" ? true: false}>College Location</option>
-                </select>
-                </div>
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "column",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                    fontSize: "12px",
+                  }}
+                  className="post-answered"
+                >
+                  <Avatar />
+
+                  <div
+                    style={{
+                      margin: "0px 10px",
+                    }}
+                    className="post-info"
+                  >
+                    <p
+                      style={{
+                        fontSize: "18px",
+                        color: "#333333",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Anonymous
+                    </p>
+                    <span>
+                      <LastSeen date={comment?.createdAt} />
+                    </span>
+                  </div>
+                </div>
+                <div
+                  className="post-answer"
+                  style={{
+                    color: "black",
+                    fontSize: "18px",
+                    fontWeight: "bold",
                   }}
                 >
-                  <input
-                    type="text"
-                    value={inputUrl}
-                    onChange={(e) => setInputUrl(e.target.value)}
-                    style={{
-                      margin: "5px 0",
-                      border: "1px solid lightgray",
-                      padding: "10px",
-                      outline: "2px solid #000",
-                    }}
-                    placeholder="Optional: include a link that gives context"
-                  />
-                  {inputUrl !== "" && (
-                    <img
-                      style={{
-                        height: "40vh",
-                        objectFit: "contain",
+                  {ReactHtmlParser(comment?.comment)}{" "}
+                </div>
+
+                <div>
+                  <div
+                    className="ansbtns"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <button
+                      onClick={() => {
+                        if (window.localStorage.getItem("token") == null)
+                          alert("Please login to delete comment!");
+                        else {
+                          handleDeleteComment(comment?._id);
+                        }
                       }}
-                      src={inputUrl}
-                      alt="displayimage"
-                    />
-                  )}
+                      disabled={
+                        comment?.commentUserId === userId || userId === null
+                          ? false
+                          : true
+                      }
+                      className="post__btnAnswer"
+                      style={{ marginRight: "10px", fontSize: "15px" }}
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </button>
+                  </div>
                 </div>
               </div>
-            <div className='modal__buttons'>
-              <button  className='cancle' onClick={() => setIsEditBlogModalOpen(false)}>
-                Cancel
-              </button>
+            ) : null
+          )}
+        </div>
+      )}
 
-              <button onClick={handleEditBlog} type='submit' className='add'>
-                Update Your Blog
-              </button>
-            </div>
-          </Modal>
+      <Modal
+        open={isEditBlogModalOpen}
+        closeIcon={Close}
+        onClose={() => setIsEditBlogModalOpen(false)}
+        closeOnEsc
+        center
+        closeOnOverlayClick={false}
+        styles={{
+          overlay: {
+            height: "auto",
+          },
+        }}
+      >
+        <div className="modal__title">
+          <h5>Update Blog</h5>
+        </div>
+        <div className="modal__Field">
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Input
+              value={blog}
+              onChange={(e) => setBlog(e.target.value)}
+              type=" text"
+              placeholder="Say Something....... "
+              style={{ width: "80%" }}
+            />
+            <select
+              name="categoryBlog"
+              id="categoryBlog"
+              onChange={handleBlogCategory}
+            >
+              <option
+                value="none"
+                selected={blogCategory === "none" ? true : false}
+              >
+                None
+              </option>
+              <option
+                value="placementReview"
+                selected={blogCategory === "placementReview" ? true : false}
+              >
+                Placement Review
+              </option>
+              <option
+                value="courseFeedback"
+                selected={blogCategory === "courseFeedback" ? true : false}
+              >
+                Course Feedback
+              </option>
+              <option
+                value="hostelReview"
+                selected={blogCategory === "hostelReview" ? true : false}
+              >
+                Hostel Review
+              </option>
+              <option
+                value="collegeInfrastructure"
+                selected={
+                  blogCategory === "collegeInfrastructure" ? true : false
+                }
+              >
+                College Infrastructure
+              </option>
+              <option
+                value="sportsFacilities"
+                selected={blogCategory === "sportsFacilities" ? true : false}
+              >
+                Sports Facilities
+              </option>
+              <option
+                value="scholarships"
+                selected={blogCategory === "scholarships" ? true : false}
+              >
+                Scholarships
+              </option>
+              <option
+                value="feeStructure"
+                selected={blogCategory === "feeStructure" ? true : false}
+              >
+                Fee Structure
+              </option>
+              <option
+                value="collegeLocation"
+                selected={blogCategory === "collegeLocation" ? true : false}
+              >
+                College Location
+              </option>
+            </select>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <input
+              type="text"
+              value={inputUrl}
+              onChange={(e) => setInputUrl(e.target.value)}
+              style={{
+                margin: "5px 0",
+                border: "1px solid lightgray",
+                padding: "10px",
+                outline: "2px solid #000",
+              }}
+              placeholder="Optional: include a link that gives context"
+            />
+            {inputUrl !== "" && (
+              <img
+                style={{
+                  height: "40vh",
+                  objectFit: "contain",
+                }}
+                src={inputUrl}
+                alt="displayimage"
+              />
+            )}
+          </div>
+        </div>
+        <div className="modal__buttons">
+          <button
+            className="cancle"
+            onClick={() => setIsEditBlogModalOpen(false)}
+          >
+            Cancel
+          </button>
 
+          <button onClick={handleEditBlog} type="submit" className="add">
+            Update Your Blog
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }

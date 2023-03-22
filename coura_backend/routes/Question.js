@@ -1,10 +1,10 @@
 const express = require("express");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const router = express.Router();
 
-const questionDB = require('../models/Question');
-const answerDB = require('../models/Answer');
-const userDB = require('../models/User');
+const questionDB = require("../models/Question");
+const answerDB = require("../models/Answer");
+const userDB = require("../models/User");
 
 router.post("/", async (req, res) => {
   try {
@@ -38,68 +38,74 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const quesId = req.params.id;
+    await questionDB
+      .updateOne(
+        { _id: quesId },
+        {
+          $set: {
+            questionName: req.body.questionName,
+            questionUrl: req.body.questionUrl,
+            category: req.body.category,
+          },
+        }
+      )
+      .then(() => {
+        res.status(200).send({
+          status: true,
+          message: "Question updated successfully!",
+        });
+      })
+      .catch((err) => {
+        res.status(400).send({
+          status: false,
+          message: "Bad request!",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Unexpected error!",
+    });
+  }
+});
 
-
-router.put('/:id', async(req, res) =>{
-    try{
-        const quesId = req.params.id;
-        await questionDB.updateOne(
-                { _id: quesId},
-                { $set: { questionName: req.body.questionName, questionUrl : req.body.questionUrl, category: req.body.category,} }
-        ).then(() =>{
+router.delete("/:id", async (req, res) => {
+  try {
+    const quesId = req.params.id;
+    await questionDB
+      .deleteOne({ _id: quesId })
+      .then(async () => {
+        await answerDB
+          .deleteMany({ questionId: quesId })
+          .then(() => {
             res.status(200).send({
-                status: true,
-                message: "Question updated successfully!"
-            })
-        }).catch((err) =>{
+              status: true,
+              message: "Question deleted successfully!",
+            });
+          })
+          .catch(() => {
             res.status(400).send({
-                status: false,
-                message: "Bad request!"
-            })
-        })
-    }
-    catch(err){
-        res.status(500).send({
-            status: false,
-            message: "Unexpected error!"
-        })
-    }
-})
-
-
-router.delete('/:id', async(req,res)=>{
-    try{
-        const quesId = req.params.id;
-        await questionDB.deleteOne(
-                { _id: quesId} 
-        ).then(async() =>{
-            await answerDB.deleteMany({questionId: quesId}).then(()=>{
-                res.status(200).send({
-                status: true,
-                message: "Question deleted successfully!"
-            })
-            }).catch(() =>{
-            res.status(400).send({
-                status: false,
-                message: "Bad request!"
-            })
-        })
-            
-        }).catch(() =>{
-            res.status(400).send({
-                status: false,
-                message: "Bad request!"
-            })
-        })
-    }
-    catch(err){
-        res.status(500).send({
-            status: false,
-            message: "Unexpected error!"
-        })
-    }
-})
-
+              status: false,
+              message: "Bad request!",
+            });
+          });
+      })
+      .catch(() => {
+        res.status(400).send({
+          status: false,
+          message: "Bad request!",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Unexpected error!",
+    });
+  }
+});
 
 router.get("/", async (req, res) => {
   try {
@@ -132,73 +138,65 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-
-router.get('/:id', async(req, res) => {
-    
-    try{
-        const userId = req.params.id;
-        await userDB.findOne({_id: userId}).then(async()=>{
-
-            questionDB.aggregate([
-                {
-                    $match:{
-                        quesUserId: new mongoose.Types.ObjectId(userId)
-                    }
-                },
-                {
-                    $lookup:{
-                        from: "answers",
-                        localField: "_id",
-                        foreignField: "questionId",
-                        as : "allAnswers"
-                    }
-                }
-                
-            ]).then((data)=>{
-                res.status(200).send({
-                    status: true,
-                    message: "Questions fetched successfully!",
-                    data:data
-                })
-            }).catch(() =>{
-                res.status(400).send({
-                    status: false,
-                    message: "Bad request!"
-                })
-            })
-            
-            
-        }).catch(() =>{
-            return res.status(400).send({
-                status: false,
-                message: "User not found!"
-            })
-        })
-        
-    }
-    catch(err){
-        res.status(500).send({
-            status: false,
-            message: "Error while getting questions!"
-        })
-    }
-})
-
+router.get("/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    await userDB
+      .findOne({ _id: userId })
+      .then(async () => {
+        questionDB
+          .aggregate([
+            {
+              $match: {
+                quesUserId: new mongoose.Types.ObjectId(userId),
+              },
+            },
+            {
+              $lookup: {
+                from: "answers",
+                localField: "_id",
+                foreignField: "questionId",
+                as: "allAnswers",
+              },
+            },
+          ])
+          .then((data) => {
+            res.status(200).send({
+              status: true,
+              message: "Questions fetched successfully!",
+              data: data,
+            });
+          })
+          .catch(() => {
+            res.status(400).send({
+              status: false,
+              message: "Bad request!",
+            });
+          });
+      })
+      .catch(() => {
+        return res.status(400).send({
+          status: false,
+          message: "User not found!",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Error while getting questions!",
+    });
+  }
+});
 
 router.post("/upvotes", async (req, res) => {
   const postId = req.body.postId;
   const userId = req.body.userId;
 
-//   console.log(`upvote ${postId}`);
   try {
     const user = await userDB.findById(userId).exec();
     const ques = await questionDB.findById(postId).exec();
     const choice = user.votes.get(postId);
     var message = "";
-
-    // console.log(user.email);
-    // console.log(choice);
 
     if (choice === undefined || choice === 0) {
       ques.quesUpvotes += 1;
@@ -210,9 +208,8 @@ router.post("/upvotes", async (req, res) => {
       user.votes.set(postId, 1);
       message = "Question Upvoted";
     } else if (choice == 1) {
-    //   console.log(`choice ${choice}`);
       ques.quesUpvotes -= 1;
-      user.votes.set(postId, 0)
+      user.votes.set(postId, 0);
       message = "vote removed";
     }
 
@@ -224,7 +221,7 @@ router.post("/upvotes", async (req, res) => {
       message: message,
       upvotes: ques.quesUpvotes,
       downvotes: ques.quesDownvotes,
-      choice: user.votes.get(postId)
+      choice: user.votes.get(postId),
     });
   } catch (err) {
     res.status(500).send({
@@ -236,13 +233,10 @@ router.post("/upvotes", async (req, res) => {
   }
 });
 
-
-
 router.post("/downvotes", async (req, res) => {
   const postId = req.body.postId;
   const userId = req.body.userId;
 
-//   console.log(`downvote ${postId}`);
   try {
     const user = await userDB.findById(userId).exec();
     const ques = await questionDB.findById(postId).exec();
@@ -260,8 +254,8 @@ router.post("/downvotes", async (req, res) => {
 
       message = "Question Downvoted";
     } else if (choice == -1) {
-      user.votes.set(postId, 0)
       ques.quesDownvotes -= 1;
+      user.votes.set(postId, 0);
       message = "vote removed";
     }
 
@@ -270,10 +264,10 @@ router.post("/downvotes", async (req, res) => {
 
     res.status(200).send({
       status: true,
-      message: "Question Downvoted",
+      message: message,
       upvotes: ques.quesUpvotes,
       downvotes: ques.quesDownvotes,
-      choice: user.votes.get(postId)
+      choice: user.votes.get(postId),
     });
   } catch (err) {
     res.status(500).send({

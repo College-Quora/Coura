@@ -2,11 +2,9 @@ body {
   margin: 0;
   font-family: "Roboto", sans-serif;
   background-color: #f4f8fb;
-  /* background-image: url('https://media.istockphoto.com/id/1332822425/vector/bright-flash.jpg?s=612x612&w=0&k=20&c=HrJ7gMFz2Duw5WxAiuMkzJK_rpKyjjA-Rsx5k2D-hb0='); */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
- 
 }
 
 * {

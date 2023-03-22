@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Input } from "@mui/material";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-
-import './css/Post.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import "./css/Post.css";
 import {
   ArrowDownwardOutlined,
   ArrowUpwardOutlined,
-  Comment,
-  //RepeatOneOutlined,
-  ShareOutlined,
-  PeopleAltOutlined,
-  ExpandMore,
-
 } from "@mui/icons-material";
+
 import CloseIcon from "@mui/icons-material/Close";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
@@ -23,8 +16,6 @@ import "react-quill/dist/quill.snow.css";
 import ReactTimeAgo from "react-time-ago";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
-
-
 
 const displayVoteMessage = (choice) => {
   var message = "";
@@ -60,20 +51,22 @@ function Post({ post, choice }) {
 
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
-  
+
   const Close = <CloseIcon />;
 
-  useEffect(() =>{
-    for(let i=0; i < post?.answeredByUsers?.length;i++){
-        if(userId == null)break;
-        if((post?.answeredByUsers)[i] === userId) {setAlreadyAnswered(true); break;}
+  useEffect(() => {
+    for (let i = 0; i < post?.answeredByUsers?.length; i++) {
+      if (userId == null) break;
+      if ((post?.answeredByUsers)[i] === userId) {
+        setAlreadyAnswered(true);
+        break;
+      }
     }
   }, []);
 
-
-  const handleQuesCategory=(e)=>{
+  const handleQuesCategory = (e) => {
     setQuesCategory(e.target.value);
-  }
+  };
 
   const handleQuill = (value) => {
     setAnswer(value);
@@ -107,7 +100,7 @@ function Post({ post, choice }) {
           console.log(err);
           alert("Error in adding answer!");
         });
-        setIsModalOpen(false);
+      setIsModalOpen(false);
     }
   };
 
@@ -144,7 +137,6 @@ function Post({ post, choice }) {
       setUpvoted(true);
       setDownvoted(false);
     }
-
   };
 
   const downVote = async () => {
@@ -180,88 +172,93 @@ function Post({ post, choice }) {
       setDownvoted(true);
       setUpvoted(false);
     }
-   
   };
 
-  const handleEditAns = async(ansId) =>{
-      const config = {
-          headers:{
-            "Content-Type": "application/json",
-          }
-        }
+  const handleEditAns = async (ansId) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      const body = {
-        answer: answer
-      }
+    const body = {
+      answer: answer,
+    };
 
-      await axios.put('/api/answers/' + ansId, body, config).then((res) =>{
+    await axios
+      .put("/api/answers/" + ansId, body, config)
+      .then((res) => {
         console.log(res.data);
         alert(res.data.message);
         window.location.href = "/feed";
-      }).catch((err) =>{
-        console.log(err);
-        alert('Error in updating answer!')
       })
-    
-      setIsEditAnsModalOpen(false);
-  }
+      .catch((err) => {
+        console.log(err);
+        alert("Error in updating answer!");
+      });
 
-  const handleEditQues = async() =>{
-      const config = {
-          headers:{
-            "Content-Type": "application/json",
-          }
-        }
+    setIsEditAnsModalOpen(false);
+  };
 
-      const body = {
-        questionName: question,
-        questionUrl: inputUrl,
-        category: quesCategory
-      }
+  const handleEditQues = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      await axios.put('/api/questions/' + post?._id, body, config).then((res) =>{
+    const body = {
+      questionName: question,
+      questionUrl: inputUrl,
+      category: quesCategory,
+    };
+
+    await axios
+      .put("/api/questions/" + post?._id, body, config)
+      .then((res) => {
         console.log(res.data);
         alert(res.data.message);
         window.location.href = "/feed";
-      }).catch((err) =>{
-        console.log(err);
-        alert('Error in updating question!')
       })
-    
-      setIsEditQuesModalOpen(false);
-  }
+      .catch((err) => {
+        console.log(err);
+        alert("Error in updating question!");
+      });
 
-  const handleDeleteAns = async(ansId) =>{
+    setIsEditQuesModalOpen(false);
+  };
 
-      await axios.delete('/api/answers/' + ansId + '/' + post?._id + '/' + userId).then((res) =>{
+  const handleDeleteAns = async (ansId) => {
+    await axios
+      .delete("/api/answers/" + ansId + "/" + post?._id + "/" + userId)
+      .then((res) => {
         console.log(res.data);
         alert(res.data.message);
         window.location.href = "/feed";
-      }).catch((err) =>{
-        console.log(err);
-        alert('Error in deleting answer!')
       })
-    
-  }
+      .catch((err) => {
+        console.log(err);
+        alert("Error in deleting answer!");
+      });
+  };
 
-  const handleDeleteQues = async() =>{
-    
-      await axios.delete('/api/questions/' + post?._id).then((res) =>{
+  const handleDeleteQues = async () => {
+    await axios
+      .delete("/api/questions/" + post?._id)
+      .then((res) => {
         console.log(res.data);
         alert(res.data.message);
         window.location.href = "/feed";
-      }).catch((err) =>{
-        console.log(err);
-        alert('Error in deleting question!')
       })
-    
-  }
+      .catch((err) => {
+        console.log(err);
+        alert("Error in deleting question!");
+      });
+  };
 
   return (
     <div className="post">
-     
       <div className="post__info">
-     
         <Avatar />
         <h3 style={{ marginLeft: "10px", color: "#333333" }}>Anonymous</h3>
         <small>
@@ -270,7 +267,6 @@ function Post({ post, choice }) {
         </small>
       </div>
       <div className="post__body">
-     
         <div className="post__question">
           <p
             style={{
@@ -280,7 +276,6 @@ function Post({ post, choice }) {
           >
             {post?.questionName}
           </p>
-          
 
           <Modal
             open={isModalOpen}
@@ -327,43 +322,80 @@ function Post({ post, choice }) {
       <div className="post__footer">
         <div className="post___footerAction">
           <div className="post__footerAction">
-          <ArrowUpwardOutlined onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to upvote question!");
-            else { upVote() }
-          }} 
-          style={{ 
-            color:
-              message==="you upvoted" ? "green" : "black"
-           }} 
-          />
-          <p> {upVotes} </p>
-          <ArrowDownwardOutlined onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to downvote question!");
-            else { downVote() }
-          }}  
-          style={{ 
-            color:
-              message==="you downvoted" ? "red" : "black"
-           }} 
-          />
-          <p> {downVotes} </p> 
-          </div>   
+            <ArrowUpwardOutlined
+              onClick={() => {
+                if (window.localStorage.getItem("token") == null)
+                  alert("Please login to upvote question!");
+                else {
+                  upVote();
+                }
+              }}
+              style={{
+                color: message === "you upvoted" ? "green" : "black",
+              }}
+            />
+            <p> {upVotes} </p>
+            <ArrowDownwardOutlined
+              onClick={() => {
+                if (window.localStorage.getItem("token") == null)
+                  alert("Please login to downvote question!");
+                else {
+                  downVote();
+                }
+              }}
+              style={{
+                color: message === "you downvoted" ? "red" : "black",
+              }}
+            />
+            <p> {downVotes} </p>
+          </div>
         </div>
         <div className="button_container">
-         <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to edit question!");
-            else { setQuestion(post?.questionName); setInputUrl(post?.questionUrl); setIsEditQuesModalOpen(true); }
-          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faPencilAlt} /></button>
+          <button
+            onClick={() => {
+              if (window.localStorage.getItem("token") == null)
+                alert("Please login to edit question!");
+              else {
+                setQuestion(post?.questionName);
+                setInputUrl(post?.questionUrl);
+                setIsEditQuesModalOpen(true);
+              }
+            }}
+            disabled={
+              post?.quesUserId === userId || userId === null ? false : true
+            }
+            className="post__btnAnswer"
+          >
+            <FontAwesomeIcon icon={faPencilAlt} />
+          </button>
 
-          <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to delete question!");
-            else {handleDeleteQues()};
-          }} disabled={(post?.quesUserId === userId || userId === null) ? false : true} className='post__btnAnswer'><FontAwesomeIcon icon={faTrashAlt} /></button>
-          
-          <button onClick={() => {
-            if(window.localStorage.getItem("token") == null) alert("Please login to add answer!");
-            else setIsModalOpen(true);
-          }} disabled= {alreadyAnswered} className='post___btnAnswer'>Answer</button>
+          <button
+            onClick={() => {
+              if (window.localStorage.getItem("token") == null)
+                alert("Please login to delete question!");
+              else {
+                handleDeleteQues();
+              }
+            }}
+            disabled={
+              post?.quesUserId === userId || userId === null ? false : true
+            }
+            className="post__btnAnswer"
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </button>
+
+          <button
+            onClick={() => {
+              if (window.localStorage.getItem("token") == null)
+                alert("Please login to add answer!");
+              else setIsModalOpen(true);
+            }}
+            disabled={alreadyAnswered}
+            className="post___btnAnswer"
+          >
+            Answer
+          </button>
         </div>
       </div>
       <p
@@ -374,7 +406,7 @@ function Post({ post, choice }) {
           fontWeight: "bold",
           margin: "10px 0",
           cursor: "pointer",
-        }} 
+        }}
       >
         {post?.allAnswers.length} Answer(s)
       </p>
@@ -410,7 +442,13 @@ function Post({ post, choice }) {
                     }}
                     className="post-info"
                   >
-                    <p style={{ fontSize: "18px", color: "#333333",fontWeight: "600" }}>
+                    <p
+                      style={{
+                        fontSize: "18px",
+                        color: "#333333",
+                        fontWeight: "600",
+                      }}
+                    >
                       Anonymous
                     </p>
                     <span>
@@ -429,188 +467,180 @@ function Post({ post, choice }) {
                   {ReactHtmlParser(ans?.answer)}
                 </div>
                 <div>
+                  <div
+                    className="ansbtns"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <button
+                      onClick={() => {
+                        if (window.localStorage.getItem("token") == null)
+                          alert("Please login to edit answer!");
+                        else {
+                          setAnswer(ans?.answer);
+                          setAnswerId(ans?._id);
+                          setIsEditAnsModalOpen(true);
+                        }
+                      }}
+                      disabled={
+                        ans?.ansUserId === userId || userId === null
+                          ? false
+                          : true
+                      }
+                      className="post__btnAnswer"
+                      style={{ marginRight: "10px", fontSize: "15px" }}
+                    >
+                      <FontAwesomeIcon icon={faPencilAlt} />
+                    </button>
 
-                <div className="ansbtns" style={{ display: "flex", alignItems: "center" }}>
-  <button
-    onClick={() => {
-      if (window.localStorage.getItem("token") == null)
-        alert("Please login to edit answer!");
-      else {
-        setAnswer(ans?.answer);
-        setAnswerId(ans?._id);
-        setIsEditAnsModalOpen(true);
-      }
-    }}
-    disabled={ans?.ansUserId === userId || userId === null ? false : true}
-    className="post__btnAnswer"
-    style={{ marginRight: "10px" ,fontSize:"15px"}}
-  >
-    <FontAwesomeIcon icon={faPencilAlt} />
-  </button>
-
-  <button
-    onClick={() => {
-      if (window.localStorage.getItem("token") == null)
-        alert("Please login to delete answer!");
-      else {
-        handleDeleteAns(ans?._id);
-      }
-    }}
-    disabled={ans?.ansUserId === userId || userId === null ? false : true}
-    className="post__btnAnswer"
-    style={{ marginRight: "10px" ,fontSize:"15px"}}
-  >
-    <FontAwesomeIcon icon={faTrashAlt} />
-  </button>
-
-  <button className="post__btnAnswer" style={{ marginRight: "10px"}}>
-    <ThumbUpIcon style={{fontSize:"17px" }}/>
-  </button>
-</div>
-            
-            </div>
+                    <button
+                      onClick={() => {
+                        if (window.localStorage.getItem("token") == null)
+                          alert("Please login to delete answer!");
+                        else {
+                          handleDeleteAns(ans?._id);
+                        }
+                      }}
+                      disabled={
+                        ans?.ansUserId === userId || userId === null
+                          ? false
+                          : true
+                      }
+                      className="post__btnAnswer"
+                      style={{ marginRight: "10px", fontSize: "15px" }}
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </button>
+                  </div>
+                </div>
               </div>
             </>
           ))}
         </div>
       )}
 
-      { !showAnswers && (<div
-        style={{
-          margin: "5px 0px 0px 0px",
-          padding: "5px 0px 0px 20px",
-          borderTop: "1px solid lightgray",
-        }}
-        className="post__answer"
-      >
-        {post?.allAnswers?.map((ans, index) =>
-          index === 0 ? (
-            <div
-              key={ans.id}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                padding: "10px 5px",
-                borderTop: "1px solid lightgray",
-              }}
-              className="post-answer-container"
-            >
+      {!showAnswers && (
+        <div
+          style={{
+            margin: "5px 0px 0px 0px",
+            padding: "5px 0px 0px 20px",
+            borderTop: "1px solid lightgray",
+          }}
+          className="post__answer"
+        >
+          {post?.allAnswers?.map((ans, index) =>
+            index === 0 ? (
               <div
+                key={ans.id}
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                  fontSize: "12px",
-                  
+                  flexDirection: "column",
+                  width: "100%",
+                  padding: "10px 5px",
+                  borderTop: "1px solid lightgray",
                 }}
-                className="post-answered"
+                className="post-answer-container"
               >
-                <Avatar />
-
                 <div
                   style={{
-                    margin: "0px 10px",
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                    fontSize: "12px",
                   }}
-                  className="post-info"
+                  className="post-answered"
                 >
-                  <p style={{ fontSize: "18px", color: "#333333", fontWeight: "600"}}>Anonymous</p>
-                  <span >
-                    <LastSeen date={ans?.createdAt} />
-                  </span>
+                  <Avatar />
+
+                  <div
+                    style={{
+                      margin: "0px 10px",
+                    }}
+                    className="post-info"
+                  >
+                    <p
+                      style={{
+                        fontSize: "18px",
+                        color: "#333333",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Anonymous
+                    </p>
+                    <span>
+                      <LastSeen date={ans?.createdAt} />
+                    </span>
+                  </div>
+                </div>
+                <div
+                  className="post-answer"
+                  style={{
+                    color: "black",
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {ReactHtmlParser(ans?.answer)}
+                </div>
+                <div>
+                  <div
+                    className="ansbtns"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <button
+                      onClick={() => {
+                        if (window.localStorage.getItem("token") == null)
+                          alert("Please login to edit answer!");
+                        else {
+                          setAnswer(ans?.answer);
+                          setAnswerId(ans?._id);
+                          setIsEditAnsModalOpen(true);
+                        }
+                      }}
+                      disabled={
+                        ans?.ansUserId === userId || userId === null
+                          ? false
+                          : true
+                      }
+                      className="post__btnAnswer"
+                      style={{ marginRight: "10px", fontSize: "15px" }}
+                    >
+                      <FontAwesomeIcon icon={faPencilAlt} />
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        if (window.localStorage.getItem("token") == null)
+                          alert("Please login to delete answer!");
+                        else {
+                          handleDeleteAns(ans?._id);
+                        }
+                      }}
+                      disabled={
+                        ans?.ansUserId === userId || userId === null
+                          ? false
+                          : true
+                      }
+                      className="post__btnAnswer"
+                      style={{ marginRight: "10px", fontSize: "15px" }}
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div
-                className="post-answer"
-                style={{
-                  color: "black",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                }}
-              >
-                {ReactHtmlParser(ans?.answer)}
-              </div>
-              <div>
-              <div className="ansbtns" style={{ display: "flex", alignItems: "center" }}>
-  <button
-    onClick={() => {
-      if (window.localStorage.getItem("token") == null)
-        alert("Please login to edit answer!");
-      else {
-        setAnswer(ans?.answer);
-        setAnswerId(ans?._id);
-        setIsEditAnsModalOpen(true);
-      }
-    }}
-    disabled={ans?.ansUserId === userId || userId === null ? false : true}
-    className="post__btnAnswer"
-    style={{ marginRight: "10px" ,fontSize:"15px"}}
-  >
-    <FontAwesomeIcon icon={faPencilAlt} />
-  </button>
+            ) : null
+          )}
+        </div>
+      )}
 
-  <button
-    onClick={() => {
-      if (window.localStorage.getItem("token") == null)
-        alert("Please login to delete answer!");
-      else {
-        handleDeleteAns(ans?._id);
-      }
-    }}
-    disabled={ans?.ansUserId === userId || userId === null ? false : true}
-    className="post__btnAnswer"
-    style={{ marginRight: "10px" ,fontSize:"15px"}}
-  >
-    <FontAwesomeIcon icon={faTrashAlt} />
-  </button>
-
-  <button className="post__btnAnswer" style={{marginRight: "10px" }}>
-    <ThumbUpIcon style={{fontSize:"17px" }}/>
-  </button>
-</div>
-
-              </div>
-            </div>
-          ) : null
-        )}
-      </div>)}
-
-          <Modal
-          open={isEditAnsModalOpen} 
-          closeIcon={Close}  
-          onClose={()=>{setAnswer(""); setAnswerId(""); setIsEditAnsModalOpen(false);}}
-          closeOnEsc
-          center
-          closeOnOverlayClick={false}
-          styles={{
-            overlay: {
-              height: "auto",
-            },
-          }}
-          >
-            <div  className="modal__question">
-              <h1>{post?.questionName}</h1>
-              <p>asked by {""}<span  className="name">Anonymous</span> on <span>{new Date(post?.createdAt).toLocaleString()}</span></p>
-            </div>
-
-            <div className="modal__answer">
-              <ReactQuill value = {answer} onChange={handleQuill} placeholder="Enter Your answer"/>
-            </div>
-            <div className="modal__buttons">
-            <button  className='cancle' onClick={() => {setAnswer(""); setAnswerId(""); setIsEditAnsModalOpen(false);}}>
-              Cancel
-            </button>
-
-            <button  type='submit' className='add' onClick={()=> (answerId !== "" ? handleEditAns(answerId): null)} >
-              Update Your Answer
-            </button>
-            </div>
-          </Modal >
-
-
-          <Modal open={isEditQuesModalOpen} 
-          closeIcon={Close}  
-          onClose={()=>setIsEditQuesModalOpen(false)}
+      <Modal
+        open={isEditAnsModalOpen}
+        closeIcon={Close}
+        onClose={() => {
+          setAnswer("");
+          setAnswerId("");
+          setIsEditAnsModalOpen(false);
+        }}
         closeOnEsc
         center
         closeOnOverlayClick={false}
@@ -619,72 +649,176 @@ function Post({ post, choice }) {
             height: "auto",
           },
         }}
-        >
-          <div className="modal__title">
+      >
+        <div className="modal__question">
+          <h1>{post?.questionName}</h1>
+          <p>
+            asked by {""}
+            <span className="name">Anonymous</span> on{" "}
+            <span>{new Date(post?.createdAt).toLocaleString()}</span>
+          </p>
+        </div>
+
+        <div className="modal__answer">
+          <ReactQuill
+            value={answer}
+            onChange={handleQuill}
+            placeholder="Enter Your answer"
+          />
+        </div>
+        <div className="modal__buttons">
+          <button
+            className="cancle"
+            onClick={() => {
+              setAnswer("");
+              setAnswerId("");
+              setIsEditAnsModalOpen(false);
+            }}
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            className="add"
+            onClick={() => (answerId !== "" ? handleEditAns(answerId) : null)}
+          >
+            Update Your Answer
+          </button>
+        </div>
+      </Modal>
+
+      <Modal
+        open={isEditQuesModalOpen}
+        closeIcon={Close}
+        onClose={() => setIsEditQuesModalOpen(false)}
+        closeOnEsc
+        center
+        closeOnOverlayClick={false}
+        styles={{
+          overlay: {
+            height: "auto",
+          },
+        }}
+      >
+        <div className="modal__title">
           <h5>Update Question</h5>
-          </div>
-          <div className="modal__Field">
-              <div style={{display: "flex", justifyContent:"space-between"}}>
-              <Input
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                type=" text"
-                placeholder="Start your question with 'What', 'How', 'Why', etc. "
-                style={{width:"80%"}}
-              />
-                <select name="categoryQues" id="categoryQues" onChange={handleQuesCategory}>
-                  <option value="none" selected ={ quesCategory === "none" ? true: false}>None</option>
-                  <option value="placementReview" selected ={ quesCategory === "placementReview" ? true: false}>Placement Review</option>
-                  <option value="courseFeedback" selected ={ quesCategory === "courseFeedback" ? true: false}>Course Feedback</option>
-                  <option value="hostelReview" selected ={ quesCategory === "hostelReview" ? true: false}>Hostel Review</option>
-                  <option value="collegeInfrastructure" selected ={ quesCategory === "collegeInfrastructure" ? true: false}>College Infrastructure</option>
-                  <option value="sportsFacilities" selected ={ quesCategory === "sportsFacilities" ? true: false}>Sports Facilities</option>
-                  <option value="scholarships" selected ={ quesCategory === "scholarships" ? true: false}>Scholarships</option>
-                  <option value="feeStructure" selected ={ quesCategory === "feeStructure" ? true: false}>Fee Structure</option>
-                  <option value="collegeLocation" selected ={ quesCategory === "collegeLocation" ? true: false}>College Location</option>
-                </select>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
+        </div>
+        <div className="modal__Field">
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Input
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              type=" text"
+              placeholder="Start your question with 'What', 'How', 'Why', etc. "
+              style={{ width: "80%" }}
+            />
+            <select
+              name="categoryQues"
+              id="categoryQues"
+              onChange={handleQuesCategory}
+            >
+              <option
+                value="none"
+                selected={quesCategory === "none" ? true : false}
               >
-                <input
-                  type="text"
-                  value={inputUrl}
-                  onChange={(e) => setInputUrl(e.target.value)}
-                  style={{
-                    margin: "5px 0",
-                    border: "1px solid lightgray",
-                    padding: "10px",
-                    outline: "2px solid #000",
-                  }}
-                  placeholder="Optional: include a link that gives context"
-                />
-                {inputUrl !== "" && (
-                  <img
-                    style={{
-                      height: "40vh",
-                      objectFit: "contain",
-                    }}
-                    src={inputUrl}
-                    alt="displayimage"
-                  />
-                )}
-              </div>
-            </div>
-          <div className='modal__buttons'>
-            <button  className='cancle' onClick={() => setIsEditQuesModalOpen(false)}>
-              Cancel
-            </button>
-
-            <button onClick={handleEditQues} type='submit' className='add'>
-              Update Your Question
-            </button>
+                None
+              </option>
+              <option
+                value="placementReview"
+                selected={quesCategory === "placementReview" ? true : false}
+              >
+                Placement Review
+              </option>
+              <option
+                value="courseFeedback"
+                selected={quesCategory === "courseFeedback" ? true : false}
+              >
+                Course Feedback
+              </option>
+              <option
+                value="hostelReview"
+                selected={quesCategory === "hostelReview" ? true : false}
+              >
+                Hostel Review
+              </option>
+              <option
+                value="collegeInfrastructure"
+                selected={
+                  quesCategory === "collegeInfrastructure" ? true : false
+                }
+              >
+                College Infrastructure
+              </option>
+              <option
+                value="sportsFacilities"
+                selected={quesCategory === "sportsFacilities" ? true : false}
+              >
+                Sports Facilities
+              </option>
+              <option
+                value="scholarships"
+                selected={quesCategory === "scholarships" ? true : false}
+              >
+                Scholarships
+              </option>
+              <option
+                value="feeStructure"
+                selected={quesCategory === "feeStructure" ? true : false}
+              >
+                Fee Structure
+              </option>
+              <option
+                value="collegeLocation"
+                selected={quesCategory === "collegeLocation" ? true : false}
+              >
+                College Location
+              </option>
+            </select>
           </div>
-        </Modal>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <input
+              type="text"
+              value={inputUrl}
+              onChange={(e) => setInputUrl(e.target.value)}
+              style={{
+                margin: "5px 0",
+                border: "1px solid lightgray",
+                padding: "10px",
+                outline: "2px solid #000",
+              }}
+              placeholder="Optional: include a link that gives context"
+            />
+            {inputUrl !== "" && (
+              <img
+                style={{
+                  height: "40vh",
+                  objectFit: "contain",
+                }}
+                src={inputUrl}
+                alt="displayimage"
+              />
+            )}
+          </div>
+        </div>
+        <div className="modal__buttons">
+          <button
+            className="cancle"
+            onClick={() => setIsEditQuesModalOpen(false)}
+          >
+            Cancel
+          </button>
 
+          <button onClick={handleEditQues} type="submit" className="add">
+            Update Your Question
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
