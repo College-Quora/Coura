@@ -38,24 +38,24 @@ app.use("/api", router);
 // });
 
 
-// app.use(express.static(path.resolve(__dirname, 'coura_frontend', 'build')));
-//     app.get("*", (req, res) => {
-//         res.sendFile(path.resolve(__dirname, 'coura_frontend', 'build', 'index.html'),function (err) {
-//             if(err) {
-//                 res.status(500).send(err)
-//             }
-//         });
-//     });
+app.use(express.static(path.resolve('coura_frontend', 'build')));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve('coura_frontend', 'build', 'index.html'),function (err) {
+            if(err) {
+                res.status(500).send(err)
+            }
+        });
+    });
 
     
-    app.use(express.static(path.join("../coura_frontend/build")));
-    app.get("*", (req, res) => {
-      try {
-        res.sendFile(path.join("../coura_frontend/build/index.html"));
-      } catch (e) {
-        res.send("Oops! unexpected error!");
-      }
-    });
+    // app.use(express.static(path.join(__dirname, "../coura_frontend/build")));
+    // app.get("*", (req, res) => {
+    //   try {
+    //     res.sendFile(path.join(__dirname,"../coura_frontend/build/index.html"));
+    //   } catch (e) {
+    //     res.send("Oops! unexpected error!");
+    //   }
+    // });
     
 
 app.use(cors());
