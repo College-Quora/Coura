@@ -12,10 +12,6 @@ const PORT = process.env.PORT || 5000;
 //database connection
 db.connect();
 
-// cors
-// const corsOpts = { origin: '*', credentials: true, methods: ['GET','POST','HEAD','PUT','PATCH','DELETE'], allowedHeaders: ['Content-Type'], exposedHeaders: ['Content-Type']};
-// app.use(cors(corsOpts));
-
 
 //middle-ware
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -33,37 +29,6 @@ app.use(cors());
 
 //routes
 app.use("/api", router);
-
-//app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
-
-// app.use(express.static(path.join(__dirname, "/../coura_frontend/build")));
-// app.get("*", (req, res) => {
-//   try {
-//     res.sendFile(path.join(__dirname, "/../coura_frontend/build/index.html"));
-//   } catch (e) {
-//     res.send("Oops! unexpected error!");
-//   }
-// });
-
-
-// app.use(express.static(path.resolve(__dirname, 'coura_frontend', 'build')));
-//     app.get("*", (req, res) => {
-//         res.sendFile(path.resolve(__dirname, 'coura_frontend', 'build', 'index.html'),function (err) {
-//             if(err) {
-//                 res.status(500).send(err)
-//             }
-//         });
-//     });
-
-    
-    // app.use(express.static(path.join(__dirname, "../coura_frontend/build")));
-    // app.get("*", (req, res) => {
-    //   try {
-    //     res.sendFile(path.join(__dirname,"../coura_frontend/build/index.html"));
-    //   } catch (e) {
-    //     res.send("Oops! unexpected error!");
-    //   }
-    // });
     
 
 app.listen(PORT, () => {
