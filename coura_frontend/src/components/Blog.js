@@ -14,7 +14,7 @@ function Blog({ searchKey, category, setCategory }) {
 
   useEffect(() => {
     axios
-      .get("/api/blogs")
+      .get("https://coura.onrender.com/api/blogs")
       .then((res) => {
         console.log(res.data);
         setBlogPosts(res.data.reverse());
@@ -36,7 +36,7 @@ function Blog({ searchKey, category, setCategory }) {
     };
 
     axios
-      .post("/api/questions/votes", body, config)
+      .post("https://coura.onrender.com/api/questions/votes", body, config)
       .then((res) => {
         console.log(res.data.votes);
         setVotes(res.data.votes);

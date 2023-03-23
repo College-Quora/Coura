@@ -13,7 +13,7 @@ function ProfileFeed({ currentList }) {
 
   useEffect(() => {
     axios
-      .get("/api/questions/" + userId)
+      .get("https://coura.onrender.com/api/questions/" + userId)
       .then((res) => {
         console.log(res.data);
         setPostsQuestions(res.data.data.reverse());
@@ -23,7 +23,7 @@ function ProfileFeed({ currentList }) {
       });
 
     axios
-      .get("/api/answers/" + userId)
+      .get("https://coura.onrender.com/api/answers/" + userId)
       .then((res) => {
         console.log(res.data);
         setPostsAnswers(res.data.data.reverse());
@@ -33,7 +33,7 @@ function ProfileFeed({ currentList }) {
       });
 
     axios
-      .get("/api/blogs/" + userId)
+      .get("https://coura.onrender.com/api/blogs/" + userId)
       .then((res) => {
         console.log(res.data);
         setPostsBlogs(res.data.data.reverse());

@@ -12,7 +12,7 @@ function ResetPassword() {
   useEffect(async () => {
     await axios
       .get(
-        "/api/auth/" + param.id + "/verify-reset-password-link/" + param.token
+        "https://coura.onrender.com/api/auth/" + param.id + "/verify-reset-password-link/" + param.token
       )
       .then((res) => {
         console.log(res.data);
@@ -38,7 +38,7 @@ function ResetPassword() {
       };
       await axios
         .post(
-          "/api/auth/" + param.id + "/reset-password/" + param.token,
+          "https://coura.onrender.com/api/auth/" + param.id + "/reset-password/" + param.token,
           body,
           config
         )

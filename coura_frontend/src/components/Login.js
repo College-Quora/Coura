@@ -36,7 +36,7 @@ function Login() {
         password: pass,
       };
       await axios
-        .post("/api/auth/login", body, config)
+        .post("https://coura.onrender.com/api/auth/login", body, config)
         .then(async (res) => {
           console.log(res.data);
           alert(res.data.message);
@@ -48,7 +48,7 @@ function Login() {
           };
 
           await axios
-            .post("/api/auth/userData", body, config)
+            .post("https://coura.onrender.com/api/auth/userData", body, config)
             .then((result) => {
               console.log(result.data);
               window.localStorage.setItem("userId", result.data.data._id);

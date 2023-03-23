@@ -19,7 +19,7 @@ function ForgotPassword() {
       };
       try {
         const response = await axios.post(
-          "/api/auth/forgotPassword",
+          "https://coura.onrender.com/api/auth/forgotPassword",
           body,
           config
         );

@@ -82,7 +82,7 @@ function Post({ post, choice }) {
         userId: window.localStorage.getItem("userId"),
       };
       await axios
-        .post("/api/comments", body, config)
+        .post("https://coura.onrender.com/api/comments", body, config)
         .then((res) => {
           console.log(res.data);
           alert(res.data.message);
@@ -110,7 +110,7 @@ function Post({ post, choice }) {
 
     if (post?._id) {
       await axios
-        .post("/api/blogs/upvotes", body, config)
+        .post("https://coura.onrender.com/api/blogs/upvotes", body, config)
         .then((res) => {
           console.log(res);
           setDownVotes(res.data.downvotes);
@@ -145,7 +145,7 @@ function Post({ post, choice }) {
 
     if (post?._id) {
       await axios
-        .post("/api/blogs/downvotes", body, config)
+        .post("https://coura.onrender.com/api/blogs/downvotes", body, config)
         .then((res) => {
           console.log(res);
           setDownVotes(res.data.downvotes);
@@ -169,7 +169,7 @@ function Post({ post, choice }) {
 
   const handleDeleteBlog = async () => {
     await axios
-      .delete("/api/blogs/" + post?._id)
+      .delete("https://coura.onrender.com/api/blogs/" + post?._id)
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);
@@ -183,7 +183,7 @@ function Post({ post, choice }) {
 
   const handleDeleteComment = async (commentId) => {
     await axios
-      .delete("/api/comments/" + commentId)
+      .delete("https://coura.onrender.com/api/comments/" + commentId)
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);
@@ -209,7 +209,7 @@ function Post({ post, choice }) {
     };
 
     await axios
-      .put("/api/blogs/" + post?._id, body, config)
+      .put("https://coura.onrender.com/api/blogs/" + post?._id, body, config)
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);

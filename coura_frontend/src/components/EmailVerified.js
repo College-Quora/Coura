@@ -8,7 +8,7 @@ function EmailVerified() {
 
   useEffect(async () => {
     await axios
-      .get("/api/auth/" + param.id + "/verify/" + param.token)
+      .get("https://coura.onrender.com/api/auth/" + param.id + "/verify/" + param.token)
       .then((res) => {
         console.log(res.data);
         setValidUrl(true);

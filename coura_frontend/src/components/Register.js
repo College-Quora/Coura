@@ -51,7 +51,7 @@ function Register() {
       };
 
       try {
-        const res = await axios.post("/api/auth/register", body, config);
+        const res = await axios.post("https://coura.onrender.com/api/auth/register", body, config);
         console.log(res.data);
         alert(res.data.message);
       } catch (err) {

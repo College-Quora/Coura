@@ -90,7 +90,7 @@ function Post({ post, choice }) {
         userId: userId,
       };
       await axios
-        .post("/api/answers", body, config)
+        .post("https://coura.onrender.com/api/answers", body, config)
         .then((res) => {
           console.log(res.data);
           alert(res.data.message);
@@ -118,7 +118,7 @@ function Post({ post, choice }) {
 
     if (post?._id) {
       await axios
-        .post("/api/questions/upvotes", body, config)
+        .post("https://coura.onrender.com/api/questions/upvotes", body, config)
         .then((res) => {
           console.log(res);
           setDownVotes(res.data.downvotes);
@@ -153,7 +153,7 @@ function Post({ post, choice }) {
 
     if (post?._id) {
       await axios
-        .post("/api/questions/downvotes", body, config)
+        .post("https://coura.onrender.com/api/questions/downvotes", body, config)
         .then((res) => {
           console.log(res);
           setDownVotes(res.data.downvotes);
@@ -186,7 +186,7 @@ function Post({ post, choice }) {
     };
 
     await axios
-      .put("/api/answers/" + ansId, body, config)
+      .put("https://coura.onrender.com/api/answers/" + ansId, body, config)
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);
@@ -214,7 +214,7 @@ function Post({ post, choice }) {
     };
 
     await axios
-      .put("/api/questions/" + post?._id, body, config)
+      .put("https://coura.onrender.com/api/questions/" + post?._id, body, config)
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);
@@ -230,7 +230,7 @@ function Post({ post, choice }) {
 
   const handleDeleteAns = async (ansId) => {
     await axios
-      .delete("/api/answers/" + ansId + "/" + post?._id + "/" + userId)
+      .delete("https://coura.onrender.com/api/answers/" + ansId + "/" + post?._id + "/" + userId)
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);
@@ -244,7 +244,7 @@ function Post({ post, choice }) {
 
   const handleDeleteQues = async () => {
     await axios
-      .delete("/api/questions/" + post?._id)
+      .delete("https://coura.onrender.com/api/questions/" + post?._id)
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);

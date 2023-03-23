@@ -93,7 +93,7 @@ function QuoraHeader({ searchKey, setSearchKey }) {
         userId: window.localStorage.getItem("userId"),
       };
       await axios
-        .post("/api/questions", body, config)
+        .post("https://coura.onrender.com/api/questions", body, config)
         .then((res) => {
           console.log(res.data);
           alert(res.data.message);
@@ -122,7 +122,7 @@ function QuoraHeader({ searchKey, setSearchKey }) {
         userId: window.localStorage.getItem("userId"),
       };
       await axios
-        .post("/api/blogs", body, config)
+        .post("https://coura.onrender.com/api/blogs", body, config)
         .then((res) => {
           console.log(res.data);
           alert(res.data.message);
