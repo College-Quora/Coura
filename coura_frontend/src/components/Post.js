@@ -47,6 +47,7 @@ function Post({ post, choice }) {
   const [inputUrl, setInputUrl] = useState("");
   const [quesCategory, setQuesCategory] = useState(post?.category);
   const [alreadyAnswered, setAlreadyAnswered] = useState(false);
+  const [postUserCollege, setPostUserCollege] = useState("");
   const userId = window.localStorage.getItem("userId");
 
   const [upvoted, setUpvoted] = useState(false);
@@ -61,6 +62,24 @@ function Post({ post, choice }) {
         setAlreadyAnswered(true);
         break;
       }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (post?._id) {
+      axios
+        .get(
+          "https://coura.onrender.com/api/auth/" +
+            post?.quesUserId +
+            "/userData"
+        )
+        .then((res) => {
+          console.log(res);
+          setPostUserCollege(res.data.data.collegeName);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, []);
 
@@ -153,7 +172,11 @@ function Post({ post, choice }) {
 
     if (post?._id) {
       await axios
-        .post("https://coura.onrender.com/api/questions/downvotes", body, config)
+        .post(
+          "https://coura.onrender.com/api/questions/downvotes",
+          body,
+          config
+        )
         .then((res) => {
           console.log(res);
           setDownVotes(res.data.downvotes);
@@ -214,7 +237,11 @@ function Post({ post, choice }) {
     };
 
     await axios
-      .put("https://coura.onrender.com/api/questions/" + post?._id, body, config)
+      .put(
+        "https://coura.onrender.com/api/questions/" + post?._id,
+        body,
+        config
+      )
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);
@@ -230,7 +257,14 @@ function Post({ post, choice }) {
 
   const handleDeleteAns = async (ansId) => {
     await axios
-      .delete("https://coura.onrender.com/api/answers/" + ansId + "/" + post?._id + "/" + userId)
+      .delete(
+        "https://coura.onrender.com/api/answers/" +
+          ansId +
+          "/" +
+          post?._id +
+          "/" +
+          userId
+      )
       .then((res) => {
         console.log(res.data);
         alert(res.data.message);
@@ -260,7 +294,18 @@ function Post({ post, choice }) {
     <div className="post">
       <div className="post__info">
         <Avatar />
-        <h3 style={{ marginLeft: "10px", color: "#333333" }}>Anonymous</h3>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            marginLeft: "10px",
+          }}
+        >
+          <h3 style={{ color: "#333333" }}>Anonymous</h3>
+          <h3 style={{ color: "gray", fontSize: "13px" }}>{postUserCollege}</h3>
+        </div>
+
         <small>
           {" "}
           <LastSeen date={post?.createdAt} />

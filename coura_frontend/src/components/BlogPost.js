@@ -43,6 +43,7 @@ function Post({ post, choice }) {
   const [blog, setBlog] = useState("");
   const [inputUrl, setInputUrl] = useState("");
   const [blogCategory, setBlogCategory] = useState(post?.category);
+  const [postUserCollege, setPostUserCollege] = useState("");
   const userId = window.localStorage.getItem("userId");
 
   const Close = <CloseIcon />;
@@ -54,6 +55,20 @@ function Post({ post, choice }) {
       setComment("");
     }
   }, [isCommentInputOpen]);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://coura.onrender.com/api/auth/" + post?.blogUserId + "/userData"
+      )
+      .then((res) => {
+        console.log(res);
+        setPostUserCollege(res.data.data.collegeName);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleBlogCategory = (e) => {
     setBlogCategory(e.target.value);
@@ -227,7 +242,17 @@ function Post({ post, choice }) {
     <div className="post">
       <div className="post__info">
         <Avatar />
-        <h3 style={{ marginLeft: "10px", color: "#333333" }}>Anonymous</h3>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            marginLeft: "10px",
+          }}
+        >
+          <h3 style={{ color: "#333333" }}>Anonymous</h3>
+          <h3 style={{ color: "gray", fontSize: "13px" }}>{postUserCollege}</h3>
+        </div>
         <small>
           {" "}
           <LastSeen date={post?.createdAt} />

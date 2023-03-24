@@ -89,13 +89,11 @@ router.post("/login", async (req, res) => {
         const url = `${BASE_URL}/auth/${user._id}/verify/${token.token}`;
         await sendEmail(user.email, "Verify Email", url);
 
-        return res
-          .status(400)
-          .send({
-            status: true,
-            message:
-              "An Email Verification Link has been sent to your account, please verify!",
-          });
+        return res.status(400).send({
+          status: true,
+          message:
+            "An Email Verification Link has been sent to your account, please verify!",
+        });
       } else {
         const loginToken = jwt.sign({ email: user.email }, JWT_SECRET, {
           expiresIn: "365d",
@@ -165,6 +163,31 @@ router.post("/userData", async (req, res) => {
   }
 });
 
+router.get("/:id/userData", async (req, res) => {
+  try {
+    userDB
+      .findOne({ _id: req.params.id })
+      .then((data) => {
+        res.status(200).send({
+          status: true,
+          message: "User details fetched successfully!",
+          data: data,
+        });
+      })
+      .catch(() => {
+        res.status(400).send({
+          status: false,
+          message: "User does not exist!",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Error while getting user data!",
+    });
+  }
+});
+
 router.get("/:id/verify/:token", async (req, res) => {
   try {
     const user = await userDB.findOne({ _id: req.params.id });
@@ -209,12 +232,10 @@ router.post("/forgotPassword", async (req, res) => {
     }
     const url = `${BASE_URL}/${user._id}/reset-password/${token.token}`;
     await sendEmail(req.body.email, "Reset Password", url);
-    res
-      .status(400)
-      .send({
-        status: true,
-        message: "Password Reset Link has been sent to your email address!",
-      });
+    res.status(400).send({
+      status: true,
+      message: "Password Reset Link has been sent to your email address!",
+    });
   } catch (err) {
     res.status(500).send({
       status: false,
