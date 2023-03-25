@@ -5,7 +5,17 @@ Coura ia an anonymous Quora tailored to college student which enables users to a
 Website: https://coura-8zlld8b8j-coura-team.vercel.app/
 
 # Screenshots of some webpages
+## Home Page
 ![alt text](https://github.com/College-Quora/Coura/blob/main/snippets/Screenshot%202023-03-25%20015107.png)
+
+## Login Page
+![alt text](https://github.com/College-Quora/Coura/blob/main/snippets/screencapture-coura-8zlld8b8j-coura-team-vercel-app-login-2023-03-25-01_37_25.png)
+
+## Answers Page
+![alt text](https://github.com/College-Quora/Coura/blob/main/snippets/Screenshot%202023-03-25%20022754.png)
+
+## Create Blog Window
+![alt text](https://github.com/College-Quora/Coura/blob/main/snippets/Screenshot%202023-03-25%20021130.png)
 
 # Prerequisites
 One must have nodeJs installed on the system. Download Link: https://nodejs.org/en/download/ (Download the LTS version)
