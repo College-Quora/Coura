@@ -5,7 +5,9 @@ Coura ia an anonymous Quora tailored to college student which enables users to a
 Website: https://coura-8zlld8b8j-coura-team.vercel.app/
 
 ## Prerequisites
-One must have nodeJs installed on the system. Download Link: https://nodejs.org/en/download/ (Download the LTS version)
+One must have nodeJs installed on the system. You can follow this tutorial to set up NodeJs on your system: https://radixweb.com/blog/installing-npm-and-nodejs-on-windows-and-mac
+
+Download Link: https://nodejs.org/en/download/ (Download the LTS version).
 
 ## Setting the project on local System
 Clone the git repository from the following link: https://github.com/College-Quora/Coura and run command "npm install", move to coura_frontend and coura_backend directory to run "npm install"
