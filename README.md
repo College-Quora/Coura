@@ -6,8 +6,8 @@ Website: https://coura-8zlld8b8j-coura-team.vercel.app/
 
 # Screenshots of some webpages
 ## Home Page
-<img src="https://github.com/College-Quora/Coura/blob/main/snippets/Screenshot%202023-03-25%20015107.png" width="100" height="100" />
-![](https://github.com/College-Quora/Coura/blob/main/snippets/Screenshot%202023-03-25%20015107.png | width=100)
+<img src="https://github.com/College-Quora/Coura/blob/main/snippets/Screenshot%202023-03-25%20015107.png" width=50% />
+<!-- ![](https://github.com/College-Quora/Coura/blob/main/snippets/Screenshot%202023-03-25%20015107.png | width=100) -->
 
 ## Login Page
 ![alt text](https://github.com/College-Quora/Coura/blob/main/snippets/screencapture-coura-8zlld8b8j-coura-team-vercel-app-login-2023-03-25-01_37_25.png)
