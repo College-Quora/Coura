@@ -35,5 +35,22 @@ BASE_URL = http://localhost:3000 <br/>
 JWT_SECRET = 'JWT Secret Key' <br/>
 MONGODB_CONNECTION_URL = 'YOUR CONNECTION STRING URI'  (To generate the uri, refer the mongodb atlas docs : https://www.mongodb.com/docs/guides/cloud/connectionstring/ ) 
 
-# How to Start:
-Run the command "npm start" in coura directory. Navigate to coura_frontend folder and run the command "npm start". The website will be live on http://localhost:3000.
+## How to run program:
+
+- Clone the git repository in your system
+- Navigate to the Coura folder
+- Run the following commands:
+
+```groovy
+npm install
+npm start // this will start the backend
+```
+
+- In a new terminal tab go to the `coura_frontend` folder inside the `Coura` folder and run the following commands:
+
+```groovy
+npm install 
+npm start // this will start the front end
+```
+
+- App will start on [http://localhost:3000/](http://localhost:3000/).
